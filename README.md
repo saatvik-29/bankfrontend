@@ -9,14 +9,17 @@ npm install
 npm run dev
 ```
 
+The development server will proxy API calls to the production backend at `https://bankbackend-ygee.onrender.com`.
+
 ## Deployment
 
-This project is configured for Vercel deployment:
+This project is configured for Vercel deployment with backend at `https://bankbackend-ygee.onrender.com`:
 
 1. Connect your GitHub repo to Vercel
 2. Vercel will auto-detect the framework and use the settings in `vercel.json`
-3. Build command: `npm run build`
-4. Output directory: `dist`
+3. API calls to `/api/*` are automatically proxied to the backend
+4. Build command: `npm run build`
+5. Output directory: `dist`
 
 ## Features
 
