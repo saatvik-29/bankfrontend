@@ -1,0 +1,13 @@
+# Force no caching for HTML files
+<FilesMatch "\.(html|htm)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires 0
+</FilesMatch>
+
+# Force search engines to re-crawl
+Header always set X-Robots-Tag "index,follow"
+
+# Remove any old cached versions
+Header unset ETag
+FileETag None
