@@ -1,0 +1,16 @@
+{
+  "name": "BankersDen - Personal Loans",
+  "short_name": "BankersDen",
+  "description": "Get personal loans up to ₹25 lakhs with competitive interest rates starting from 8.5% p.a.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#059669",
+  "icons": [
+    {
+      "src": "/vite.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
