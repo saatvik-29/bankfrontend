@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Input } from '@/components/Input';
 import { Button } from '@/components/Button';
-import { Lock, User } from 'lucide-react';
+import { Lock } from 'lucide-react';
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -61,38 +61,34 @@ export default function AdminLoginPage() {
             <Lock className="h-6 w-6 text-white" />
           </div>
           <h2 className="mt-6 text-center text-3xl font-bold text-gray-900">
-            Admin Login
+            Admin Access
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            Banker's Den Administration Panel
+            Authorized Personnel Only
           </p>
         </div>
 
         <div className="bg-white rounded-xl shadow-lg p-8">
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-            <p className="text-blue-800 text-sm">
-              <strong>Default Credentials:</strong><br />
-              Username: <code className="bg-blue-100 px-1 rounded">admin</code><br />
-              Password: <code className="bg-blue-100 px-1 rounded">admin123</code>
+          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+            <p className="text-red-800 text-sm">
+              <strong>⚠️ Restricted Access:</strong> This area is for authorized administrators only. 
+              Unauthorized access attempts are logged and monitored.
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="relative">
-              <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+            <div>
               <Input
                 label="Username"
                 name="username"
                 value={formData.username}
                 onChange={handleChange}
                 required
-                className="pl-10"
                 placeholder="Enter username"
               />
             </div>
 
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+            <div>
               <Input
                 label="Password"
                 type="password"
@@ -100,7 +96,6 @@ export default function AdminLoginPage() {
                 value={formData.password}
                 onChange={handleChange}
                 required
-                className="pl-10"
                 placeholder="Enter password"
               />
             </div>
