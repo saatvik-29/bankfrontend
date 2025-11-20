@@ -1,37 +1,245 @@
-# Bankersden Client
+# Bankers Den - Next.js Full Stack Financial Platform
 
-A React + TypeScript + Vite application with Tailwind CSS.
+A comprehensive financial services platform built with Next.js 14, featuring loan applications, EMI calculators, AI-powered chatbot, and admin panel. This is a complete migration from the previous React + Node.js architecture to a unified Next.js application.
 
-## Development
+## 🌟 Features
 
+### 🤖 AI-Powered Chatbot ("den's bots")
+- Powered by Google Gemini AI
+- Organization-specific knowledge base
+- Supports basic math and statistical reasoning
+- Admin-managed content (paragraphs and Q&A pairs)
+
+### 👨‍💼 Admin Panel
+- MongoDB-based lead management system
+- View and manage all loan applications and contact forms
+- Change lead status (Active, Processing, Completed)
+- Manage chatbot knowledge base
+- Secure JWT authentication
+
+### 📊 Enhanced EMI Calculator
+- Manual input boxes alongside sliders
+- Real-time sync between input methods
+- Improved UI/UX with cleaner styling
+
+### 🎨 Modern UI/UX
+- Built with Next.js 14 and App Router
+- Tailwind CSS for styling
+- Responsive design
+- Enhanced user experience
+
+## 📁 Project Structure
+
+```
+bankersden-nextjs/
+├── src/
+│   ├── app/                    # Next.js App Router
+│   │   ├── api/               # API routes
+│   │   │   ├── admin/         # Admin API endpoints
+│   │   │   │   ├── leads/     # Lead management
+│   │   │   │   └── login/     # Admin authentication
+│   │   │   ├── chat/          # Chatbot API
+│   │   │   ├── contact/       # Contact form API
+│   │   │   ├── health/        # Health check
+│   │   │   └── loan-application/ # Loan application API
+│   │   ├── globals.css        # Global styles
+│   │   ├── layout.tsx         # Root layout with Header/Footer
+│   │   └── page.tsx           # Home page
+│   ├── components/            # Reusable components
+│   │   ├── Header.tsx         # Navigation header
+│   │   └── Footer.tsx         # Site footer
+│   ├── lib/                   # Utility libraries
+│   │   ├── auth.ts           # Authentication utilities
+│   │   ├── chatbot.ts        # Chatbot service
+│   │   ├── database.ts       # MongoDB connection
+│   │   └── whatsapp.ts       # WhatsApp service
+│   └── models/               # MongoDB models
+│       ├── Admin.ts          # Admin model
+│       ├── ChatData.ts       # Chatbot data model
+│       └── Lead.ts           # Lead model
+├── scripts/
+│   └── init-db.js            # Database initialization script
+├── .env.local                # Environment variables (local)
+├── .env.example              # Environment variables template
+├── .gitignore                # Git ignore rules
+
+├── next.config.js            # Next.js configuration
+├── postcss.config.js         # PostCSS configuration
+├── tailwind.config.js        # Tailwind CSS configuration
+├── tsconfig.json             # TypeScript configuration
+└── package.json              # Dependencies and scripts
+```
+
+## 🚀 Quick Start
+
+### 1. Install Dependencies
 ```bash
 npm install
+```
+
+### 2. Setup Environment Variables
+Copy the example environment file and configure:
+```bash
+cp .env.example .env.local
+```
+
+Edit `.env.local`:
+```env
+# MongoDB
+MONGODB_URI=mongodb://localhost:27017/bankersden
+
+# JWT Secret
+JWT_SECRET=your-super-secret-jwt-key-change-in-production
+
+# Gemini AI
+GEMINI_API_KEY=your-gemini-api-key-here
+
+# WhatsApp Configuration
+ADMIN_WHATSAPP=8887941939
+
+# Next.js
+NEXTAUTH_SECRET=your-nextauth-secret
+NEXTAUTH_URL=http://localhost:3000
+```
+
+### 3. Setup MongoDB
+Install and start MongoDB locally, or use MongoDB Atlas for cloud hosting.
+
+### 4. Get Gemini API Key
+1. Go to [Google AI Studio](https://makersuite.google.com/app/apikey)
+2. Create a new API key
+3. Add it to your `.env.local` file
+
+### 5. Development Mode
+```bash
 npm run dev
 ```
 
-The development server will proxy API calls to the production backend at `https://bankbackend-ygee.onrender.com`.
+### 6. Access the Application
+- **Application**: http://localhost:3000
+- **API Health Check**: http://localhost:3000/api/health
+- **Admin Panel**: http://localhost:3000/admin/login
+  - Username: `admin`
+  - Password: `admin123`
 
-## Deployment
+## 📱 WhatsApp Notifications
 
-This project is configured for Vercel deployment with backend at `https://bankbackend-ygee.onrender.com`:
+The application sends notifications via WhatsApp to the admin number (8887941939) for:
+- New loan applications
+- Contact form submissions
 
-1. Connect your GitHub repo to Vercel
-2. Vercel will auto-detect the framework and use the settings in `vercel.json`
-3. API calls to `/api/*` are automatically proxied to the backend
-4. Build command: `npm run build`
-5. Output directory: `dist`
+**Live Website:** https://bankersdens.com
 
-## Features
+For production, integrate with WhatsApp Business API or services like Twilio.
 
-- React 18 with TypeScript
-- Vite for fast development and building
-- Tailwind CSS for styling
-- React Router for navigation
-- ESLint for code quality
+## 🛠 Available Scripts
 
-## Build
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
+- `npm run type-check` - Run TypeScript type checking
 
-```bash
-npm run build
-npm run preview
-```
+## 🚀 Deployment
+
+### Vercel (Recommended)
+1. Push your code to GitHub
+2. Connect your repository to Vercel
+3. Set environment variables in Vercel dashboard
+4. Deploy automatically
+
+### Other Platforms
+1. Build the application:
+   ```bash
+   npm run build
+   ```
+2. Start the production server:
+   ```bash
+   npm start
+   ```
+
+### Environment Variables for Production
+Make sure to set all environment variables in your hosting platform:
+- `MONGODB_URI`
+- `JWT_SECRET`
+- `GEMINI_API_KEY`
+- `ADMIN_WHATSAPP`
+- `NEXTAUTH_SECRET`
+- `NEXTAUTH_URL`
+
+## 🔧 API Endpoints
+
+### Public Endpoints
+- `POST /api/contact` - Submit contact form
+- `POST /api/loan-application` - Submit loan application
+- `POST /api/chat` - Chat with AI bot
+- `GET /api/health` - Health check
+
+### Admin Endpoints (Requires Authentication)
+- `POST /api/admin/login` - Admin login
+- `GET /api/admin/leads` - Get all leads with filtering
+- `GET /api/admin/leads/[id]` - Get specific lead
+- `PUT /api/admin/leads/[id]/status` - Update lead status
+
+## 🎨 Tech Stack
+
+### Frontend & Backend
+- **Next.js 14** with App Router
+- **TypeScript** for type safety
+- **Tailwind CSS** for styling
+- **Lucide React** for icons
+
+### Database & Authentication
+- **MongoDB** with Mongoose ODM
+- **JWT** for authentication
+- **bcryptjs** for password hashing
+
+### AI & External Services
+- **Google Gemini AI** for intelligent chatbot responses
+- **WhatsApp API** for instant notifications
+
+### Development Tools
+- **ESLint** for code linting
+- **PostCSS** for CSS processing
+- **Autoprefixer** for CSS vendor prefixes
+
+## 🔄 Migration from Previous Architecture
+
+This project has been migrated from a separate React frontend and Node.js backend to a unified Next.js application:
+
+### What Changed:
+- ✅ Combined frontend and backend into single Next.js app
+- ✅ Converted React Router to Next.js App Router
+- ✅ Migrated Express API routes to Next.js API routes
+- ✅ Updated authentication to work with Next.js middleware
+- ✅ Simplified deployment to single application
+- ✅ Improved type safety with TypeScript throughout
+
+### What Stayed the Same:
+- ✅ All existing functionality preserved
+- ✅ Same database models and structure
+- ✅ WhatsApp notification service
+- ✅ Same AI chatbot functionality
+- ✅ Same admin panel features
+
+## 📝 License
+
+This project is private and proprietary.
+
+## 🤝 Support
+
+For support, contact your admin or create an issue in the repository.
+
+## 🔧 Development Notes
+
+### Database Connection
+The application uses MongoDB with connection pooling optimized for serverless environments. The connection is cached globally to prevent multiple connections in development.
+
+### Authentication
+JWT tokens are used for admin authentication. The authentication middleware checks for valid tokens on protected API routes.
+
+### WhatsApp Service
+The WhatsApp service sends instant notifications to the admin number for all form submissions and applications.
+
+### AI Chatbot
+The chatbot uses Google Gemini AI with a custom knowledge base stored in MongoDB. Admins can manage the knowledge base through the admin panel.

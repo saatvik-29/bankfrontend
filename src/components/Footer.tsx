@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { Facebook, Twitter, Linkedin, Instagram, Mail, Phone, MapPin } from 'lucide-react';
 
 export const Footer = () => {
@@ -24,25 +24,25 @@ export const Footer = () => {
           <div>
             <h4 className="text-white font-semibold mb-3 md:mb-4">Loans</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link to="/loans/home" className="hover:text-gray-100 transition-colors">Home Loan</Link></li>
-              <li><Link to="/loans/personal" className="hover:text-gray-100 transition-colors">Personal Loan</Link></li>
-              <li><Link to="/loans/business" className="hover:text-gray-100 transition-colors">Business Loan</Link></li>
-              <li><Link to="/loans/car" className="hover:text-gray-100 transition-colors">Car Loan</Link></li>
-              <li><Link to="/loans/education" className="hover:text-gray-100 transition-colors">Education Loan</Link></li>
-              <li><Link to="/loans/property" className="hover:text-gray-100 transition-colors">Loan Against Property</Link></li>
+              <li><Link href="/loans/home" className="hover:text-gray-100 transition-colors">Home Loan</Link></li>
+              <li><Link href="/loans/personal" className="hover:text-gray-100 transition-colors">Personal Loan</Link></li>
+              <li><Link href="/loans/business" className="hover:text-gray-100 transition-colors">Business Loan</Link></li>
+              <li><Link href="/loans/car" className="hover:text-gray-100 transition-colors">Car Loan</Link></li>
+              <li><Link href="/loans/education" className="hover:text-gray-100 transition-colors">Education Loan</Link></li>
+              <li><Link href="/loans/property" className="hover:text-gray-100 transition-colors">Loan Against Property</Link></li>
             </ul>
           </div>
 
           <div>
             <h4 className="text-white font-semibold mb-3 md:mb-4">Quick Links</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link to="/about" className="hover:text-gray-100 transition-colors">About Us</Link></li>
-              <li><Link to="/bd-partner" className="hover:text-gray-100 transition-colors">BD Partner</Link></li>
-              <li><Link to="/insurance" className="hover:text-gray-100 transition-colors">Insurance</Link></li>
-              <li><Link to="/calculators" className="hover:text-gray-100 transition-colors">Calculators</Link></li>
-              <li><Link to="/cibil-score" className="hover:text-gray-100 transition-colors">CIBIL Score Check</Link></li>
-              <li><Link to="/blog" className="hover:text-gray-100 transition-colors">Blog</Link></li>
-              <li><Link to="/contact" className="hover:text-gray-100 transition-colors">Contact Us</Link></li>
+              <li><Link href="/about" className="hover:text-gray-100 transition-colors">About Us</Link></li>
+              <li><Link href="/bd-partner" className="hover:text-gray-100 transition-colors">BD Partner</Link></li>
+              <li><Link href="/insurance" className="hover:text-gray-100 transition-colors">Insurance</Link></li>
+              <li><Link href="/calculators" className="hover:text-gray-100 transition-colors">Calculators</Link></li>
+              <li><Link href="/cibil-score" className="hover:text-gray-100 transition-colors">CIBIL Score Check</Link></li>
+              <li><Link href="/blog" className="hover:text-gray-100 transition-colors">Blog</Link></li>
+              <li><Link href="/contact" className="hover:text-gray-100 transition-colors">Contact Us</Link></li>
             </ul>
           </div>
 
@@ -59,7 +59,7 @@ export const Footer = () => {
               </li>
               <li className="flex items-center">
                 <Mail className="w-4 h-4 md:w-5 md:h-5 mr-2 flex-shrink-0" />
-                <span>support@bankersden.com</span>
+                <span>support@bankersdens.com</span>
               </li>
             </ul>
           </div>
@@ -67,11 +67,12 @@ export const Footer = () => {
 
         <div className="border-t border-gray-800 mt-6 md:mt-8 pt-6 md:pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center text-sm">
-            <p>&copy; 2025 BankersDen. All rights reserved.</p>
+            <p>&copy; 2025 Bankers Den. All rights reserved.</p>
             <div className="flex flex-wrap justify-center md:justify-end space-x-4 md:space-x-6 mt-4 md:mt-0">
-              <Link to="/terms" className="hover:text-gray-100 transition-colors">Terms & Conditions</Link>
-              <Link to="/privacy" className="hover:text-gray-100 transition-colors">Privacy Policy</Link>
-              <Link to="/disclaimer" className="hover:text-gray-100 transition-colors">Disclaimer</Link>
+              <Link href="/terms" className="hover:text-gray-100 transition-colors">Terms & Conditions</Link>
+              <Link href="/privacy" className="hover:text-gray-100 transition-colors">Privacy Policy</Link>
+              <Link href="/disclaimer" className="hover:text-gray-100 transition-colors">Disclaimer</Link>
+              <Link href="/admin" className="hover:text-gray-100 transition-colors text-xs opacity-50">Admin</Link>
             </div>
           </div>
         </div>

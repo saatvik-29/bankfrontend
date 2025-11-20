@@ -1,67 +1,64 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
 # Dependencies
-node_modules/
+/node_modules
+/.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# Testing
+/coverage
+
+# Next.js
+/.next/
+/out/
+
+# Production
+/build
+
+# Misc
+.DS_Store
+*.pem
+
+# Debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
 
-# Build outputs
-dist/
-build/
-out/
-*.local
-
-# Vercel
-.vercel
-.vercel.json
-
-# Environment variables
+# Local env files
+.env*.local
 .env
-.env.local
 .env.development.local
 .env.test.local
 .env.production.local
+.env.production
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
+# Vercel
+.vercel
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# IDE
+.vscode/
 .idea/
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+*.swp
+*.swo
 
-# OS generated files
+# OS
 Thumbs.db
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
 
 # Logs
-logs/
+logs
 *.log
 
 # Runtime data
-pids/
+pids
 *.pid
 *.seed
 *.pid.lock
-
-# Coverage directory used by tools like istanbul
-coverage/
-*.lcov
-
-# nyc test coverage
-.nyc_output/
-
-# Dependency directories
-jspm_packages/
 
 # Optional npm cache directory
 .npm
@@ -90,11 +87,10 @@ jspm_packages/
 
 # Next.js build output
 .next
-out/
 
 # Nuxt.js build / generate output
 .nuxt
-dist/
+dist
 
 # Storybook build outputs
 .out
@@ -104,18 +100,18 @@ dist/
 tmp/
 temp/
 
-# Vercel deployment files
-.vercel/
-*.vercel.app
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 
-# Serverless directories
-.serverless/
-
-# FuseBox cache
-.fusebox/
-
-# DynamoDB Local files
-.dynamodb/
-
-# TernJS port file
-.tern-port
+# Project specific
+newfolder/
+*.backup
+*.bak
+*.tmp

@@ -1,0 +1,23 @@
+{
+  "name": "Bankers Den - Digital Lending Platform",
+  "short_name": "Bankers Den",
+  "description": "India's #1 Digital Lending Platform for quick loan approvals",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png", 
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#1f2937",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "start_url": "/",
+  "scope": "/",
+  "orientation": "portrait"
+}

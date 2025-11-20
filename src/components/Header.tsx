@@ -1,16 +1,17 @@
+'use client';
+
 import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const location = useLocation();
+  const pathname = usePathname();
 
   // Define page-specific text colors only
   const getPageColors = () => {
-    const path = location.pathname;
-    
-    switch (path) {
+    switch (pathname) {
       case '/loans/home':
         return {
           text: 'text-[#581c87]',
@@ -89,11 +90,11 @@ export const Header = () => {
   const colors = getPageColors();
 
   return (
-    <header className="absolute top-0 left-0 right-0 bg-transparent z-50">
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <header className="absolute top-0 left-0 right-0 bg-transparent z-50 w-full">
+      <nav className="w-full px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 md:h-20">
           <div className="flex items-center">
-            <Link to="/" className={`text-2xl md:text-3xl font-bold ${colors.text} hover:opacity-80 transition-all duration-200`}>
+            <Link href="/" className={`text-2xl md:text-3xl font-bold ${colors.text} hover:opacity-80 transition-all duration-200`}>
               BankersDen
             </Link>
           </div>
@@ -104,31 +105,31 @@ export const Header = () => {
                 Loans
               </button>
               <div className="absolute left-0 mt-2 w-64 bg-white shadow-xl rounded-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 border border-gray-200">
-                <Link to="/loans/home" className="block px-4 py-2 hover:bg-gray-50 text-gray-700 hover:text-[#581c87] transition-colors text-sm">Home Loan</Link>
-                <Link to="/loans/property" className="block px-4 py-2 hover:bg-gray-50 text-gray-700 hover:text-[#235a56] transition-colors text-sm">Loan Against Property</Link>
-                <Link to="/loans/car" className="block px-4 py-2 hover:bg-gray-50 text-gray-700 hover:text-[#7c2d12] transition-colors text-sm">Car Loan</Link>
-                <Link to="/loans/personal" className="block px-4 py-2 hover:bg-gray-50 text-gray-700 hover:text-[#15803d] transition-colors text-sm">Personal Loan</Link>
-                <Link to="/loans/business" className="block px-4 py-2 hover:bg-gray-50 text-gray-700 hover:text-[#581c87] transition-colors text-sm">Business Loan</Link>
-                <Link to="/loans/education" className="block px-4 py-2 hover:bg-gray-50 text-gray-700 hover:text-[#15803d] transition-colors text-sm">Education Loan</Link>
+                <Link href="/loans/home" className="block px-4 py-2 hover:bg-gray-50 text-gray-700 hover:text-[#581c87] transition-colors text-sm">Home Loan</Link>
+                <Link href="/loans/property" className="block px-4 py-2 hover:bg-gray-50 text-gray-700 hover:text-[#235a56] transition-colors text-sm">Loan Against Property</Link>
+                <Link href="/loans/car" className="block px-4 py-2 hover:bg-gray-50 text-gray-700 hover:text-[#7c2d12] transition-colors text-sm">Car Loan</Link>
+                <Link href="/loans/personal" className="block px-4 py-2 hover:bg-gray-50 text-gray-700 hover:text-[#15803d] transition-colors text-sm">Personal Loan</Link>
+                <Link href="/loans/business" className="block px-4 py-2 hover:bg-gray-50 text-gray-700 hover:text-[#581c87] transition-colors text-sm">Business Loan</Link>
+                <Link href="/loans/education" className="block px-4 py-2 hover:bg-gray-50 text-gray-700 hover:text-[#15803d] transition-colors text-sm">Education Loan</Link>
               </div>
             </div>
-            <Link to="/calculators" className={`${colors.text} font-medium px-3 py-2 rounded-lg ${colors.hoverBg} transition-all duration-200`}>
+            <Link href="/calculators" className={`${colors.text} font-medium px-3 py-2 rounded-lg ${colors.hoverBg} transition-all duration-200`}>
               Calculators
             </Link>
-            <Link to="/about" className={`${colors.text} font-medium px-3 py-2 rounded-lg ${colors.hoverBg} transition-all duration-200`}>
+            <Link href="/about" className={`${colors.text} font-medium px-3 py-2 rounded-lg ${colors.hoverBg} transition-all duration-200`}>
               About
             </Link>
-            <Link to="/blog" className={`${colors.text} font-medium px-3 py-2 rounded-lg ${colors.hoverBg} transition-all duration-200`}>
+            <Link href="/blog" className={`${colors.text} font-medium px-3 py-2 rounded-lg ${colors.hoverBg} transition-all duration-200`}>
               Blog
             </Link>
-            <Link to="/contact" className={`${colors.text} font-medium px-3 py-2 rounded-lg ${colors.hoverBg} transition-all duration-200`}>
+            <Link href="/contact" className={`${colors.text} font-medium px-3 py-2 rounded-lg ${colors.hoverBg} transition-all duration-200`}>
               Contact
             </Link>
           </div>
 
           <div className="hidden md:flex items-center space-x-4">
             <Link
-              to="/contact"
+              href="/contact"
               className={`${colors.buttonBg} px-6 py-2 rounded-lg font-medium shadow-sm transition-all duration-200`}
             >
               Get Started
@@ -146,20 +147,20 @@ export const Header = () => {
         {isMenuOpen && (
           <div className="md:hidden py-4 border-t border-gray-200 bg-white/95 backdrop-blur-sm">
             <div className="flex flex-col space-y-2">
-              <Link to="/loans/home" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Home Loan</Link>
-              <Link to="/loans/property" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Loan Against Property</Link>
-              <Link to="/loans/car" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Car Loan</Link>
-              <Link to="/loans/personal" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Personal Loan</Link>
-              <Link to="/loans/business" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Business Loan</Link>
-              <Link to="/loans/education" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Education Loan</Link>
-              <Link to="/about" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>About Us</Link>
-              <Link to="/bd-partner" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>BD Partner</Link>
-              <Link to="/insurance" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Insurance</Link>
-              <Link to="/calculators" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Calculators</Link>
-              <Link to="/cibil-score" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>CIBIL Score</Link>
-              <Link to="/blog" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Blog</Link>
-              <Link to="/contact" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Contact</Link>
-              <Link to="/contact" className={`${colors.buttonBg} px-4 py-2 rounded-lg font-medium text-center mt-2 transition-colors`}>Get Started</Link>
+              <Link href="/loans/home" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Home Loan</Link>
+              <Link href="/loans/property" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Loan Against Property</Link>
+              <Link href="/loans/car" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Car Loan</Link>
+              <Link href="/loans/personal" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Personal Loan</Link>
+              <Link href="/loans/business" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Business Loan</Link>
+              <Link href="/loans/education" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Education Loan</Link>
+              <Link href="/about" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>About Us</Link>
+              <Link href="/bd-partner" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>BD Partner</Link>
+              <Link href="/insurance" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Insurance</Link>
+              <Link href="/calculators" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Calculators</Link>
+              <Link href="/cibil-score" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>CIBIL Score</Link>
+              <Link href="/blog" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Blog</Link>
+              <Link href="/contact" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Contact</Link>
+              <Link href="/contact" className={`${colors.buttonBg} px-4 py-2 rounded-lg font-medium text-center mt-2 transition-colors`}>Get Started</Link>
             </div>
           </div>
         )}

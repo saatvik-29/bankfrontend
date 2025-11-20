@@ -1,5 +1,8 @@
+'use client';
+
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp, HelpCircle } from 'lucide-react';
+import Link from 'next/link';
 
 interface FAQItem {
   id: string;
@@ -173,12 +176,12 @@ export const FAQ: React.FC = () => {
               Our expert team is here to help you with personalized advice
             </p>
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center">
-              <a
+              <Link
                 href="/contact"
                 className="inline-block bg-white text-gray-800 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
               >
                 Contact Us
-              </a>
+              </Link>
               <a
                 href="tel:+919145023840"
                 className="inline-block bg-transparent text-white border-2 border-white px-6 py-3 rounded-lg font-semibold hover:bg-white/10 transition-colors"

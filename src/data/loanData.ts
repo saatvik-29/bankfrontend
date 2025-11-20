@@ -341,7 +341,6 @@ export const loanTypes: LoanDetails[] = [
     color: 'indigo',
     category: 'Education'
   },
-
   {
     id: 'property',
     name: 'Loan Against Property',
@@ -412,4 +411,3 @@ export const getLoanById = (id: string): LoanDetails | undefined => {
 export const getLoanBySlug = (slug: string): LoanDetails | undefined => {
   return loanTypes.find(loan => loan.slug === slug);
 };
-

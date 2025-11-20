@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { TrendingDown, IndianRupee, Calendar, Percent, Lightbulb } from 'lucide-react';
 
