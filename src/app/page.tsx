@@ -259,19 +259,19 @@ export default function HomePage() {
       
       <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50 pt-16 md:pt-20 overflow-hidden">
+      <section className="relative bg-gradient-to-br from-gray-50 via-white to-blue-50 pt-16 md:pt-20 pb-12 md:pb-16 overflow-hidden">
         {/* Subtle Background Elements */}
         <div className="absolute inset-0">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-100/30 rounded-full blur-3xl"></div>
-          <div className="absolute top-3/4 right-1/4 w-96 h-96 bg-indigo-100/30 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-1/4 left-1/2 w-96 h-96 bg-gray-100/30 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-100/20 rounded-full blur-2xl"></div>
+          <div className="absolute top-3/4 right-1/4 w-64 h-64 bg-indigo-100/20 rounded-full blur-2xl"></div>
+          <div className="absolute bottom-1/4 left-1/2 w-64 h-64 bg-gray-100/20 rounded-full blur-2xl"></div>
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* Main Hero Content */}
-          <div className="text-center mb-12 pt-8">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
+          <div className="text-center mb-8 pt-4">
+            <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight">
               <span className="text-gray-900">India's</span>{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600">
                 #1 Digital
@@ -279,26 +279,26 @@ export default function HomePage() {
               <br />
               <span className="text-gray-900">Lending Platform</span>
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-gray-700 max-w-4xl mx-auto leading-relaxed">
+            <p className="text-lg md:text-xl mb-6 text-gray-700 max-w-3xl mx-auto leading-relaxed">
               Get quick loan approvals with competitive interest rates. 
               <span className="text-blue-600 font-semibold"> ₹585+ Crores disbursed</span> to 
               <span className="text-blue-600 font-semibold"> 700+ happy customers</span> across India.
             </p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+            <div className="flex flex-col sm:flex-row gap-3 justify-center mb-8">
               <Link href="/loans/personal">
-                <button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-4 px-8 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                <button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                   <div className="flex items-center">
-                    <Zap className="w-5 h-5 mr-2" />
+                    <Zap className="w-4 h-4 mr-2" />
                     Get Instant Loan
                   </div>
                 </button>
               </Link>
               <Link href="/calculators">
-                <button className="bg-white hover:bg-gray-50 text-gray-900 font-bold py-4 px-8 rounded-xl border-2 border-gray-300 hover:border-gray-400 shadow-lg hover:shadow-xl transition-all duration-300">
+                <button className="bg-white hover:bg-gray-50 text-gray-900 font-semibold py-3 px-6 rounded-lg border-2 border-gray-300 hover:border-gray-400 shadow-md hover:shadow-lg transition-all duration-300">
                   <div className="flex items-center">
-                    <Calculator className="w-5 h-5 mr-2" />
+                    <Calculator className="w-4 h-4 mr-2" />
                     Calculate EMI
                   </div>
                 </button>
@@ -307,62 +307,62 @@ export default function HomePage() {
           </div>
 
           {/* Hero Cards Slider */}
-          <div className="relative max-w-6xl mx-auto">
-            <div className="overflow-hidden rounded-3xl bg-white/5 backdrop-blur-sm border border-white/10">
+          <div className="relative max-w-5xl mx-auto">
+            <div className="overflow-hidden rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10">
               <div
                 className="flex transition-transform duration-700 ease-in-out"
                 style={{ transform: `translateX(-${currentHeroCard * 100}%)` }}
               >
                 {heroCards.map((card, index) => (
                   <div key={index} className="w-full flex-shrink-0">
-                    <div className={`bg-gradient-to-br ${card.bgGradient} p-8 md:p-12`}>
-                      <div className="grid lg:grid-cols-2 gap-8 items-center">
+                    <div className={`bg-gradient-to-br ${card.bgGradient} p-6 md:p-8`}>
+                      <div className="grid lg:grid-cols-2 gap-6 items-center">
                         <div>
-                          <div className="flex items-center mb-6">
-                            <div className={`w-16 h-16 bg-gradient-to-r ${card.gradient} rounded-2xl flex items-center justify-center mr-4 shadow-xl`}>
-                              <card.icon className="w-8 h-8 text-white" />
+                          <div className="flex items-center mb-4">
+                            <div className={`w-12 h-12 bg-gradient-to-r ${card.gradient} rounded-xl flex items-center justify-center mr-3 shadow-lg`}>
+                              <card.icon className="w-6 h-6 text-white" />
                             </div>
                             <div>
-                              <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
+                              <h2 className="text-xl md:text-2xl font-bold text-gray-900">
                                 {card.title}
                               </h2>
-                              <p className="text-lg text-gray-600 font-medium">
+                              <p className="text-sm text-gray-600 font-medium">
                                 {card.subtitle}
                               </p>
                             </div>
                           </div>
-                          <p className="text-xl mb-8 text-gray-700 leading-relaxed">
+                          <p className="text-base mb-6 text-gray-700 leading-relaxed">
                             {card.description}
                           </p>
                           <Link href={card.buttonLink}>
-                            <button className={`bg-gradient-to-r ${card.gradient} text-white font-bold py-4 px-8 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1`}>
+                            <button className={`bg-gradient-to-r ${card.gradient} text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1`}>
                               <div className="flex items-center">
                                 {card.buttonText}
-                                <ArrowRight className="w-5 h-5 ml-2" />
+                                <ArrowRight className="w-4 h-4 ml-2" />
                               </div>
                             </button>
                           </Link>
                         </div>
                         <div className="hidden lg:block">
                           <div className="relative">
-                            <div className="bg-white rounded-2xl p-8 shadow-2xl">
-                              <div className="space-y-4">
+                            <div className="bg-white rounded-xl p-6 shadow-xl">
+                              <div className="space-y-3">
                                 <div className="flex justify-between items-center">
-                                  <span className="text-gray-600">Interest Rate</span>
-                                  <span className="font-bold text-emerald-600">Starting 8.25%</span>
+                                  <span className="text-sm text-gray-600">Interest Rate</span>
+                                  <span className="font-semibold text-emerald-600">Starting 8.25%</span>
                                 </div>
                                 <div className="flex justify-between items-center">
-                                  <span className="text-gray-600">Processing Time</span>
-                                  <span className="font-bold text-blue-600">Quick</span>
+                                  <span className="text-sm text-gray-600">Processing Time</span>
+                                  <span className="font-semibold text-blue-600">Quick</span>
                                 </div>
                                 <div className="flex justify-between items-center">
-                                  <span className="text-gray-600">Documentation</span>
-                                  <span className="font-bold text-purple-600">Minimal</span>
+                                  <span className="text-sm text-gray-600">Documentation</span>
+                                  <span className="font-semibold text-purple-600">Minimal</span>
                                 </div>
-                                <div className="pt-4 border-t">
+                                <div className="pt-3 border-t">
                                   <div className="flex items-center text-emerald-600">
-                                    <CheckCircle className="w-5 h-5 mr-2" />
-                                    <span className="font-semibold">Instant Approval Guaranteed</span>
+                                    <CheckCircle className="w-4 h-4 mr-2" />
+                                    <span className="font-medium text-sm">Quick Approval</span>
                                   </div>
                                 </div>
                               </div>
@@ -393,115 +393,115 @@ export default function HomePage() {
           </div>
 
           {/* Stats */}
-          <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
-            <div className="text-center bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 shadow-lg">
-              <div className="text-3xl md:text-4xl font-bold mb-2 text-blue-600">₹585Cr+</div>
-              <div className="text-gray-600 text-sm font-medium">Loans Disbursed</div>
+          <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 max-w-2xl mx-auto">
+            <div className="text-center bg-white/80 backdrop-blur-sm rounded-xl p-4 border border-gray-200 shadow-md">
+              <div className="text-xl md:text-2xl font-bold mb-1 text-blue-600">₹585Cr+</div>
+              <div className="text-gray-600 text-xs font-medium">Loans Disbursed</div>
             </div>
-            <div className="text-center bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 shadow-lg">
-              <div className="text-3xl md:text-4xl font-bold mb-2 text-indigo-600">700+</div>
-              <div className="text-gray-600 text-sm font-medium">Happy Customers</div>
+            <div className="text-center bg-white/80 backdrop-blur-sm rounded-xl p-4 border border-gray-200 shadow-md">
+              <div className="text-xl md:text-2xl font-bold mb-1 text-indigo-600">700+</div>
+              <div className="text-gray-600 text-xs font-medium">Happy Customers</div>
             </div>
-            <div className="text-center bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 shadow-lg">
-              <div className="text-3xl md:text-4xl font-bold mb-2 text-purple-600">Fast</div>
-              <div className="text-gray-600 text-sm font-medium">Approval Time</div>
+            <div className="text-center bg-white/80 backdrop-blur-sm rounded-xl p-4 border border-gray-200 shadow-md">
+              <div className="text-xl md:text-2xl font-bold mb-1 text-purple-600">Fast</div>
+              <div className="text-gray-600 text-xs font-medium">Approval Time</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* How to Get Your Loan - Steps Section */}
-      <section className="py-20 bg-white relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+      <section className="py-12 bg-white relative overflow-hidden">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
               Get Your Loan in{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
                 Simple Steps
               </span>
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-base text-gray-600 max-w-2xl mx-auto">
               Our streamlined process ensures you get your loan approved and disbursed quickly
             </p>
           </div>
 
           <div className="relative">
             {/* Progress Line */}
-            <div className="absolute top-16 left-0 right-0 h-1 bg-gray-200 hidden lg:block">
+            <div className="absolute top-12 left-0 right-0 h-0.5 bg-gray-200 hidden lg:block">
               <div className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full animate-pulse"></div>
             </div>
 
             {/* Steps */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative">
               {/* Step 1 */}
               <div className="group text-center">
-                <div className="relative mb-8">
-                  <div className="w-32 h-32 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-full flex items-center justify-center mx-auto shadow-xl group-hover:scale-110 transition-all duration-300 relative z-10">
-                    <FileText className="w-16 h-16 text-white" />
+                <div className="relative mb-4">
+                  <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-full flex items-center justify-center mx-auto shadow-lg group-hover:scale-105 transition-all duration-300 relative z-10">
+                    <FileText className="w-8 h-8 text-white" />
                   </div>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-blue-600 transition-colors">
+                <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
                   Apply Online
                 </h3>
-                <p className="text-gray-600 leading-relaxed mb-6">
+                <p className="text-sm text-gray-600 leading-relaxed mb-4">
                   Fill out our simple online application form quickly. No paperwork required.
                 </p>
                 <div className="flex items-center justify-center">
-                  <div className="w-12 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full animate-pulse"></div>
+                  <div className="w-8 h-0.5 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full animate-pulse"></div>
                 </div>
               </div>
 
               {/* Step 2 */}
               <div className="group text-center">
-                <div className="relative mb-8">
-                  <div className="w-32 h-32 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full flex items-center justify-center mx-auto shadow-xl group-hover:scale-110 transition-all duration-300 relative z-10">
-                    <CreditCard className="w-16 h-16 text-white" />
+                <div className="relative mb-4">
+                  <div className="w-20 h-20 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full flex items-center justify-center mx-auto shadow-lg group-hover:scale-105 transition-all duration-300 relative z-10">
+                    <CreditCard className="w-8 h-8 text-white" />
                   </div>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-indigo-600 transition-colors">
+                <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-indigo-600 transition-colors">
                   Instant Verification
                 </h3>
-                <p className="text-gray-600 leading-relaxed mb-6">
+                <p className="text-sm text-gray-600 leading-relaxed mb-4">
                   Our system verifies your details and credit score instantly using secure APIs.
                 </p>
                 <div className="flex items-center justify-center">
-                  <div className="w-12 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full animate-pulse" style={{ animationDelay: "0.5s" }}></div>
+                  <div className="w-8 h-0.5 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full animate-pulse" style={{ animationDelay: "0.5s" }}></div>
                 </div>
               </div>
 
               {/* Step 3 */}
               <div className="group text-center">
-                <div className="relative mb-8">
-                  <div className="w-32 h-32 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto shadow-xl group-hover:scale-110 transition-all duration-300 relative z-10">
-                    <CheckCircle className="w-16 h-16 text-white" />
+                <div className="relative mb-4">
+                  <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto shadow-lg group-hover:scale-105 transition-all duration-300 relative z-10">
+                    <CheckCircle className="w-8 h-8 text-white" />
                   </div>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-purple-600 transition-colors">
+                <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-purple-600 transition-colors">
                   Get Approved
                 </h3>
-                <p className="text-gray-600 leading-relaxed mb-6">
+                <p className="text-sm text-gray-600 leading-relaxed mb-4">
                   Receive instant approval notification via WhatsApp and email quickly.
                 </p>
                 <div className="flex items-center justify-center">
-                  <div className="w-12 h-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full animate-pulse" style={{ animationDelay: "1s" }}></div>
+                  <div className="w-8 h-0.5 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full animate-pulse" style={{ animationDelay: "1s" }}></div>
                 </div>
               </div>
 
               {/* Step 4 */}
               <div className="group text-center">
-                <div className="relative mb-8">
-                  <div className="w-32 h-32 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-full flex items-center justify-center mx-auto shadow-xl group-hover:scale-110 transition-all duration-300 relative z-10">
-                    <HandCoins className="w-16 h-16 text-white" />
+                <div className="relative mb-4">
+                  <div className="w-20 h-20 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-full flex items-center justify-center mx-auto shadow-lg group-hover:scale-105 transition-all duration-300 relative z-10">
+                    <HandCoins className="w-8 h-8 text-white" />
                   </div>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-emerald-600 transition-colors">
+                <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-emerald-600 transition-colors">
                   Get Funds
                 </h3>
-                <p className="text-gray-600 leading-relaxed mb-6">
+                <p className="text-sm text-gray-600 leading-relaxed mb-4">
                   Money transferred directly to your account after approval.
                 </p>
                 <div className="flex items-center justify-center">
-                  <div className="w-12 h-1 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full animate-pulse" style={{ animationDelay: "1.5s" }}></div>
+                  <div className="w-8 h-0.5 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full animate-pulse" style={{ animationDelay: "1.5s" }}></div>
                 </div>
               </div>
             </div>
