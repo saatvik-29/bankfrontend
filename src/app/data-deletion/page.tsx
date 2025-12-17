@@ -71,9 +71,9 @@ export default function DataDeletionPage() {
                 <h3 className="text-xl font-medium text-green-900 mb-4">📱 WhatsApp Request</h3>
                 <p className="text-green-800 mb-3">Message us on WhatsApp:</p>
                 <p className="text-green-900 font-medium">
-                  <a href="https://wa.me/918887941939?text=I%20want%20to%20delete%20my%20data%20from%20Banker's%20Den" 
+                  <a href="https://wa.me/919145023840?text=I%20want%20to%20delete%20my%20data%20from%20Banker's%20Den" 
                      className="hover:underline" target="_blank" rel="noopener noreferrer">
-                    +91 8887941939
+                    +91 9145023840
                   </a>
                 </p>
                 <p className="text-green-700 text-sm mt-2">
@@ -182,7 +182,7 @@ export default function DataDeletionPage() {
                 <h3 className="text-lg font-medium text-gray-800 mb-3">Data Protection Officer</h3>
                 <ul className="space-y-2 text-gray-700">
                   <li><strong>Email:</strong> <a href="mailto:privacy@bankersdens.com" className="text-blue-600 hover:underline">privacy@bankersdens.com</a></li>
-                  <li><strong>WhatsApp:</strong> <a href="https://wa.me/918887941939" className="text-blue-600 hover:underline">+91 8887941939</a></li>
+                  <li><strong>WhatsApp:</strong> <a href="https://wa.me/919145023840" className="text-blue-600 hover:underline">+91 9145023840</a></li>
                   <li><strong>Website:</strong> <a href="https://bankersdens.com" className="text-blue-600 hover:underline">https://bankersdens.com</a></li>
                   <li><strong>Response Time:</strong> Within 24 hours</li>
                 </ul>

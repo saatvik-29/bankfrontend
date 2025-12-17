@@ -217,7 +217,7 @@ export default function PrivacyPolicyPage() {
                 <h3 className="text-lg font-medium text-gray-800 mb-3">Contact Information</h3>
                 <ul className="space-y-2 text-gray-700">
                   <li><strong>Email:</strong> <a href="mailto:privacy@bankersdens.com" className="text-blue-600 hover:underline">privacy@bankersdens.com</a></li>
-                  <li><strong>WhatsApp:</strong> <a href="https://wa.me/918887941939" className="text-blue-600 hover:underline">+91 8887941939</a></li>
+                  <li><strong>WhatsApp:</strong> <a href="https://wa.me/919145023840" className="text-blue-600 hover:underline">+91 9145023840</a></li>
                   <li><strong>Website:</strong> <a href="https://bankersdens.com" className="text-blue-600 hover:underline">https://bankersdens.com</a></li>
                   <li><strong>Address:</strong> Banker's Den, India</li>
                 </ul>

@@ -38,7 +38,7 @@ WHATSAPP_PHONE_NUMBER_ID=your-phone-number-id
 WHATSAPP_ACCESS_TOKEN=your-permanent-access-token
 WHATSAPP_VERIFY_TOKEN=your-webhook-verify-token
 WHATSAPP_BUSINESS_ACCOUNT_ID=your-business-account-id
-ADMIN_WHATSAPP=8887941939
+ADMIN_WHATSAPP=9145023840
 ```
 
 ### 3. Deploy to Production (10 minutes)
@@ -59,7 +59,7 @@ curl https://bankersdens.com/api/whatsapp/test
 # Send test message
 curl -X POST https://bankersdens.com/api/whatsapp/test \
   -H "Content-Type: application/json" \
-  -d '{"phone":"918887941939","message":"Test from Bankers Den!"}'
+  -d '{"phone":"919145023840","message":"Test from Bankers Den!"}'
 ```
 
 ### 5. Submit for Meta Approval (15 minutes)

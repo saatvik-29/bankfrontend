@@ -114,7 +114,7 @@ All pages include:
 
 All pages include consistent contact information:
 - **Email**: privacy@bankersdens.com / support@bankersdens.com
-- **WhatsApp**: +91 8887941939
+- **WhatsApp**: +91 9145023840
 - **Website**: https://bankersdens.com
 
 ### ✅ Compliance Checklist

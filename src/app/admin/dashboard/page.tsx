@@ -193,7 +193,7 @@ export default function AdminDashboard() {
             <div className="flex items-center gap-4">
               <div className="bg-green-50 border border-green-200 rounded-lg px-3 py-2">
                 <p className="text-green-800 text-sm">
-                  📱 <strong>WhatsApp:</strong> 8887941939
+                  📱 <strong>WhatsApp:</strong> 9145023840
                 </p>
               </div>
               <Button variant="outline" onClick={handleLogout}>

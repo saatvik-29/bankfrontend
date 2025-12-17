@@ -118,7 +118,7 @@ WHATSAPP_PHONE_NUMBER_ID=your-phone-number-id-from-step-3
 WHATSAPP_ACCESS_TOKEN=your-permanent-access-token-from-step-5
 WHATSAPP_VERIFY_TOKEN=your-webhook-verify-token-from-step-6
 WHATSAPP_BUSINESS_ACCOUNT_ID=your-business-account-id-from-step-3
-ADMIN_WHATSAPP=8887941939
+ADMIN_WHATSAPP=9145023840
 ```
 
 ## 🧪 Testing Your Setup
@@ -133,7 +133,7 @@ curl https://yourdomain.com/api/whatsapp/test
 curl -X POST https://yourdomain.com/api/whatsapp/test \
   -H "Content-Type: application/json" \
   -d '{
-    "phone": "918887941939",
+    "phone": "919145023840",
     "message": "Test message from Banker'\''s Den!"
   }'
 ```

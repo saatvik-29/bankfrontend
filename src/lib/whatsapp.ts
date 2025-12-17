@@ -19,7 +19,7 @@ interface WhatsAppResponse {
 }
 
 class WhatsAppService {
-  private readonly adminNumber = process.env.ADMIN_WHATSAPP || '8887941939';
+  private readonly adminNumber = process.env.ADMIN_WHATSAPP || '9145023840';
   private readonly phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID;
   private readonly accessToken = process.env.WHATSAPP_ACCESS_TOKEN;
   private readonly apiUrl = `https://graph.facebook.com/v18.0`;
