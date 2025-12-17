@@ -94,7 +94,11 @@ JWT_SECRET=your-super-secret-jwt-key-change-in-production
 # Gemini AI
 GEMINI_API_KEY=your-gemini-api-key-here
 
-# WhatsApp Configuration
+# Facebook Meta WhatsApp Business API
+WHATSAPP_PHONE_NUMBER_ID=your-phone-number-id
+WHATSAPP_ACCESS_TOKEN=your-permanent-access-token
+WHATSAPP_VERIFY_TOKEN=your-webhook-verify-token
+WHATSAPP_BUSINESS_ACCOUNT_ID=your-business-account-id
 ADMIN_WHATSAPP=8887941939
 
 # Next.js
@@ -122,15 +126,53 @@ npm run dev
   - Username: `admin`
   - Password: `admin123`
 
-## 📱 WhatsApp Notifications
+## 📱 WhatsApp Integration (Facebook Meta WhatsApp Business API)
 
-The application sends notifications via WhatsApp to the admin number (8887941939) for:
-- New loan applications
-- Contact form submissions
+The application now uses Facebook Meta WhatsApp Business API for sending notifications to both admin and applicants:
+
+### Features:
+- ✅ **Dual Notifications**: Sends messages to both admin and applicant
+- ✅ **Admin Notifications**: New applications and contact forms
+- ✅ **Applicant Confirmations**: Automatic confirmation messages
+- ✅ **Webhook Support**: Handles incoming messages and delivery receipts
+- ✅ **Auto-replies**: Business hours auto-responses
+- ✅ **Message Tracking**: Delivery status monitoring
+
+### Setup Facebook Meta WhatsApp Business API:
+
+1. **Create Facebook Business Account**
+   - Go to [Facebook Business](https://business.facebook.com/)
+   - Create or use existing business account
+
+2. **Setup WhatsApp Business API**
+   - Go to [Facebook Developers](https://developers.facebook.com/)
+   - Create new app → Business → WhatsApp
+   - Add WhatsApp product to your app
+
+3. **Get Required Credentials**
+   ```env
+   WHATSAPP_PHONE_NUMBER_ID=your-phone-number-id
+   WHATSAPP_ACCESS_TOKEN=your-permanent-access-token
+   WHATSAPP_VERIFY_TOKEN=your-webhook-verify-token
+   WHATSAPP_BUSINESS_ACCOUNT_ID=your-business-account-id
+   ```
+
+4. **Configure Webhook**
+   - Webhook URL: `https://yourdomain.com/api/whatsapp/webhook`
+   - Verify Token: Use the same token from `WHATSAPP_VERIFY_TOKEN`
+   - Subscribe to: `messages` field
+
+5. **Test Integration**
+   - GET `/api/whatsapp/test` - Check configuration
+   - POST `/api/whatsapp/test` - Send test message
+
+### Message Flow:
+1. **Loan Application**: Admin gets detailed notification, applicant gets confirmation
+2. **Contact Form**: Admin gets inquiry details, user gets acknowledgment
+3. **Incoming Messages**: Logged and can trigger auto-replies
+4. **Delivery Status**: Tracked and logged for monitoring
 
 **Live Website:** https://bankersdens.com
-
-For production, integrate with WhatsApp Business API or services like Twilio.
 
 ## 🛠 Available Scripts
 
@@ -163,6 +205,10 @@ Make sure to set all environment variables in your hosting platform:
 - `MONGODB_URI`
 - `JWT_SECRET`
 - `GEMINI_API_KEY`
+- `WHATSAPP_PHONE_NUMBER_ID`
+- `WHATSAPP_ACCESS_TOKEN`
+- `WHATSAPP_VERIFY_TOKEN`
+- `WHATSAPP_BUSINESS_ACCOUNT_ID`
 - `ADMIN_WHATSAPP`
 - `NEXTAUTH_SECRET`
 - `NEXTAUTH_URL`
@@ -174,6 +220,9 @@ Make sure to set all environment variables in your hosting platform:
 - `POST /api/loan-application` - Submit loan application
 - `POST /api/chat` - Chat with AI bot
 - `GET /api/health` - Health check
+- `GET /api/whatsapp/test` - Check WhatsApp configuration
+- `POST /api/whatsapp/test` - Send test WhatsApp message
+- `GET|POST /api/whatsapp/webhook` - WhatsApp webhook endpoint
 
 ### Admin Endpoints (Requires Authentication)
 - `POST /api/admin/login` - Admin login

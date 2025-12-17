@@ -23,9 +23,15 @@ export async function POST(request: NextRequest) {
     });
     await lead.save();
 
-    // Send WhatsApp notification to admin
+    // Send WhatsApp notifications to both admin and user
     const whatsappService = new WhatsAppService();
-    await whatsappService.notifyContactForm({ full_name, email, phone, category, message });
+    const notificationResult = await whatsappService.notifyContactForm({ full_name, email, phone, category, message });
+    
+    console.log('WhatsApp notifications:', {
+      adminSent: notificationResult.adminSent,
+      userSent: notificationResult.userSent,
+      userPhone: phone
+    });
 
     return NextResponse.json({ 
       success: true, 

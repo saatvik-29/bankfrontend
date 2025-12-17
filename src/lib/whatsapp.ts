@@ -1,88 +1,124 @@
-// WhatsApp notification service using WhatsApp Business API or third-party service
-// For now, we'll use a simple HTTP service that can send WhatsApp messages
+// Facebook Meta WhatsApp Business API integration
+// Sends notifications to both admin and recipient numbers
 
 interface WhatsAppMessage {
   to: string;
   message: string;
+  type?: 'text' | 'template';
+}
+
+interface WhatsAppResponse {
+  messaging_product: string;
+  contacts: Array<{
+    input: string;
+    wa_id: string;
+  }>;
+  messages: Array<{
+    id: string;
+  }>;
 }
 
 class WhatsAppService {
-  private readonly adminNumber = '8887941939';
+  private readonly adminNumber = process.env.ADMIN_WHATSAPP || '8887941939';
+  private readonly phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID;
+  private readonly accessToken = process.env.WHATSAPP_ACCESS_TOKEN;
+  private readonly apiUrl = `https://graph.facebook.com/v18.0`;
+
+  private formatPhoneNumber(phone: string): string {
+    // Remove any non-digit characters
+    const cleaned = phone.replace(/\D/g, '');
+    
+    // If it starts with 91, return as is
+    if (cleaned.startsWith('91')) {
+      return cleaned;
+    }
+    
+    // If it's 10 digits, add 91 prefix
+    if (cleaned.length === 10) {
+      return `91${cleaned}`;
+    }
+    
+    // If it's 11 digits and starts with 0, remove 0 and add 91
+    if (cleaned.length === 11 && cleaned.startsWith('0')) {
+      return `91${cleaned.substring(1)}`;
+    }
+    
+    return cleaned;
+  }
 
   async sendMessage(message: string, to?: string): Promise<boolean> {
     try {
       const recipient = to || this.adminNumber;
-      
-      // For production, you would integrate with:
-      // - WhatsApp Business API
-      // - Twilio WhatsApp API
-      // - Other WhatsApp service providers
+      const formattedNumber = this.formatPhoneNumber(recipient);
       
       // Development mode - log to console
-      console.log(`📱 WhatsApp Message to ${recipient}:`);
-      console.log(message);
-      console.log('---');
-      
-      // Production mode - uncomment and configure one of these options:
-      
-      // OPTION 1: Twilio WhatsApp API
-      if (process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN) {
-        const response = await fetch(`https://api.twilio.com/2010-04-01/Accounts/${process.env.TWILIO_ACCOUNT_SID}/Messages.json`, {
-          method: 'POST',
-          headers: {
-            'Authorization': `Basic ${Buffer.from(`${process.env.TWILIO_ACCOUNT_SID}:${process.env.TWILIO_AUTH_TOKEN}`).toString('base64')}`,
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-          body: new URLSearchParams({
-            From: 'whatsapp:+14155238886', // Your Twilio WhatsApp number
-            To: `whatsapp:+91${recipient}`,
-            Body: message
-          })
-        });
-        
-        if (response.ok) {
-          console.log('✅ WhatsApp message sent via Twilio');
-          return true;
-        } else {
-          console.error('❌ Failed to send WhatsApp message via Twilio');
-          return false;
-        }
+      if (process.env.NODE_ENV === 'development') {
+        console.log(`📱 WhatsApp Message to ${formattedNumber}:`);
+        console.log(message);
+        console.log('---');
+        return true;
       }
       
-      // OPTION 2: WhatsApp Business API
-      if (process.env.WHATSAPP_API_URL && process.env.WHATSAPP_API_TOKEN) {
-        const response = await fetch(process.env.WHATSAPP_API_URL, {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${process.env.WHATSAPP_API_TOKEN}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            messaging_product: 'whatsapp',
-            to: `91${recipient}`,
-            type: 'text',
-            text: { body: message }
-          })
-        });
-        
-        if (response.ok) {
-          console.log('✅ WhatsApp message sent via Business API');
-          return true;
-        } else {
-          console.error('❌ Failed to send WhatsApp message via Business API');
-          return false;
-        }
+      // Production mode - Facebook Meta WhatsApp Business API
+      if (!this.phoneNumberId || !this.accessToken) {
+        console.error('❌ WhatsApp API credentials not configured');
+        return false;
+      }
+
+      const response = await fetch(`${this.apiUrl}/${this.phoneNumberId}/messages`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${this.accessToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          messaging_product: 'whatsapp',
+          to: formattedNumber,
+          type: 'text',
+          text: { 
+            body: message,
+            preview_url: false
+          }
+        })
+      });
+      
+      if (response.ok) {
+        const result: WhatsAppResponse = await response.json();
+        console.log(`✅ WhatsApp message sent to ${formattedNumber}:`, result.messages[0]?.id);
+        return true;
+      } else {
+        const error = await response.text();
+        console.error(`❌ Failed to send WhatsApp message to ${formattedNumber}:`, error);
+        return false;
       }
       
-      return true;
     } catch (error) {
       console.error('WhatsApp service error:', error);
       return false;
     }
   }
 
-  // Format loan application message
-  formatLoanApplicationMessage(data: any, applicationNumber: string): string {
+  async sendToMultiple(message: string, recipients: string[]): Promise<{ success: number; failed: number }> {
+    let success = 0;
+    let failed = 0;
+
+    for (const recipient of recipients) {
+      const sent = await this.sendMessage(message, recipient);
+      if (sent) {
+        success++;
+      } else {
+        failed++;
+      }
+      
+      // Add small delay between messages to avoid rate limiting
+      await new Promise(resolve => setTimeout(resolve, 100));
+    }
+
+    return { success, failed };
+  }
+
+  // Format loan application message for admin
+  formatLoanApplicationMessageForAdmin(data: any, applicationNumber: string): string {
     return `🏦 *New Loan Application - Banker's Den*
 
 📋 *Application Details:*
@@ -104,8 +140,33 @@ class WhatsAppService {
 Please review and follow up with the applicant.`;
   }
 
-  // Format contact form message
-  formatContactMessage(data: any): string {
+  // Format loan application confirmation message for applicant
+  formatLoanApplicationMessageForApplicant(data: any, applicationNumber: string): string {
+    return `🏦 *Banker's Den - Application Received*
+
+Dear ${data.full_name},
+
+✅ Your ${data.loanType || 'loan'} application has been successfully submitted!
+
+📋 *Application Details:*
+• Application #: ${applicationNumber}
+• Loan Amount: ₹${data.loanAmount?.toLocaleString('en-IN') || 'N/A'}
+• Submitted: ${new Date().toLocaleString('en-IN')}
+
+📞 *Next Steps:*
+• Our team will review your application within 24-48 hours
+• You'll receive updates on this WhatsApp number
+• Keep your documents ready for verification
+
+For any queries, contact us at:
+📱 WhatsApp: ${this.adminNumber}
+🌐 Website: bankersdens.com
+
+Thank you for choosing Banker's Den!`;
+  }
+
+  // Format contact form message for admin
+  formatContactMessageForAdmin(data: any): string {
     return `📞 *New Contact Form - Banker's Den*
 
 👤 *Contact Details:*
@@ -122,16 +183,72 @@ ${data.message}
 Please respond to the inquiry.`;
   }
 
-  // Send loan application notification
-  async notifyLoanApplication(data: any, applicationNumber: string): Promise<boolean> {
-    const message = this.formatLoanApplicationMessage(data, applicationNumber);
-    return await this.sendMessage(message);
+  // Format contact form confirmation message for user
+  formatContactMessageForUser(data: any): string {
+    return `📞 *Banker's Den - Message Received*
+
+Dear ${data.full_name},
+
+✅ Your message has been received successfully!
+
+📋 *Your Inquiry:*
+• Category: ${data.category}
+• Message: ${data.message}
+• Submitted: ${new Date().toLocaleString('en-IN')}
+
+📞 *What's Next:*
+• Our team will respond within 24 hours
+• You'll receive updates on this WhatsApp number
+
+For urgent queries, contact us at:
+📱 WhatsApp: ${this.adminNumber}
+🌐 Website: bankersdens.com
+
+Thank you for contacting Banker's Den!`;
   }
 
-  // Send contact form notification
-  async notifyContactForm(data: any): Promise<boolean> {
-    const message = this.formatContactMessage(data);
-    return await this.sendMessage(message);
+  // Send loan application notification to both admin and applicant
+  async notifyLoanApplication(data: any, applicationNumber: string): Promise<{ adminSent: boolean; applicantSent: boolean }> {
+    const adminMessage = this.formatLoanApplicationMessageForAdmin(data, applicationNumber);
+    const applicantMessage = this.formatLoanApplicationMessageForApplicant(data, applicationNumber);
+    
+    // Send to admin
+    const adminSent = await this.sendMessage(adminMessage, this.adminNumber);
+    
+    // Send confirmation to applicant (if phone number is provided)
+    let applicantSent = false;
+    if (data.phone) {
+      applicantSent = await this.sendMessage(applicantMessage, data.phone);
+    }
+    
+    return { adminSent, applicantSent };
+  }
+
+  // Send contact form notification to both admin and user
+  async notifyContactForm(data: any): Promise<{ adminSent: boolean; userSent: boolean }> {
+    const adminMessage = this.formatContactMessageForAdmin(data);
+    const userMessage = this.formatContactMessageForUser(data);
+    
+    // Send to admin
+    const adminSent = await this.sendMessage(adminMessage, this.adminNumber);
+    
+    // Send confirmation to user (if phone number is provided)
+    let userSent = false;
+    if (data.phone) {
+      userSent = await this.sendMessage(userMessage, data.phone);
+    }
+    
+    return { adminSent, userSent };
+  }
+
+  // Send custom message to admin
+  async notifyAdmin(message: string): Promise<boolean> {
+    return await this.sendMessage(message, this.adminNumber);
+  }
+
+  // Send custom message to user
+  async notifyUser(message: string, phoneNumber: string): Promise<boolean> {
+    return await this.sendMessage(message, phoneNumber);
   }
 }
 

@@ -19,9 +19,15 @@ export async function POST(request: NextRequest) {
     });
     await lead.save();
 
-    // Send WhatsApp notification to admin
+    // Send WhatsApp notifications to both admin and applicant
     const whatsappService = new WhatsAppService();
-    await whatsappService.notifyLoanApplication(formData, applicationNumber);
+    const notificationResult = await whatsappService.notifyLoanApplication(formData, applicationNumber);
+    
+    console.log('WhatsApp notifications:', {
+      adminSent: notificationResult.adminSent,
+      applicantSent: notificationResult.applicantSent,
+      applicantPhone: formData.phone
+    });
 
     return NextResponse.json({ 
       success: true, 

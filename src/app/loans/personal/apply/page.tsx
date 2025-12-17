@@ -85,8 +85,10 @@ export default function PersonalLoanApplicationPage() {
             </div>
             <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
               <p className="text-green-800">
-                📱 <strong>WhatsApp Notification Sent!</strong><br />
-                Our admin team has been notified via WhatsApp and will contact you soon.
+                📱 <strong>WhatsApp Notifications Sent!</strong><br />
+                • Admin team notified for review<br />
+                • Confirmation sent to your WhatsApp number<br />
+                We'll contact you within 24-48 hours.
               </p>
             </div>
             <div className="flex gap-4 justify-center">
@@ -121,7 +123,7 @@ export default function PersonalLoanApplicationPage() {
 
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
               <p className="text-blue-800">
-                📱 <strong>WhatsApp Notifications:</strong> All applications are now sent via WhatsApp to our admin team for faster processing!
+                📱 <strong>Dual WhatsApp Notifications:</strong> Both you and our admin team receive instant WhatsApp updates for faster processing and transparency!
               </p>
             </div>
           </div>
