@@ -16,13 +16,16 @@ export async function POST(request: NextRequest) {
     }
 
     const whatsappService = new WhatsAppService();
-    const success = await whatsappService.sendMessage(message, phone);
+    
+    // Test message with force send flag to bypass development mode
+    const success = await whatsappService.sendMessage(message, phone, true);
     
     if (success) {
       return NextResponse.json({ 
         success: true, 
         message: 'Test message sent successfully',
-        phone: phone
+        phone: phone,
+        adminNumber: process.env.ADMIN_WHATSAPP
       });
     } else {
       return NextResponse.json(
@@ -47,13 +50,23 @@ export async function GET() {
       phoneNumberId: process.env.WHATSAPP_PHONE_NUMBER_ID ? '✅ Configured' : '❌ Missing',
       accessToken: process.env.WHATSAPP_ACCESS_TOKEN ? '✅ Configured' : '❌ Missing',
       verifyToken: process.env.WHATSAPP_VERIFY_TOKEN ? '✅ Configured' : '❌ Missing',
-      adminNumber: process.env.ADMIN_WHATSAPP || 'Not set'
+      adminNumber: process.env.ADMIN_WHATSAPP || 'Not set',
+      nodeEnv: process.env.NODE_ENV || 'Not set'
     };
+
+    // Test WhatsApp service instantiation
+    const whatsappService = new WhatsAppService();
 
     return NextResponse.json({
       message: 'WhatsApp API Configuration Status',
       config,
-      ready: config.phoneNumberId.includes('✅') && config.accessToken.includes('✅')
+      ready: config.phoneNumberId.includes('✅') && config.accessToken.includes('✅'),
+      debug: {
+        phoneNumberIdLength: process.env.WHATSAPP_PHONE_NUMBER_ID?.length || 0,
+        accessTokenLength: process.env.WHATSAPP_ACCESS_TOKEN?.length || 0,
+        adminNumberFromEnv: process.env.ADMIN_WHATSAPP,
+        currentTime: new Date().toISOString()
+      }
     });
     
   } catch (error) {

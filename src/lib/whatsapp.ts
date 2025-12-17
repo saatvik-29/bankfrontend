@@ -46,17 +46,30 @@ class WhatsAppService {
     return cleaned;
   }
 
-  async sendMessage(message: string, to?: string): Promise<boolean> {
+  async sendMessage(message: string, to?: string, forceSend: boolean = false): Promise<boolean> {
     try {
       const recipient = to || this.adminNumber;
       const formattedNumber = this.formatPhoneNumber(recipient);
       
-      // Development mode - log to console
-      if (process.env.NODE_ENV === 'development') {
+      // Debug logging
+      console.log(`🔍 Debug - Admin number from env: ${process.env.ADMIN_WHATSAPP}`);
+      console.log(`🔍 Debug - Admin number used: ${this.adminNumber}`);
+      console.log(`🔍 Debug - Recipient: ${recipient}`);
+      
+      // Development mode - log to console but also try to send if credentials are available or forced
+      if (process.env.NODE_ENV === 'development' && !forceSend) {
         console.log(`📱 WhatsApp Message to ${formattedNumber}:`);
         console.log(message);
         console.log('---');
-        return true;
+        
+        // If WhatsApp credentials are configured, also try to send the message
+        if (this.phoneNumberId && this.accessToken) {
+          console.log('🚀 WhatsApp credentials found, attempting to send message...');
+          // Continue to production logic below
+        } else {
+          console.log('⚠️ WhatsApp credentials not configured, message only logged');
+          return true;
+        }
       }
       
       // Production mode - Facebook Meta WhatsApp Business API
