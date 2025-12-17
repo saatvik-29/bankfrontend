@@ -12,6 +12,7 @@ Your Banker's Den application now has **complete WhatsApp Business API integrati
 ### ✅ Required Pages for Meta Approval
 - **Privacy Policy**: https://bankersdens.com/privacy-policy
 - **Terms of Service**: https://bankersdens.com/terms
+- **Data Deletion**: https://bankersdens.com/data-deletion
 - **Disclaimer**: https://bankersdens.com/disclaimer
 
 ### ✅ API Endpoints
@@ -65,6 +66,7 @@ curl -X POST https://bankersdens.com/api/whatsapp/test \
 Use the information in `META_APPROVAL_CHECKLIST.md`:
 - Privacy Policy URL: https://bankersdens.com/privacy-policy
 - Terms URL: https://bankersdens.com/terms
+- Data Deletion URL: https://bankersdens.com/data-deletion
 - Webhook URL: https://bankersdens.com/api/whatsapp/webhook
 - Copy the app description from checklist
 - Submit for review

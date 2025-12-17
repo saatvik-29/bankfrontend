@@ -71,6 +71,7 @@ export const Footer = () => {
             <div className="flex flex-wrap justify-center md:justify-end space-x-4 md:space-x-6 mt-4 md:mt-0">
               <Link href="/terms" className="hover:text-gray-100 transition-colors">Terms & Conditions</Link>
               <Link href="/privacy-policy" className="hover:text-gray-100 transition-colors">Privacy Policy</Link>
+              <Link href="/data-deletion" className="hover:text-gray-100 transition-colors">Data Deletion</Link>
               <Link href="/disclaimer" className="hover:text-gray-100 transition-colors">Disclaimer</Link>
               <Link href="/admin" className="hover:text-gray-100 transition-colors text-xs opacity-50">Admin</Link>
             </div>

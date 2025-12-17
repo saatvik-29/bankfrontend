@@ -156,7 +156,7 @@ export default function PrivacyPolicyPage() {
               <ul className="list-disc pl-6 text-gray-700 mb-4">
                 <li>Access your personal information we hold</li>
                 <li>Request correction of inaccurate information</li>
-                <li>Request deletion of your personal information</li>
+                <li>Request deletion of your personal information (<a href="/data-deletion" className="text-blue-600 hover:underline">Data Deletion Request</a>)</li>
                 <li>Object to processing of your information</li>
                 <li>Request data portability</li>
               </ul>

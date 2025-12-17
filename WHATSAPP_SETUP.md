@@ -74,17 +74,22 @@ Before Meta approves your WhatsApp Business API, you must provide:
    - ✅ Already created and accessible
    - Explains service terms and user responsibilities
 
-3. **App Description**: Clearly explain how you use WhatsApp
+3. **Data Deletion URL**: `https://yourdomain.com/data-deletion`
+   - ✅ Already created and accessible
+   - Explains user rights and deletion process
+   - Required for WhatsApp Business API compliance
+
+4. **App Description**: Clearly explain how you use WhatsApp
    - Example: "Banker's Den uses WhatsApp to send loan application confirmations, status updates, and provide customer support for financial services."
 
-4. **Use Case**: Select "Customer Support" and "Notifications"
+5. **Use Case**: Select "Customer Support" and "Notifications"
 
-5. **Business Verification**: Complete Facebook Business verification
+6. **Business Verification**: Complete Facebook Business verification
    - Provide business documents
    - Verify business phone number
    - Complete identity verification
 
-6. **App Review Submission**:
+7. **App Review Submission**:
    - Submit app for review in Facebook App Dashboard
    - Wait for approval (typically 1-7 business days)
    - Address any feedback from Meta reviewers
@@ -95,6 +100,7 @@ Before submitting for review, ensure:
 
 - [ ] Privacy Policy is publicly accessible at `/privacy-policy`
 - [ ] Terms of Service is publicly accessible at `/terms`
+- [ ] Data Deletion page is publicly accessible at `/data-deletion`
 - [ ] Business is verified on Facebook Business Manager
 - [ ] Phone number is verified and active
 - [ ] Webhook is configured and responding correctly

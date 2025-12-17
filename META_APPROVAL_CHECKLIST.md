@@ -17,6 +17,13 @@ https://bankersdens.com/terms
 - **Status**: ✅ Created and accessible
 - **Content**: Complete terms and conditions for service usage
 
+### **Data Deletion URL** ✅
+```
+https://bankersdens.com/data-deletion
+```
+- **Status**: ✅ Created and accessible
+- **Content**: Comprehensive data deletion process and user rights
+
 ### **Webhook URL** ✅
 ```
 https://bankersdens.com/api/whatsapp/webhook
