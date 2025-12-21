@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/database';
 import Lead from '@/models/Lead';
-import WhatsAppService from '@/lib/whatsapp';
+import ResendEmailService from '@/lib/email';
 
 export async function POST(request: NextRequest) {
   try {
@@ -19,11 +19,11 @@ export async function POST(request: NextRequest) {
     });
     await lead.save();
 
-    // Send WhatsApp notifications to both admin and applicant
-    const whatsappService = new WhatsAppService();
-    const notificationResult = await whatsappService.notifyLoanApplication(formData, applicationNumber);
+    // Send email notifications to both admin and applicant
+    const emailService = new ResendEmailService();
+    const notificationResult = await emailService.notifyLoanApplication(formData, applicationNumber);
     
-    console.log('WhatsApp notifications:', {
+    console.log('Email notifications:', {
       adminSent: notificationResult.adminSent,
       applicantSent: notificationResult.applicantSent,
       applicantPhone: formData.phone

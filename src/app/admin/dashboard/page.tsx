@@ -191,10 +191,11 @@ export default function AdminDashboard() {
               <p className="text-gray-600">Banker's Den - Lead Management</p>
             </div>
             <div className="flex items-center gap-4">
-              <div className="bg-green-50 border border-green-200 rounded-lg px-3 py-2">
-                <p className="text-green-800 text-sm">
-                  📱 <strong>WhatsApp:</strong> 9145023840
-                </p>
+              <div className="bg-blue-50 border border-blue-200 rounded-lg px-4 py-2">
+                <div className="text-blue-900 text-sm">
+                  <p><strong>📱 WhatsApp Lead System:</strong> +91 9145023840</p>
+                  <p className="text-xs text-blue-700 mt-1">New leads → Your WhatsApp → Follow up directly</p>
+                </div>
               </div>
               <Button variant="outline" onClick={handleLogout}>
                 <LogOut className="w-4 h-4 mr-2" />
