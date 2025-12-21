@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Terms & Conditions - Banker\'s Den',
-  description: 'Terms and Conditions for using Banker\'s Den services including loan applications and WhatsApp communications.',
+  description: 'Terms and Conditions for using Banker\'s Den services including loan applications and email communications.',
   robots: 'index, follow',
 };
 
@@ -32,23 +32,24 @@ export default function TermsPage() {
               <ul className="list-disc pl-6 text-gray-700 mb-4">
                 <li>Loan application processing and facilitation</li>
                 <li>Financial calculators and tools</li>
-                <li>Customer support via WhatsApp and other channels</li>
+                <li>Customer support via email and phone</li>
                 <li>Information about financial products and services</li>
                 <li>AI-powered chatbot assistance</li>
               </ul>
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">3. WhatsApp Communications</h2>
-              <p className="text-gray-700 mb-4">By providing your WhatsApp number, you consent to:</p>
+              <h2 className="text-2xl font-semibold text-gray-900 mb-4">3. Email Communications</h2>
+              <p className="text-gray-700 mb-4">By providing your email address, you consent to:</p>
               <ul className="list-disc pl-6 text-gray-700 mb-4">
                 <li>Receiving application confirmations and status updates</li>
                 <li>Customer support communications</li>
                 <li>Service-related notifications</li>
                 <li>Important updates about your applications</li>
+                <li>Promotional emails about our services (you can opt out)</li>
               </ul>
               <p className="text-gray-700 mb-4">
-                You can opt out of WhatsApp communications at any time by messaging "STOP" or blocking our number.
+                You can opt out of promotional emails at any time by clicking "unsubscribe" in our emails or contacting us directly.
               </p>
             </section>
 
@@ -110,7 +111,7 @@ export default function TermsPage() {
               <div className="bg-gray-50 p-6 rounded-lg">
                 <ul className="space-y-2 text-gray-700">
                   <li><strong>Email:</strong> <a href="mailto:support@bankersdens.com" className="text-blue-600 hover:underline">support@bankersdens.com</a></li>
-                  <li><strong>WhatsApp:</strong> <a href="https://wa.me/919145023840" className="text-blue-600 hover:underline">+91 9145023840</a></li>
+                  <li><strong>Phone:</strong> <a href="tel:+919145023840" className="text-blue-600 hover:underline">+91 9145023840</a></li>
                   <li><strong>Website:</strong> <a href="https://bankersdens.com" className="text-blue-600 hover:underline">https://bankersdens.com</a></li>
                 </ul>
               </div>

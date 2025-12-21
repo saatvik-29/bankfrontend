@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy - Banker\'s Den',
-  description: 'Privacy Policy for Banker\'s Den - How we collect, use, and protect your personal information including WhatsApp data.',
+  description: 'Privacy Policy for Banker\'s Den - How we collect, use, and protect your personal information including email communications.',
   robots: 'index, follow',
 };
 
@@ -21,7 +21,7 @@ export default function PrivacyPolicyPage() {
             <section className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-4">1. Introduction</h2>
               <p className="text-gray-700 mb-4">
-                Banker's Den ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website <a href="https://bankersdens.com" className="text-blue-600 hover:underline">bankersdens.com</a> and use our services, including our WhatsApp Business messaging service.
+                Banker's Den ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website <a href="https://bankersdens.com" className="text-blue-600 hover:underline">bankersdens.com</a> and use our services, including our email communication services.
               </p>
               <p className="text-gray-700">
                 By using our services, you consent to the data practices described in this policy.
@@ -36,7 +36,7 @@ export default function PrivacyPolicyPage() {
               <ul className="list-disc pl-6 text-gray-700 mb-4">
                 <li>Filling out loan application forms</li>
                 <li>Contacting us through our contact form</li>
-                <li>Communicating with us via WhatsApp</li>
+                <li>Communicating with us via email</li>
                 <li>Using our EMI calculators and other tools</li>
               </ul>
 
@@ -52,14 +52,14 @@ export default function PrivacyPolicyPage() {
                 <li>Company name and work experience</li>
               </ul>
 
-              <h3 className="text-xl font-medium text-gray-800 mb-3">2.2 WhatsApp Data</h3>
-              <p className="text-gray-700 mb-4">When you interact with us through WhatsApp, we collect:</p>
+              <h3 className="text-xl font-medium text-gray-800 mb-3">2.2 Email Communication Data</h3>
+              <p className="text-gray-700 mb-4">When you communicate with us via email, we collect:</p>
               <ul className="list-disc pl-6 text-gray-700 mb-4">
-                <li>Your WhatsApp phone number</li>
-                <li>Messages you send to us</li>
-                <li>Message delivery and read receipts</li>
-                <li>Profile information (name, profile picture if shared)</li>
-                <li>Timestamp of messages</li>
+                <li>Your email address</li>
+                <li>Email content and messages you send to us</li>
+                <li>Email delivery and read receipts</li>
+                <li>Timestamp of email communications</li>
+                <li>Email metadata (subject lines, attachments)</li>
               </ul>
 
               <h3 className="text-xl font-medium text-gray-800 mb-3">2.3 Automatically Collected Information</h3>
@@ -83,14 +83,15 @@ export default function PrivacyPolicyPage() {
                 <li>Verify your identity and prevent fraud</li>
               </ul>
 
-              <h3 className="text-xl font-medium text-gray-800 mb-3">3.2 WhatsApp Communication</h3>
-              <p className="text-gray-700 mb-4">We use WhatsApp to:</p>
+              <h3 className="text-xl font-medium text-gray-800 mb-3">3.2 Email Communication</h3>
+              <p className="text-gray-700 mb-4">We use email to:</p>
               <ul className="list-disc pl-6 text-gray-700 mb-4">
                 <li>Send instant notifications about your loan applications</li>
                 <li>Provide application confirmations and updates</li>
                 <li>Respond to your inquiries and provide customer support</li>
                 <li>Send important service-related information</li>
                 <li>Facilitate communication between you and our team</li>
+                <li>Send status updates on your loan application progress</li>
               </ul>
 
               <h3 className="text-xl font-medium text-gray-800 mb-3">3.3 Internal Operations</h3>
@@ -109,13 +110,13 @@ export default function PrivacyPolicyPage() {
               <p className="text-gray-700 mb-4">We may share your information with:</p>
               <ul className="list-disc pl-6 text-gray-700 mb-4">
                 <li><strong>Financial Partners:</strong> Banks and lending institutions for loan processing</li>
-                <li><strong>Service Providers:</strong> Third-party companies that help us operate our business (MongoDB, WhatsApp Business API, etc.)</li>
+                <li><strong>Service Providers:</strong> Third-party companies that help us operate our business (MongoDB, Resend Email API, etc.)</li>
                 <li><strong>Legal Compliance:</strong> When required by law or to protect our rights</li>
               </ul>
 
-              <h3 className="text-xl font-medium text-gray-800 mb-3">4.2 WhatsApp Data Sharing</h3>
+              <h3 className="text-xl font-medium text-gray-800 mb-3">4.2 Email Data Sharing</h3>
               <p className="text-gray-700 mb-6">
-                WhatsApp messages are processed through Facebook's WhatsApp Business API. Your WhatsApp data is subject to WhatsApp's Privacy Policy in addition to ours. We do not share your WhatsApp conversations with third parties except as necessary for loan processing or as required by law.
+                Email communications are processed through our email service provider (Resend). Your email data is subject to our email provider's privacy policy in addition to ours. We do not share your email conversations with third parties except as necessary for loan processing or as required by law.
               </p>
             </section>
 
@@ -127,7 +128,7 @@ export default function PrivacyPolicyPage() {
                 <li>Secure database storage with access controls</li>
                 <li>Regular security audits and updates</li>
                 <li>Limited access to personal information on a need-to-know basis</li>
-                <li>Secure WhatsApp Business API integration</li>
+                <li>Secure email API integration with encryption</li>
               </ul>
               <p className="text-gray-700 mb-6">
                 However, no method of transmission over the internet is 100% secure. While we strive to protect your information, we cannot guarantee absolute security.
@@ -144,7 +145,7 @@ export default function PrivacyPolicyPage() {
                 <li>Maintain business records as required by law</li>
               </ul>
               <p className="text-gray-700 mb-6">
-                WhatsApp messages are typically retained for up to 2 years for customer service and compliance purposes, unless you request deletion or longer retention is required by law.
+                Email communications are typically retained for up to 2 years for customer service and compliance purposes, unless you request deletion or longer retention is required by law.
               </p>
             </section>
 
@@ -161,12 +162,13 @@ export default function PrivacyPolicyPage() {
                 <li>Request data portability</li>
               </ul>
 
-              <h3 className="text-xl font-medium text-gray-800 mb-3">7.2 WhatsApp Communication</h3>
+              <h3 className="text-xl font-medium text-gray-800 mb-3">7.2 Email Communication</h3>
               <p className="text-gray-700 mb-4">You can:</p>
               <ul className="list-disc pl-6 text-gray-700 mb-6">
-                <li>Opt out of WhatsApp communications by messaging "STOP"</li>
-                <li>Block our WhatsApp Business number</li>
-                <li>Request deletion of your WhatsApp conversation history</li>
+                <li>Opt out of email communications by clicking "unsubscribe" in our emails</li>
+                <li>Request to stop receiving promotional emails</li>
+                <li>Request deletion of your email conversation history</li>
+                <li>Update your email preferences at any time</li>
               </ul>
             </section>
 
@@ -217,7 +219,7 @@ export default function PrivacyPolicyPage() {
                 <h3 className="text-lg font-medium text-gray-800 mb-3">Contact Information</h3>
                 <ul className="space-y-2 text-gray-700">
                   <li><strong>Email:</strong> <a href="mailto:privacy@bankersdens.com" className="text-blue-600 hover:underline">privacy@bankersdens.com</a></li>
-                  <li><strong>WhatsApp:</strong> <a href="https://wa.me/919145023840" className="text-blue-600 hover:underline">+91 9145023840</a></li>
+                  <li><strong>Phone:</strong> <a href="tel:+919145023840" className="text-blue-600 hover:underline">+91 9145023840</a></li>
                   <li><strong>Website:</strong> <a href="https://bankersdens.com" className="text-blue-600 hover:underline">https://bankersdens.com</a></li>
                   <li><strong>Address:</strong> Banker's Den, India</li>
                 </ul>
@@ -231,8 +233,7 @@ export default function PrivacyPolicyPage() {
               </p>
               <ul className="list-disc pl-6 text-gray-700 mb-6">
                 <li>Information Technology Act, 2000 (India)</li>
-                <li>WhatsApp Business Policy</li>
-                <li>Facebook Platform Policy</li>
+                <li>Email service provider policies</li>
                 <li>General Data Protection Regulation (GDPR) principles</li>
                 <li>Other applicable data protection laws</li>
               </ul>
