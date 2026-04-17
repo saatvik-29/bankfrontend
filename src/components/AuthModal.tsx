@@ -22,6 +22,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 }) => {
   const { login } = useAuth();
 
+  const [isLoading, setIsLoading] = React.useState(false);
+
   if (!isOpen) return null;
 
   return (
@@ -38,6 +40,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         <button 
           onClick={onClose}
           className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-all"
+          disabled={isLoading}
         >
           <X className="w-5 h-5" />
         </button>
@@ -58,20 +61,32 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           
           <div className="space-y-4">
             <div className="flex justify-center">
-              <GoogleLogin 
-                onSuccess={(credentialResponse) => {
-                  if (credentialResponse.credential) {
-                    login(credentialResponse.credential);
-                    if (onSuccess) onSuccess();
-                    onClose();
-                  }
-                }}
-                onError={() => console.log('Login Failed')}
-                width="100%"
-                theme="filled_blue"
-                shape="pill"
-                text="continue_with"
-              />
+              {isLoading ? (
+                <div className="flex items-center justify-center p-4">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                  <span className="ml-3 text-gray-600 font-medium">Verifying account...</span>
+                </div>
+              ) : (
+                <GoogleLogin 
+                  onSuccess={async (credentialResponse) => {
+                    if (credentialResponse.credential) {
+                      setIsLoading(true);
+                      try {
+                        await login(credentialResponse.credential);
+                        if (onSuccess) onSuccess();
+                        onClose();
+                      } finally {
+                        setIsLoading(false);
+                      }
+                    }
+                  }}
+                  onError={() => console.log('Login Failed')}
+                  width="100%"
+                  theme="filled_blue"
+                  shape="pill"
+                  text="continue_with"
+                />
+              )}
             </div>
             
             <div className="pt-6 border-t border-gray-100">

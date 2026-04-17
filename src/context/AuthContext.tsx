@@ -28,15 +28,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, []);
 
-  const login = (credential: string) => {
-    const decoded: any = jwtDecode(credential);
-    const userData = {
-      name: decoded.name,
-      email: decoded.email,
-      picture: decoded.picture,
-    };
-    setUser(userData);
-    localStorage.setItem('user', JSON.stringify(userData));
+  const login = async (credential: string) => {
+    try {
+      const response = await fetch('/api/auth/google', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ credential }),
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        setUser(data.user);
+        localStorage.setItem('user', JSON.stringify(data.user));
+      } else {
+        console.error('Login failed:', data.message);
+      }
+    } catch (error) {
+      console.error('Auth error:', error);
+    }
   };
 
   const logout = () => {
