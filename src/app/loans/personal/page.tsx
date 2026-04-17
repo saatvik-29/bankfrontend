@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/Button';
 import { 
@@ -10,19 +11,29 @@ import {
   Shield,
   FileText,
   ArrowRight,
-  Wallet
+  Wallet,
+  Lock
 } from 'lucide-react';
 import Image from 'next/image';
 import personalLoanImage from '@/assets/personalloan.png';
+import { useAuth } from '@/context/AuthContext';
+import { AuthModal } from '@/components/AuthModal';
 
 export default function PersonalLoanPage() {
   const router = useRouter();
+  const { isAuthenticated } = useAuth();
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   const handleApplyNow = () => {
-    router.push('/loans/personal/apply');
+    if (isAuthenticated) {
+      router.push('/loans/personal/apply');
+    } else {
+      setIsAuthModalOpen(true);
+    }
   };
 
   return (
+    <>
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section - Green Theme */}
       <section className="bg-white pt-20 md:pt-24 pb-16 relative overflow-hidden">
@@ -331,5 +342,12 @@ export default function PersonalLoanPage() {
         </div>
       </div>
     </div>
+      <AuthModal 
+        isOpen={isAuthModalOpen} 
+        onClose={() => setIsAuthModalOpen(false)} 
+        title="Apply for Personal Loan"
+        subtitle="Sign in with Google to access the application form and track your loan status."
+      />
+    </>
   );
 }

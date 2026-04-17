@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/Button";
 import {
@@ -13,15 +14,24 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import homeLoanImage from "@/assets/homeloan.png";
+import { useAuth } from "@/context/AuthContext";
+import { AuthModal } from "@/components/AuthModal";
 
 export default function HomeLoanPage() {
   const router = useRouter();
+  const { isAuthenticated } = useAuth();
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   const handleApplyNow = () => {
-    router.push("/loans/home/apply");
+    if (isAuthenticated) {
+      router.push("/loans/home/apply");
+    } else {
+      setIsAuthModalOpen(true);
+    }
   };
 
   return (
+    <>
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section - Purple Blob Theme (More Convincing) */}
       <section className="bg-white pt-20 md:pt-24 pb-16 relative overflow-hidden min-h-[500px]">
@@ -434,5 +444,12 @@ export default function HomeLoanPage() {
         </div>
       </div>
     </div>
+    <AuthModal 
+        isOpen={isAuthModalOpen} 
+        onClose={() => setIsAuthModalOpen(false)} 
+        title="Apply for Home Loan"
+        subtitle="Sign in with Google to check your eligibility and start your home loan application."
+      />
+    </>
   );
 }

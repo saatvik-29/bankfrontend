@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/Button';
 import { 
@@ -14,15 +15,24 @@ import {
 } from 'lucide-react';
 import Image from 'next/image';
 import carLoanImage from '@/assets/carloan.png';
+import { useAuth } from '@/context/AuthContext';
+import { AuthModal } from '@/components/AuthModal';
 
 export default function CarLoanPage() {
   const router = useRouter();
+  const { isAuthenticated } = useAuth();
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   const handleApplyNow = () => {
-    router.push('/loans/car/apply');
+    if (isAuthenticated) {
+      router.push('/loans/car/apply');
+    } else {
+      setIsAuthModalOpen(true);
+    }
   };
 
   return (
+    <>
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section - Brown Theme */}
       <section className="bg-white pt-20 md:pt-24 pb-16 relative overflow-hidden">
@@ -323,5 +333,12 @@ export default function CarLoanPage() {
         </div>
       </div>
     </div>
+      <AuthModal 
+        isOpen={isAuthModalOpen} 
+        onClose={() => setIsAuthModalOpen(false)} 
+        title="Apply for Car Loan"
+        subtitle="Sign in with Google to get instant approval and best interest rates for your dream car."
+      />
+    </>
   );
 }

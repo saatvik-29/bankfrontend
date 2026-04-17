@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/Button';
 import { 
@@ -14,15 +15,24 @@ import {
 } from 'lucide-react';
 import Image from 'next/image';
 import propertyLoanImage from '@/assets/loanagainstprop.png';
+import { useAuth } from '@/context/AuthContext';
+import { AuthModal } from '@/components/AuthModal';
 
 export default function PropertyLoanPage() {
   const router = useRouter();
+  const { isAuthenticated } = useAuth();
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   const handleApplyNow = () => {
-    router.push('/loans/property/apply');
+    if (isAuthenticated) {
+      router.push('/loans/property/apply');
+    } else {
+      setIsAuthModalOpen(true);
+    }
   };
 
   return (
+    <>
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section - Image extends to edge */}
       <section className="bg-white relative overflow-hidden">
@@ -325,5 +335,12 @@ export default function PropertyLoanPage() {
         </div>
       </div>
     </div>
+      <AuthModal 
+        isOpen={isAuthModalOpen} 
+        onClose={() => setIsAuthModalOpen(false)} 
+        title="Apply for Loan Against Property"
+        subtitle="Sign in with Google to unlock your property's value and get the best financing options."
+      />
+    </>
   );
 }

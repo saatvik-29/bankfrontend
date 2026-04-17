@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/Button";
 import {
@@ -14,15 +15,24 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import educationLoanImage from "@/assets/eduloan.png";
+import { useAuth } from "@/context/AuthContext";
+import { AuthModal } from "@/components/AuthModal";
 
 export default function EducationLoanPage() {
   const router = useRouter();
+  const { isAuthenticated } = useAuth();
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   const handleApplyNow = () => {
-    router.push("/loans/education/apply");
+    if (isAuthenticated) {
+      router.push("/loans/education/apply");
+    } else {
+      setIsAuthModalOpen(true);
+    }
   };
 
   return (
+    <>
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section - Green Theme */}
       <section className="pt-20 md:pt-24 pb-16 relative overflow-hidden bg-gradient-to-br from-green-50 to-emerald-50">
@@ -336,5 +346,12 @@ export default function EducationLoanPage() {
         </div>
       </div>
     </div>
+      <AuthModal 
+        isOpen={isAuthModalOpen} 
+        onClose={() => setIsAuthModalOpen(false)} 
+        title="Apply for Education Loan"
+        subtitle="Sign in with Google to access our education loan application and start your learning journey."
+      />
+    </>
   );
 }

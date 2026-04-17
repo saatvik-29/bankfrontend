@@ -24,8 +24,25 @@ import {
   Clock,
   HandCoins
 } from 'lucide-react';
+import { useAuth } from '@/context/AuthContext';
+import { AuthModal } from '@/components/AuthModal';
+import { useRouter } from 'next/navigation';
 
 export default function HomePage() {
+  const router = useRouter();
+  const { isAuthenticated } = useAuth();
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [pendingRoute, setPendingRoute] = useState<string | null>(null);
+
+  const handleApplyClick = (link: string) => {
+    if (isAuthenticated) {
+      router.push(link);
+    } else {
+      setPendingRoute(link);
+      setIsAuthModalOpen(true);
+    }
+  };
+
   const [currentHeroCard, setCurrentHeroCard] = useState(0);
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
 
@@ -287,14 +304,15 @@ export default function HomePage() {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 justify-center mb-8">
-              <Link href="/loans/personal">
-                <button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                  <div className="flex items-center">
-                    <Zap className="w-4 h-4 mr-2" />
-                    Get Instant Loan
-                  </div>
-                </button>
-              </Link>
+              <button 
+                onClick={() => handleApplyClick('/loans/personal')}
+                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+              >
+                <div className="flex items-center">
+                  <Zap className="w-4 h-4 mr-2" />
+                  Get Instant Loan
+                </div>
+              </button>
               <Link href="/calculators">
                 <button className="bg-white hover:bg-gray-50 text-gray-900 font-semibold py-3 px-6 rounded-lg border-2 border-gray-300 hover:border-gray-400 shadow-md hover:shadow-lg transition-all duration-300">
                   <div className="flex items-center">
@@ -334,14 +352,15 @@ export default function HomePage() {
                           <p className="text-base mb-6 text-gray-700 leading-relaxed">
                             {card.description}
                           </p>
-                          <Link href={card.buttonLink}>
-                            <button className={`bg-gradient-to-r ${card.gradient} text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1`}>
+                            <button 
+                              onClick={() => handleApplyClick(card.buttonLink)}
+                              className={`bg-gradient-to-r ${card.gradient} text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1`}
+                            >
                               <div className="flex items-center">
                                 {card.buttonText}
                                 <ArrowRight className="w-4 h-4 ml-2" />
                               </div>
                             </button>
-                          </Link>
                         </div>
                         <div className="hidden lg:block">
                           <div className="relative">
@@ -516,14 +535,15 @@ export default function HomePage() {
                   Join thousands of satisfied customers who got their loans approved quickly
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Link href="/loans/personal">
-                    <button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-4 px-8 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
-                      <div className="flex items-center">
-                        <Zap className="w-5 h-5 mr-2" />
-                        Start Application
-                      </div>
-                    </button>
-                  </Link>
+                  <button 
+                    onClick={() => handleApplyClick('/loans/personal')}
+                    className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-4 px-8 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
+                  >
+                    <div className="flex items-center">
+                      <Zap className="w-5 h-5 mr-2" />
+                      Start Application
+                    </div>
+                  </button>
                   <Link href="/calculators">
                     <button className="bg-white hover:bg-gray-50 text-gray-900 font-bold py-4 px-8 rounded-xl border-2 border-gray-300 hover:border-gray-400 shadow-lg hover:shadow-xl transition-all duration-300">
                       <div className="flex items-center">
@@ -556,10 +576,10 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {loanProducts.map((product, index) => (
-              <Link
+              <div
                 key={index}
-                href={product.link}
-                className="group relative bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-gray-100 overflow-hidden"
+                onClick={() => handleApplyClick(product.link)}
+                className="group relative bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-gray-100 overflow-hidden cursor-pointer"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-purple-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 <div className="relative z-10">
@@ -591,7 +611,7 @@ export default function HomePage() {
                     <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-2 transition-transform" />
                   </div>
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
         </div>
@@ -723,14 +743,15 @@ export default function HomePage() {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/loans/personal">
-              <button className="bg-white text-emerald-600 hover:bg-gray-100 font-bold py-4 px-8 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
-                <div className="flex items-center">
-                  <Zap className="w-5 h-5 mr-2" />
-                  Apply for Loan Now
-                </div>
-              </button>
-            </Link>
+            <button 
+              onClick={() => handleApplyClick('/loans/personal')}
+              className="bg-white text-emerald-600 hover:bg-gray-100 font-bold py-4 px-8 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
+            >
+              <div className="flex items-center">
+                <Zap className="w-5 h-5 mr-2" />
+                Apply for Loan Now
+              </div>
+            </button>
             <Link href="/contact">
               <button className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-emerald-600 font-bold py-4 px-8 rounded-xl transition-all duration-300">
                 <div className="flex items-center">
@@ -743,6 +764,18 @@ export default function HomePage() {
         </div>
       </section>
     </div>
+    <AuthModal 
+      isOpen={isAuthModalOpen} 
+      onClose={() => setIsAuthModalOpen(false)} 
+      onSuccess={() => {
+        if (pendingRoute) {
+          router.push(pendingRoute);
+          setPendingRoute(null);
+        }
+      }}
+      title="Apply for Loan"
+      subtitle="Please sign in with Google to continue your application and get instant approvals."
+    />
     </>
   );
 }

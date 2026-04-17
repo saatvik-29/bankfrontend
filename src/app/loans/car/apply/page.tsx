@@ -1,13 +1,15 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Input } from '@/components/Input';
 import { Button } from '@/components/Button';
 import { CheckCircle, ArrowLeft } from 'lucide-react';
+import { useAuth } from '@/context/AuthContext';
 
 export default function CarLoanApplicationPage() {
   const router = useRouter();
+  const { user, isAuthenticated, loading: authLoading } = useAuth();
   const [submitted, setSubmitted] = useState(false);
   const [applicationNumber, setApplicationNumber] = useState('');
   const [loading, setLoading] = useState(false);
@@ -31,6 +33,27 @@ export default function CarLoanApplicationPage() {
     carYear: '',
     loanType: 'car'
   });
+
+  useEffect(() => {
+    if (!authLoading && !isAuthenticated) {
+      router.push('/loans/car');
+    }
+    if (user) {
+      setFormData(prev => ({
+        ...prev,
+        full_name: user.name || '',
+        email: user.email || ''
+      }));
+    }
+  }, [user, isAuthenticated, authLoading, router]);
+
+  if (authLoading || !isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600"></div>
+      </div>
+    );
+  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({

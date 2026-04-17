@@ -4,17 +4,27 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Input } from '@/components/Input';
 import { Button } from '@/components/Button';
-import { CheckCircle, ArrowLeft } from 'lucide-react';
+import { CheckCircle, ArrowLeft, Lock } from 'lucide-react';
+import { useAuth } from '@/context/AuthContext';
+import { useEffect } from 'react';
 
 export default function PersonalLoanApplicationPage() {
   const router = useRouter();
+  const { user, isAuthenticated } = useAuth();
+  
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.push('/loans/personal');
+    }
+  }, [isAuthenticated, router]);
+
   const [submitted, setSubmitted] = useState(false);
   const [applicationNumber, setApplicationNumber] = useState('');
   const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
-    full_name: '',
-    email: '',
+    full_name: user?.name || '',
+    email: user?.email || '',
     phone: '',
     loanAmount: '',
     employmentType: '',

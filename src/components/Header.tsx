@@ -3,7 +3,9 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, LogOut, User as UserIcon } from 'lucide-react';
+import { useAuth } from '@/context/AuthContext';
+import { GoogleLogin } from '@react-oauth/google';
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -88,6 +90,8 @@ export const Header = () => {
   };
 
   const colors = getPageColors();
+  const { user, login, logout, isAuthenticated } = useAuth();
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
 
   return (
     <header className="absolute top-0 left-0 right-0 bg-transparent z-50 w-full">
@@ -128,6 +132,50 @@ export const Header = () => {
           </div>
 
           <div className="hidden md:flex items-center space-x-4">
+            {isAuthenticated ? (
+              <div className="relative">
+                <button 
+                  onClick={() => setShowProfileMenu(!showProfileMenu)}
+                  className="flex items-center space-x-2 bg-white/20 backdrop-blur-md border border-white/30 rounded-full pl-1 pr-3 py-1 hover:bg-white/30 transition-all"
+                >
+                  <img src={user?.picture} alt={user?.name} className="w-8 h-8 rounded-full border border-white/50" />
+                  <span className={`text-sm font-medium ${colors.text}`}>{user?.name.split(' ')[0]}</span>
+                </button>
+                
+                {showProfileMenu && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl py-2 border border-gray-100 animate-in fade-in slide-in-from-top-2 duration-200">
+                    <div className="px-4 py-2 border-b border-gray-50 mb-1">
+                      <p className="text-xs text-gray-500 truncate">{user?.email}</p>
+                    </div>
+                    <button 
+                      onClick={() => {
+                        logout();
+                        setShowProfileMenu(false);
+                      }}
+                      className="w-full flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                    >
+                      <LogOut className="w-4 h-4 mr-2" />
+                      Sign Out
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="scale-90 origin-right">
+                <GoogleLogin 
+                  onSuccess={(credentialResponse) => {
+                    if (credentialResponse.credential) {
+                      login(credentialResponse.credential);
+                    }
+                  }}
+                  onError={() => console.log('Login Failed')}
+                  useOneTap
+                  theme="outline"
+                  shape="pill"
+                />
+              </div>
+            )}
+            
             <Link
               href="/contact"
               className={`${colors.buttonBg} px-6 py-2 rounded-lg font-medium shadow-sm transition-all duration-200`}
@@ -136,17 +184,32 @@ export const Header = () => {
             </Link>
           </div>
 
-          <button
-            className={`md:hidden ${colors.text}`}
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+          <div className="flex items-center space-x-4 md:hidden">
+            {isAuthenticated && (
+               <img src={user?.picture} alt={user?.name} className="w-8 h-8 rounded-full border border-white/50" />
+            )}
+            <button
+              className={`${colors.text}`}
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
         </div>
 
         {isMenuOpen && (
           <div className="md:hidden py-4 border-t border-gray-200 bg-white/95 backdrop-blur-sm">
             <div className="flex flex-col space-y-2">
+              {isAuthenticated && (
+                <div className="flex items-center space-x-3 px-4 py-3 bg-gray-50 rounded-lg mx-2 mb-2">
+                  <img src={user?.picture} alt={user?.name} className="w-10 h-10 rounded-full" />
+                  <div>
+                    <p className="font-bold text-gray-900">{user?.name}</p>
+                    <p className="text-xs text-gray-500">{user?.email}</p>
+                  </div>
+                </div>
+              )}
+              
               <Link href="/loans/home" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Home Loan</Link>
               <Link href="/loans/property" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Loan Against Property</Link>
               <Link href="/loans/car" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Car Loan</Link>
@@ -154,6 +217,27 @@ export const Header = () => {
               <Link href="/loans/business" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Business Loan</Link>
               <Link href="/loans/education" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Education Loan</Link>
               <Link href="/about" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>About Us</Link>
+              
+              {!isAuthenticated ? (
+                <div className="px-4 py-2">
+                  <GoogleLogin 
+                    onSuccess={(credentialResponse) => {
+                      if (credentialResponse.credential) {
+                        login(credentialResponse.credential);
+                      }
+                    }}
+                    onError={() => console.log('Login Failed')}
+                  />
+                </div>
+              ) : (
+                <button 
+                  onClick={logout}
+                  className="flex items-center font-medium py-2 px-4 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                >
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Sign Out
+                </button>
+              )}
               <Link href="/bd-partner" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>BD Partner</Link>
               <Link href="/insurance" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Insurance</Link>
               <Link href="/calculators" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Calculators</Link>
