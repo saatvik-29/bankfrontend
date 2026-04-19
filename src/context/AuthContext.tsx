@@ -11,7 +11,7 @@ interface User {
 
 interface AuthContextType {
   user: User | null;
-  login: (credential: string) => void;
+  login: (credential: string) => Promise<boolean>;
   logout: () => void;
   isAuthenticated: boolean;
 }
@@ -28,7 +28,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, []);
 
-  const login = async (credential: string) => {
+  const login = async (credential: string): Promise<boolean> => {
     try {
       const response = await fetch('/api/auth/google', {
         method: 'POST',
@@ -40,11 +40,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (data.success) {
         setUser(data.user);
         localStorage.setItem('user', JSON.stringify(data.user));
+        return true;
       } else {
         console.error('Login failed:', data.message);
+        return false;
       }
     } catch (error) {
       console.error('Auth error:', error);
+      return false;
     }
   };
 

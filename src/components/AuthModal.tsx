@@ -72,9 +72,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     if (credentialResponse.credential) {
                       setIsLoading(true);
                       try {
-                        await login(credentialResponse.credential);
-                        if (onSuccess) onSuccess();
-                        onClose();
+                        const success = await login(credentialResponse.credential);
+                        if (success) {
+                          if (onSuccess) onSuccess();
+                          onClose();
+                        }
                       } finally {
                         setIsLoading(false);
                       }

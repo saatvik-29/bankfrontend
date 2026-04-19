@@ -184,12 +184,14 @@ export const Header = () => {
               </div>
             )}
             
-            <Link
-              href="/contact"
-              className="bg-gradient-to-r from-[#FF6B35] to-[#FF8C42] hover:from-[#FF8C42] hover:to-[#FF6B35] text-white px-6 py-2 rounded-full font-medium shadow-lg transition-all duration-200 hover:scale-105"
-            >
-              Get Started
-            </Link>
+            {!isAuthenticated && (
+              <Link
+                href="/contact"
+                className="bg-gradient-to-r from-[#FF6B35] to-[#FF8C42] hover:from-[#FF8C42] hover:to-[#FF6B35] text-white px-6 py-2 rounded-full font-medium shadow-lg transition-all duration-200 hover:scale-105"
+              >
+                Get Started
+              </Link>
+            )}
           </div>
 
           <div className="flex items-center space-x-4 md:hidden">
@@ -262,7 +264,9 @@ export const Header = () => {
               <Link href="/cibil-score" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>CIBIL Score</Link>
               <Link href="/blog" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Blog</Link>
               <Link href="/contact" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Contact</Link>
-              <Link href="/contact" className={`${colors.buttonBg} px-4 py-2 rounded-lg font-medium text-center mt-2 transition-colors`}>Get Started</Link>
+              {!isAuthenticated && (
+                <Link href="/contact" className={`${colors.buttonBg} px-4 py-2 rounded-lg font-medium text-center mt-2 transition-colors`}>Get Started</Link>
+              )}
             </div>
           </div>
         )}
