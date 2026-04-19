@@ -10,6 +10,7 @@ export default function ContactPage() {
     full_name: '',
     email: '',
     phone: '',
+    countryCode: '+91',
     category: 'general',
     message: '',
   });
@@ -44,6 +45,7 @@ export default function ContactPage() {
           full_name: '',
           email: '',
           phone: '',
+          countryCode: '+91',
           category: 'general',
           message: '',
         });
@@ -101,17 +103,39 @@ export default function ContactPage() {
                   onChange={handleChange}
                   required
                 />
-                <Input
-                  label="Phone Number"
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  required
-                  pattern="^[6-9]\d{9}$"
-                  title="Please enter a valid 10-digit phone number starting with 6, 7, 8, or 9"
-                  placeholder="Enter 10-digit mobile number"
-                />
+                <div>
+                  <label className="block text-sm font-medium text-black mb-1">Phone Number</label>
+                  <div className="flex gap-2">
+                    <select
+                      name="countryCode"
+                      value={formData.countryCode}
+                      onChange={handleChange}
+                      className="w-28 px-2 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent text-sm bg-white"
+                    >
+                      <option value="+91">🇮🇳 +91</option>
+                      <option value="+1">🇺🇸 +1</option>
+                      <option value="+44">🇬🇧 +44</option>
+                      <option value="+971">🇦🇪 +971</option>
+                      <option value="+65">🇸🇬 +65</option>
+                      <option value="+61">🇦🇺 +61</option>
+                      <option value="+81">🇯🇵 +81</option>
+                      <option value="+49">🇩🇪 +49</option>
+                      <option value="+33">🇫🇷 +33</option>
+                      <option value="+86">🇨🇳 +86</option>
+                    </select>
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      required
+                      pattern="^[0-9]{7,15}$"
+                      title="Please enter a valid phone number"
+                      placeholder="Enter mobile number"
+                      className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent"
+                    />
+                  </div>
+                </div>
                 <div>
                   <label className="block text-sm font-medium text-black mb-1">
                     Category

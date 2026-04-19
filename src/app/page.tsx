@@ -185,25 +185,39 @@ export default function HomePage() {
 
   const testimonials = [
     {
-      name: "Rajesh Kumar",
-      role: "Business Owner, Mumbai",
-      content: "Got my business loan approved quickly! The process was completely digital and hassle-free. Highly recommended!",
+      name: "Nakul Phanse",
+      role: "Customer",
+      content: "Very smooth and streamlined loan process. Mrs Aarti helped us every time and solved each problem without any hassle. Every process was done online with security measures.",
       rating: 5,
-      amount: "₹25 Lakhs"
+      amount: "Home Loan"
     },
     {
-      name: "Priya Sharma",
-      role: "Software Engineer, Bangalore",
-      content: "Amazing service! Got the best home loan rates in the market. The team guided me through every step of the process.",
+      name: "Yugandhara Ghanwat",
+      role: "Customer",
+      content: "Great experience! The bank manager was very supportive, staff was professional and customer service was excellent. They resolved my queries promptly.",
       rating: 5,
-      amount: "₹75 Lakhs"
+      amount: "Home Loan"
     },
     {
-      name: "Amit Patel",
-      role: "Entrepreneur, Delhi",
-      content: "Quick personal loan approval helped me during a medical emergency. Forever grateful for their prompt service!",
+      name: "Hrishikesh Bodkhe",
+      role: "Customer",
+      content: "Excellent experience with Ms. Mayuri's outstanding support. She was professional, knowledgeable, and made the entire process completely hassle-free with timely updates.",
       rating: 5,
-      amount: "₹8 Lakhs"
+      amount: "Loan Processing"
+    },
+    {
+      name: "Sachin Magar",
+      role: "Customer",
+      content: "Special thanks to Ms. Mayuri Patil and Ms. Sonal for excellent support. They handled every query with patience, kept me updated, and made the process effortless.",
+      rating: 5,
+      amount: "Home Loan"
+    },
+    {
+      name: "Ashish Patil",
+      role: "Customer",
+      content: "Smooth and hassle-free experience with BD Phygital. Mayuri Ma'am and Sonal Ma'am guided me clearly at every step with great professionalism and dedication.",
+      rating: 5,
+      amount: "Home Loan"
     }
   ];
 
@@ -594,7 +608,7 @@ export default function HomePage() {
                             <div className="text-left">
                               <div className="text-[#0A1F44] font-bold text-lg">{testimonial.name}</div>
                               <div className="text-gray-600">{testimonial.role}</div>
-                              <div className="text-[#FF6B35] font-semibold">Loan Amount: {testimonial.amount}</div>
+                              <div className="text-[#FF6B35] font-semibold">{testimonial.amount}</div>
                             </div>
                           </div>
                         </div>

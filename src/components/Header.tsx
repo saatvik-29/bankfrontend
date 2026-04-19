@@ -12,14 +12,22 @@ export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
 
+  // Pages with dark hero backgrounds where transparent navbar works
+  const darkHeroPages = ['/', '/about'];
+  const hasDarkHero = darkHeroPages.includes(pathname);
+
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 100);
+      if (hasDarkHero) {
+        setIsScrolled(window.scrollY > 100);
+      } else {
+        setIsScrolled(true); // Always show solid navbar on light pages
+      }
     };
     window.addEventListener('scroll', handleScroll);
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [hasDarkHero]);
 
   // Define page-specific text colors only
   const getPageColors = () => {
@@ -68,9 +76,9 @@ export const Header = () => {
         };
       case '/contact':
         return {
-          text: 'text-black',
-          hoverBg: 'hover:bg-black/10',
-          buttonBg: 'bg-black text-white hover:bg-gray-800'
+          text: 'text-[#3B82F6]',
+          hoverBg: 'hover:bg-[#3B82F6]/10',
+          buttonBg: 'bg-[#3B82F6] text-white hover:bg-[#3B82F6]/90'
         };
       case '/calculators':
         return {
@@ -105,7 +113,7 @@ export const Header = () => {
 
   // Dynamic navbar styles based on scroll
   const navBg = isScrolled
-    ? 'bg-white/95 backdrop-blur-md border border-gray-200 shadow-lg'
+    ? 'bg-white/70 backdrop-blur-xl border border-gray-200/50 shadow-lg'
     : 'bg-white/10 backdrop-blur-md border border-white/20 shadow-xl';
   const navText = isScrolled ? 'text-gray-900' : 'text-white';
   const navHover = isScrolled ? 'hover:bg-gray-100' : 'hover:bg-white/10';
