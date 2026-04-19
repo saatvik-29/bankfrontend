@@ -14,7 +14,9 @@ import {
   Eye,
   CheckCircle,
   Clock,
-  AlertCircle
+  AlertCircle,
+  MessageSquare,
+  Send
 } from 'lucide-react';
 
 interface Lead {
@@ -42,11 +44,27 @@ interface Lead {
   updatedAt: string;
 }
 
+interface Query {
+  _id: string;
+  userEmail: string;
+  applicationNumber?: string;
+  subject: string;
+  message: string;
+  status: 'open' | 'in-progress' | 'resolved';
+  adminResponse?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export default function AdminDashboard() {
   const router = useRouter();
+  const [activeTab, setActiveTab] = useState<'leads' | 'queries'>('leads');
   const [leads, setLeads] = useState<Lead[]>([]);
+  const [queries, setQueries] = useState<Query[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
+  const [selectedQuery, setSelectedQuery] = useState<Query | null>(null);
+  const [adminReply, setAdminReply] = useState('');
   const [filters, setFilters] = useState({
     status: '',
     type: '',
@@ -65,8 +83,29 @@ export default function AdminDashboard() {
       router.push('/admin/login');
       return;
     }
-    fetchLeads();
-  }, [router, filters]);
+    if (activeTab === 'leads') {
+      fetchLeads();
+    } else {
+      fetchQueries();
+    }
+  }, [router, filters, activeTab]);
+
+  const fetchQueries = async () => {
+    try {
+      const token = localStorage.getItem('adminToken');
+      const response = await fetch('/api/admin/queries', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setQueries(data.queries);
+      }
+    } catch (error) {
+      console.error('Error fetching queries:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const fetchLeads = async () => {
     try {
@@ -138,6 +177,28 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleReplyQuery = async () => {
+    if (!selectedQuery || !adminReply) return;
+    try {
+      const token = localStorage.getItem('adminToken');
+      const response = await fetch(`/api/admin/queries/${selectedQuery._id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ status: 'resolved', adminResponse: adminReply })
+      });
+      if (response.ok) {
+        fetchQueries();
+        setSelectedQuery(null);
+        setAdminReply('');
+      }
+    } catch (error) {
+      console.error('Error replying to query:', error);
+    }
+  };
+
   const handleLogout = () => {
     localStorage.removeItem('adminToken');
     router.push('/admin/login');
@@ -203,11 +264,34 @@ export default function AdminDashboard() {
               </Button>
             </div>
           </div>
+          
+          <div className="flex gap-4 border-t pt-4">
+            <button
+              onClick={() => setActiveTab('leads')}
+              className={`flex items-center gap-2 px-6 py-2 rounded-lg font-medium transition-colors ${
+                activeTab === 'leads' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              <Users className="w-5 h-5" />
+              Leads
+            </button>
+            <button
+              onClick={() => setActiveTab('queries')}
+              className={`flex items-center gap-2 px-6 py-2 rounded-lg font-medium transition-colors ${
+                activeTab === 'queries' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              <MessageSquare className="w-5 h-5" />
+              Support Queries
+            </button>
+          </div>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Stats Cards */}
+        {activeTab === 'leads' ? (
+          <>
+            {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <div className="bg-white rounded-lg shadow p-6">
             <div className="flex items-center">
@@ -406,6 +490,55 @@ export default function AdminDashboard() {
             <p className="text-gray-500">No leads found matching your criteria.</p>
           </div>
         )}
+        </>
+        ) : (
+          <div className="bg-white rounded-lg shadow overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User Email</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subject</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {queries.map((query) => (
+                    <tr key={query._id} className="hover:bg-gray-50">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{query.userEmail}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {query.subject}
+                        {query.applicationNumber && <span className="block text-xs text-blue-600 mt-1">Ref: {query.applicationNumber}</span>}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                          query.status === 'resolved' ? 'bg-green-100 text-green-800' :
+                          query.status === 'in-progress' ? 'bg-blue-100 text-blue-800' :
+                          'bg-yellow-100 text-yellow-800'
+                        }`}>
+                          {query.status}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {new Date(query.createdAt).toLocaleDateString()}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <button onClick={() => setSelectedQuery(query)} className="text-blue-600 hover:text-blue-900">
+                          View & Reply
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              {queries.length === 0 && (
+                <div className="text-center py-12 text-gray-500">No support queries found.</div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Lead Detail Modal */}
@@ -485,6 +618,53 @@ export default function AdminDashboard() {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Query Detail Modal */}
+      {selectedQuery && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b flex justify-between items-center">
+              <h2 className="text-xl font-bold text-gray-900">Support Query</h2>
+              <button onClick={() => setSelectedQuery(null)} className="text-gray-400 hover:text-gray-600">✕</button>
+            </div>
+            <div className="p-6">
+              <div className="mb-6">
+                <p className="text-sm text-gray-500 mb-1">From: {selectedQuery.userEmail}</p>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">{selectedQuery.subject}</h3>
+                <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                  <p className="text-gray-800 whitespace-pre-wrap">{selectedQuery.message}</p>
+                </div>
+              </div>
+
+              {selectedQuery.adminResponse ? (
+                <div className="mb-6">
+                  <h4 className="font-bold text-gray-900 mb-2">Your Response:</h4>
+                  <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                    <p className="text-blue-900 whitespace-pre-wrap">{selectedQuery.adminResponse}</p>
+                  </div>
+                </div>
+              ) : (
+                <div className="mb-6">
+                  <h4 className="font-bold text-gray-900 mb-2">Reply to User:</h4>
+                  <textarea
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    rows={4}
+                    value={adminReply}
+                    onChange={(e) => setAdminReply(e.target.value)}
+                    placeholder="Type your response here... (This will mark the query as resolved)"
+                  />
+                  <div className="mt-4 flex justify-end">
+                    <Button onClick={handleReplyQuery} disabled={!adminReply}>
+                      <Send className="w-4 h-4 mr-2" />
+                      Send Response
+                    </Button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

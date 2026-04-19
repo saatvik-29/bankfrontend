@@ -147,6 +147,14 @@ export const Header = () => {
                     <div className="px-4 py-2 border-b border-gray-50 mb-1">
                       <p className="text-xs text-gray-500 truncate">{user?.email}</p>
                     </div>
+                    <Link 
+                      href="/dashboard"
+                      className="w-full flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                      onClick={() => setShowProfileMenu(false)}
+                    >
+                      <UserIcon className="w-4 h-4 mr-2" />
+                      My Dashboard
+                    </Link>
                     <button 
                       onClick={() => {
                         logout();
@@ -230,13 +238,23 @@ export const Header = () => {
                   />
                 </div>
               ) : (
-                <button 
-                  onClick={logout}
-                  className="flex items-center font-medium py-2 px-4 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                >
-                  <LogOut className="w-4 h-4 mr-2" />
-                  Sign Out
-                </button>
+                <div className="flex flex-col border-t border-gray-100 mt-2 pt-2">
+                  <Link 
+                    href="/dashboard" 
+                    className="flex items-center font-medium py-2 px-4 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <UserIcon className="w-4 h-4 mr-2" />
+                    My Dashboard
+                  </Link>
+                  <button 
+                    onClick={logout}
+                    className="flex items-center font-medium py-2 px-4 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                  >
+                    <LogOut className="w-4 h-4 mr-2" />
+                    Sign Out
+                  </button>
+                </div>
               )}
               <Link href="/bd-partner" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>BD Partner</Link>
               <Link href="/insurance" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Insurance</Link>

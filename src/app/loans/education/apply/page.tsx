@@ -6,6 +6,8 @@ import { Input } from '@/components/Input';
 import { Button } from '@/components/Button';
 import { CheckCircle, ArrowLeft } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
+import { INDIAN_STATES, lookupPincode } from '@/lib/location';
+import { Select } from '@/components/Select';
 
 export default function EducationLoanApplicationPage() {
   const router = useRouter();
@@ -33,6 +35,22 @@ export default function EducationLoanApplicationPage() {
     courseDuration: '',
     loanType: 'education'
   });
+
+  useEffect(() => {
+    const fetchLocation = async () => {
+      if (formData.pincode.length === 6) {
+        const location = await lookupPincode(formData.pincode);
+        if (location) {
+          setFormData(prev => ({
+            ...prev,
+            city: location.city,
+            state: location.state
+          }));
+        }
+      }
+    };
+    fetchLocation();
+  }, [formData.pincode]);
 
   useEffect(() => {
     if (!authLoading && !isAuthenticated) {
@@ -181,6 +199,9 @@ export default function EducationLoanApplicationPage() {
                 value={formData.phone}
                 onChange={handleChange}
                 required
+                pattern="^[6-9]\d{9}$"
+                title="Please enter a valid 10-digit phone number starting with 6, 7, 8, or 9"
+                placeholder="10-digit mobile number"
               />
               <Input
                 label="PAN Number"
@@ -188,7 +209,10 @@ export default function EducationLoanApplicationPage() {
                 value={formData.panNumber}
                 onChange={handleChange}
                 required
+                pattern="^[A-Z]{5}[0-9]{4}[A-Z]{1}$"
+                title="Please enter a valid PAN number (e.g., ABCDE1234F)"
                 placeholder="ABCDE1234F"
+                className="uppercase"
               />
             </div>
 
@@ -207,13 +231,15 @@ export default function EducationLoanApplicationPage() {
                 value={formData.city}
                 onChange={handleChange}
                 required
+                placeholder="Auto-filled from pincode"
               />
-              <Input
+              <Select
                 label="State"
                 name="state"
                 value={formData.state}
                 onChange={handleChange}
                 required
+                options={INDIAN_STATES}
               />
               <Input
                 label="Pincode"
@@ -221,6 +247,9 @@ export default function EducationLoanApplicationPage() {
                 value={formData.pincode}
                 onChange={handleChange}
                 required
+                pattern="^\d{6}$"
+                title="Please enter a valid 6-digit pincode"
+                placeholder="123456"
               />
             </div>
 

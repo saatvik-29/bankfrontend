@@ -101,6 +101,9 @@ export default function ContactPage() {
                   value={formData.phone}
                   onChange={handleChange}
                   required
+                  pattern="^[6-9]\d{9}$"
+                  title="Please enter a valid 10-digit phone number starting with 6, 7, 8, or 9"
+                  placeholder="Enter 10-digit mobile number"
                 />
                 <div>
                   <label className="block text-sm font-medium text-black mb-1">

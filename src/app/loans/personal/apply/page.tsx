@@ -6,7 +6,9 @@ import { Input } from '@/components/Input';
 import { Button } from '@/components/Button';
 import { CheckCircle, ArrowLeft, Lock } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { INDIAN_STATES, lookupPincode, lookupByCity } from '@/lib/location';
+import { Select } from '@/components/Select';
 
 export default function PersonalLoanApplicationPage() {
   const router = useRouter();
@@ -22,8 +24,12 @@ export default function PersonalLoanApplicationPage() {
   const [applicationNumber, setApplicationNumber] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [citySuggestions, setCitySuggestions] = useState<any[]>([]);
+
   const [formData, setFormData] = useState({
     full_name: user?.name || '',
+    dateOfBirth: '',
     email: user?.email || '',
     phone: '',
     loanAmount: '',
@@ -39,10 +45,57 @@ export default function PersonalLoanApplicationPage() {
     loanType: 'personal'
   });
 
+  // Auto-fill City and State based on Pincode
+  useEffect(() => {
+    const fetchLocation = async () => {
+      if (formData.pincode.length === 6) {
+        const location = await lookupPincode(formData.pincode);
+        if (location) {
+          setFormData(prev => ({
+            ...prev,
+            city: location.city,
+            state: location.state
+          }));
+        }
+      }
+    };
+    fetchLocation();
+  }, [formData.pincode]);
+
+  // Handle City Change for Suggestions
+  useEffect(() => {
+    const timer = setTimeout(async () => {
+      if (formData.city.length >= 3) {
+        const suggestions = await lookupByCity(formData.city);
+        setCitySuggestions(suggestions);
+      } else {
+        setCitySuggestions([]);
+      }
+    }, 500); // Debounce to avoid excessive API calls
+
+    return () => clearTimeout(timer);
+  }, [formData.city]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    
+    // Check if a suggestion was selected
+    if (name === 'city') {
+      const selected = citySuggestions.find(s => `${s.area}, ${s.city}` === value);
+      if (selected) {
+        setFormData(prev => ({
+          ...prev,
+          city: selected.city,
+          state: selected.state,
+          pincode: selected.pincode
+        }));
+        return;
+      }
+    }
+
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
   };
 
@@ -139,13 +192,22 @@ export default function PersonalLoanApplicationPage() {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid md:grid-cols-3 gap-6">
               <Input
                 label="Full Name"
                 name="full_name"
                 value={formData.full_name}
                 onChange={handleChange}
                 required
+              />
+              <Input
+                label="Date of Birth"
+                type="date"
+                name="dateOfBirth"
+                value={formData.dateOfBirth}
+                onChange={handleChange}
+                required
+                max={new Date(new Date().setFullYear(new Date().getFullYear() - 18)).toISOString().split('T')[0]} // Min 18 years old
               />
               <Input
                 label="Email Address"
@@ -165,6 +227,9 @@ export default function PersonalLoanApplicationPage() {
                 value={formData.phone}
                 onChange={handleChange}
                 required
+                pattern="^[6-9]\d{9}$"
+                title="Please enter a valid 10-digit phone number starting with 6, 7, 8, or 9"
+                placeholder="10-digit mobile number"
               />
               <Input
                 label="PAN Number"
@@ -172,7 +237,10 @@ export default function PersonalLoanApplicationPage() {
                 value={formData.panNumber}
                 onChange={handleChange}
                 required
+                pattern="^[A-Z]{5}[0-9]{4}[A-Z]{1}$"
+                title="Please enter a valid PAN number (e.g., ABCDE1234F)"
                 placeholder="ABCDE1234F"
+                className="uppercase"
               />
             </div>
 
@@ -185,19 +253,32 @@ export default function PersonalLoanApplicationPage() {
             />
 
             <div className="grid md:grid-cols-3 gap-6">
-              <Input
-                label="City"
-                name="city"
-                value={formData.city}
-                onChange={handleChange}
-                required
-              />
-              <Input
+              <div className="relative">
+                <Input
+                  label="City / Area"
+                  name="city"
+                  value={formData.city}
+                  onChange={handleChange}
+                  required
+                  placeholder="Type city or area name..."
+                  list="city-options"
+                  autoComplete="off"
+                />
+                <datalist id="city-options">
+                  {citySuggestions.map((s, i) => (
+                    <option key={i} value={`${s.area}, ${s.city}`}>
+                      {s.pincode} - {s.state}
+                    </option>
+                  ))}
+                </datalist>
+              </div>
+              <Select
                 label="State"
                 name="state"
                 value={formData.state}
                 onChange={handleChange}
                 required
+                options={INDIAN_STATES}
               />
               <Input
                 label="Pincode"
@@ -205,6 +286,9 @@ export default function PersonalLoanApplicationPage() {
                 value={formData.pincode}
                 onChange={handleChange}
                 required
+                pattern="^\d{6}$"
+                title="Please enter a valid 6-digit pincode"
+                placeholder="123456"
               />
             </div>
 

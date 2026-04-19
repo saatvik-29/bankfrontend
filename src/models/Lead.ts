@@ -18,12 +18,24 @@ const leadSchema = new mongoose.Schema({
     default: 'active'
   },
   // Contact form fields
-  full_name: String,
+  full_name: {
+    type: String,
+    required: [true, 'Full name is required']
+  },
+  dateOfBirth: {
+    type: Date,
+    required: [true, 'Date of birth is required']
+  },
   email: {
     type: String,
-    required: true
+    required: [true, 'Email is required'],
+    match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
   },
-  phone: String,
+  phone: {
+    type: String,
+    required: [true, 'Phone number is required'],
+    match: [/^[6-9]\d{9}$/, 'Please fill a valid 10-digit phone number']
+  },
   category: String,
   message: String,
   
@@ -34,12 +46,23 @@ const leadSchema = new mongoose.Schema({
   employmentType: String,
   companyName: String,
   workExperience: Number,
-  panNumber: String,
-  aadharNumber: String,
+  panNumber: {
+    type: String,
+    match: [/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/, 'Please fill a valid PAN number (e.g., ABCDE1234F)']
+  },
   address: String,
-  city: String,
-  state: String,
-  pincode: String,
+  city: {
+    type: String,
+    required: [true, 'City is required']
+  },
+  state: {
+    type: String,
+    required: [true, 'State is required']
+  },
+  pincode: {
+    type: String,
+    match: [/^\d{6}$/, 'Please fill a valid 6-digit pincode']
+  },
   
   // Additional loan-specific fields
   propertyValue: Number,
