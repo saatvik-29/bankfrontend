@@ -68,17 +68,6 @@ export default function HomePage() {
 
   const heroCards = [
     {
-      title: "India's #1 Digital",
-      subtitle: "Lending Platform",
-      description: "Get quick loan approvals with competitive interest rates. ₹585+ Crores disbursed to 700+ happy customers across India.",
-      icon: Zap,
-      buttonText: "Get Instant Loan",
-      buttonLink: "/loans/personal",
-      gradient: "from-[#FF6B35] to-[#FF8C42]",
-      bgGradient: "from-[#0F172A] to-[#1E293B]",
-      isMainCard: true
-    },
-    {
       title: "Personal Loans",
       subtitle: "Instant Digital Approval",
       description: "Get personal loans up to ₹50 lakhs with competitive interest rates starting from 8.5% p.a. 100% digital process with instant approval.",
@@ -250,8 +239,64 @@ export default function HomePage() {
       />
       
       <div className="min-h-screen bg-white">
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-gray-50 via-gray-100 to-gray-50 pt-24 md:pt-32 pb-16 md:pb-24 overflow-hidden">
+      {/* Hero Section - Full Width with Background Image */}
+      <section className="relative min-h-screen flex items-center overflow-hidden">
+        {/* Background Image with Overlay */}
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="/hero-bg.jpg" 
+            alt="Financial Services" 
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-[#0F172A]/70"></div>
+        </div>
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 md:py-40">
+          <div className="max-w-3xl">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 leading-tight text-white" style={{ letterSpacing: '-0.04em' }}>
+              India's #1 Digital
+              <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B35] to-[#FF8C42]">
+                Lending Platform
+              </span>
+            </h1>
+            
+            <p className="text-base md:text-lg mb-10 text-slate-300 max-w-2xl font-normal leading-relaxed" style={{ lineHeight: '1.7' }}>
+              Get quick loan approvals with competitive interest rates. ₹585+ Crores disbursed to 700+ happy customers across India.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4">
+              <button 
+                onClick={() => handleApplyClick('/loans/personal')}
+                className="bg-gradient-to-r from-[#FF6B35] to-[#FF8C42] hover:from-[#FF8C42] hover:to-[#FF6B35] text-white font-semibold tracking-wide py-4 px-8 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 hover:scale-105"
+              >
+                <div className="flex items-center justify-center">
+                  <Zap className="w-5 h-5 mr-2" />
+                  Get Instant Loan
+                </div>
+              </button>
+              <Link href="/calculators">
+                <button className="bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-semibold tracking-wide py-4 px-8 rounded-full border-2 border-white/30 hover:border-white/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                  <div className="flex items-center justify-center">
+                    <Calculator className="w-5 h-5 mr-2" />
+                    Calculate EMI
+                  </div>
+                </button>
+              </Link>
+            </div>
+          </div>
+
+          {/* Carousel Indicators */}
+          <div className="absolute bottom-12 left-4 sm:left-6 lg:left-8 flex space-x-3">
+            <button className="h-2 w-12 bg-[#FF6B35] rounded-full"></button>
+            <button className="h-2 w-8 bg-white/30 rounded-full"></button>
+            <button className="h-2 w-8 bg-white/30 rounded-full"></button>
+          </div>
+        </div>
+      </section>
+
+      {/* Loan Products Hero Cards Section */}
+      <section className="py-24 bg-gradient-to-br from-gray-50 via-gray-100 to-gray-50 relative overflow-hidden">
         {/* Subtle Background Elements */}
         <div className="absolute inset-0">
           <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#FF6B35]/5 rounded-full blur-3xl"></div>
@@ -259,8 +304,7 @@ export default function HomePage() {
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-          {/* Hero Cards Slider - BIGGER */}
+          {/* Hero Cards Slider */}
           <div className="relative max-w-6xl mx-auto">
             <div className="overflow-hidden rounded-3xl shadow-2xl">
               <div
@@ -276,41 +320,7 @@ export default function HomePage() {
                         <div className="absolute bottom-0 left-0 w-80 h-80 bg-blue-400 rounded-full blur-3xl"></div>
                       </div>
                       
-                      {card.isMainCard ? (
-                        // Main Card with Heading and CTAs - Center Aligned
-                        <div className="w-full text-center relative z-10">
-                          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 leading-tight" style={{ letterSpacing: '-0.04em' }}>
-                            <span className="text-white">{card.title}</span>
-                            <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B35] to-[#FF8C42]">
-                              {card.subtitle}
-                            </span>
-                          </h1>
-                          <p className="text-base md:text-lg mb-8 text-slate-300 max-w-2xl mx-auto font-normal" style={{ lineHeight: '1.7' }}>
-                            {card.description}
-                          </p>
-                          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <button 
-                              onClick={() => handleApplyClick(card.buttonLink)}
-                              className="bg-gradient-to-r from-[#FF6B35] to-[#FF8C42] hover:from-[#FF8C42] hover:to-[#FF6B35] text-white font-semibold tracking-wide py-4 px-8 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 hover:scale-105"
-                            >
-                              <div className="flex items-center justify-center">
-                                <Zap className="w-5 h-5 mr-2" />
-                                {card.buttonText}
-                              </div>
-                            </button>
-                            <Link href="/calculators">
-                              <button className="bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-semibold tracking-wide py-4 px-8 rounded-full border-2 border-white/30 hover:border-white/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-                                <div className="flex items-center justify-center">
-                                  <Calculator className="w-5 h-5 mr-2" />
-                                  Calculate EMI
-                                </div>
-                              </button>
-                            </Link>
-                          </div>
-                        </div>
-                      ) : (
-                        // Regular Loan Cards with Illustration
+                      {/* Regular Loan Cards with Illustration */}
                       <div className="grid lg:grid-cols-2 gap-12 items-center w-full relative z-10">
                         <div className="space-y-6">
                           <div className="flex items-center mb-6">
@@ -366,7 +376,6 @@ export default function HomePage() {
                           </div>
                         </div>
                       </div>
-                      )}
                     </div>
                   </div>
                 ))}
@@ -382,26 +391,26 @@ export default function HomePage() {
                   className={`h-3 rounded-full transition-all duration-300 ${
                     index === currentHeroCard
                       ? "bg-[#FF6B35] w-12"
-                      : "bg-white/30 w-8"
+                      : "bg-gray-300 w-8"
                   }`}
                 />
               ))}
             </div>
           </div>
 
-          {/* Stats - BIGGER with Animation */}
+          {/* Stats */}
           <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-            <div className="text-center bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 group">
+            <div className="text-center bg-white rounded-2xl p-6 shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 group">
               <div className="text-3xl md:text-4xl font-bold mb-2 text-[#FF6B35] group-hover:scale-110 transition-transform">₹585Cr+</div>
-              <div className="text-slate-300 text-sm font-medium">Loans Disbursed</div>
+              <div className="text-gray-600 text-sm font-medium">Loans Disbursed</div>
             </div>
-            <div className="text-center bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 group">
+            <div className="text-center bg-white rounded-2xl p-6 shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 group">
               <div className="text-3xl md:text-4xl font-bold mb-2 text-[#FF6B35] group-hover:scale-110 transition-transform">700+</div>
-              <div className="text-slate-300 text-sm font-medium">Happy Customers</div>
+              <div className="text-gray-600 text-sm font-medium">Happy Customers</div>
             </div>
-            <div className="text-center bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 group">
+            <div className="text-center bg-white rounded-2xl p-6 shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 group">
               <div className="text-3xl md:text-4xl font-bold mb-2 text-[#FF6B35] group-hover:scale-110 transition-transform">Fast</div>
-              <div className="text-slate-300 text-sm font-medium">Approval Time</div>
+              <div className="text-gray-600 text-sm font-medium">Approval Time</div>
             </div>
           </div>
         </div>
