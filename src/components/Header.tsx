@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X, LogOut, User as UserIcon } from 'lucide-react';
@@ -9,7 +9,17 @@ import { GoogleLogin } from '@react-oauth/google';
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 100);
+    };
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Define page-specific text colors only
   const getPageColors = () => {
@@ -93,19 +103,28 @@ export const Header = () => {
   const { user, login, logout, isAuthenticated } = useAuth();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 
+  // Dynamic navbar styles based on scroll
+  const navBg = isScrolled
+    ? 'bg-white/95 backdrop-blur-md border border-gray-200 shadow-lg'
+    : 'bg-white/10 backdrop-blur-md border border-white/20 shadow-xl';
+  const navText = isScrolled ? 'text-gray-900' : 'text-white';
+  const navHover = isScrolled ? 'hover:bg-gray-100' : 'hover:bg-white/10';
+  const logoColor = isScrolled ? 'text-[#0A1F44]' : 'text-white';
+  const mobileIconColor = isScrolled ? 'text-gray-900' : 'text-white';
+
   return (
     <header className="fixed top-4 left-0 right-0 z-50 w-full px-4 sm:px-6 lg:px-8">
-      <nav className="max-w-7xl mx-auto bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl shadow-xl">
+      <nav className={`max-w-7xl mx-auto rounded-3xl transition-all duration-300 ${navBg}`}>
         <div className="flex justify-between items-center h-16 md:h-18 px-6">
           <div className="flex items-center">
-            <Link href="/" className="text-2xl md:text-3xl font-bold text-white hover:opacity-80 transition-all duration-200">
+            <Link href="/" className={`text-2xl md:text-3xl font-bold ${logoColor} hover:opacity-80 transition-all duration-200`}>
               BankersDen
             </Link>
           </div>
 
           <div className="hidden md:flex items-center space-x-6">
             <div className="relative group">
-              <button className="text-white font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all duration-200 relative">
+              <button className={`${navText} font-medium px-3 py-2 rounded-lg ${navHover} transition-all duration-200 relative`}>
                 Loans
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#FF6B35] to-[#FF8C42] group-hover:w-full transition-all duration-300"></span>
               </button>
@@ -118,19 +137,19 @@ export const Header = () => {
                 <Link href="/loans/education" className="block px-4 py-2 hover:bg-gray-50 text-gray-700 hover:text-[#15803d] transition-colors text-sm">Education Loan</Link>
               </div>
             </div>
-            <Link href="/calculators" className="text-white font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all duration-200 relative group">
+            <Link href="/calculators" className={`${navText} font-medium px-3 py-2 rounded-lg ${navHover} transition-all duration-200 relative group`}>
               Calculators
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#FF6B35] to-[#FF8C42] group-hover:w-full transition-all duration-300"></span>
             </Link>
-            <Link href="/about" className="text-white font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all duration-200 relative group">
+            <Link href="/about" className={`${navText} font-medium px-3 py-2 rounded-lg ${navHover} transition-all duration-200 relative group`}>
               About
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#FF6B35] to-[#FF8C42] group-hover:w-full transition-all duration-300"></span>
             </Link>
-            <Link href="/blog" className="text-white font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all duration-200 relative group">
+            <Link href="/blog" className={`${navText} font-medium px-3 py-2 rounded-lg ${navHover} transition-all duration-200 relative group`}>
               Blog
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#FF6B35] to-[#FF8C42] group-hover:w-full transition-all duration-300"></span>
             </Link>
-            <Link href="/contact" className="text-white font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all duration-200 relative group">
+            <Link href="/contact" className={`${navText} font-medium px-3 py-2 rounded-lg ${navHover} transition-all duration-200 relative group`}>
               Contact
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#FF6B35] to-[#FF8C42] group-hover:w-full transition-all duration-300"></span>
             </Link>
@@ -141,10 +160,10 @@ export const Header = () => {
               <div className="relative">
                 <button 
                   onClick={() => setShowProfileMenu(!showProfileMenu)}
-                  className="flex items-center space-x-2 bg-white/20 backdrop-blur-md border border-white/30 rounded-full pl-1 pr-3 py-1 hover:bg-white/30 transition-all"
+                  className={`flex items-center space-x-2 ${isScrolled ? 'bg-gray-100 border-gray-200' : 'bg-white/20 border-white/30'} backdrop-blur-md border rounded-full pl-1 pr-3 py-1 ${isScrolled ? 'hover:bg-gray-200' : 'hover:bg-white/30'} transition-all`}
                 >
                   <img src={user?.picture} alt={user?.name} className="w-8 h-8 rounded-full border border-white/50" />
-                  <span className="text-sm font-medium text-white">{user?.name.split(' ')[0]}</span>
+                  <span className={`text-sm font-medium ${navText}`}>{user?.name.split(' ')[0]}</span>
                 </button>
                 
                 {showProfileMenu && (
@@ -204,7 +223,7 @@ export const Header = () => {
                <img src={user?.picture} alt={user?.name} className="w-8 h-8 rounded-full border border-white/50" />
             )}
             <button
-              className="text-white"
+              className={mobileIconColor}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
