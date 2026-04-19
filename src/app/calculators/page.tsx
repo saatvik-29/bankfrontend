@@ -19,19 +19,19 @@ export default function CalculatorsPage() {
       id: "emi" as CalculatorType,
       name: "EMI Calculator",
       icon: Calculator,
-      description: "Calculate monthly payments",
+      description: "Calculate your monthly EMI instantly by entering the loan amount, interest rate, and tenure.",
     },
     {
       id: "eligibility" as CalculatorType,
       name: "Eligibility Calculator",
       icon: DollarSign,
-      description: "Check loan eligibility",
+      description: "Check your approximate loan eligibility based on income, interest rate, and repayment tenure.",
     },
     {
       id: "partPayment" as CalculatorType,
       name: "Part Payment Calculator",
       icon: Percent,
-      description: "Plan early repayment",
+      description: "Estimate how a part payment can reduce your EMI or loan tenure.",
     },
   ];
 
@@ -143,9 +143,14 @@ export default function CalculatorsPage() {
                 <h2 className="text-3xl font-bold text-gray-900 mb-2">
                   EMI Calculator
                 </h2>
-                <p className="text-gray-600">
-                  Calculate your monthly loan payments and plan your finances better
+                <p className="text-gray-600 mb-4">
+                  Calculate your monthly EMI instantly by entering the loan amount, interest rate, and tenure.
                 </p>
+                <div className="inline-block bg-blue-50 border border-blue-200 rounded-xl px-6 py-3 mb-2">
+                  <p className="text-sm text-blue-800 font-medium">EMI Formula:</p>
+                  <p className="text-blue-900 font-mono text-sm mt-1">EMI = [P × R × (1+R)<sup>N</sup>] / [(1+R)<sup>N</sup> − 1]</p>
+                  <p className="text-xs text-blue-600 mt-2">P = Principal, R = Monthly Rate, N = Tenure in Months</p>
+                </div>
               </div>
               <EMICalculatorWidget />
             </div>
