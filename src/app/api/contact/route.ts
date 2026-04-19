@@ -17,21 +17,24 @@ export async function POST(request: NextRequest) {
       full_name,
       email,
       phone,
-      category,
+      category: category || 'general',
       message,
       status: 'active'
     });
     await lead.save();
 
     // Send email notifications to both admin and user
-    const emailService = new ResendEmailService();
-    const notificationResult = await emailService.notifyContactForm({ full_name, email, phone, category, message });
-    
-    console.log('Email notifications:', {
-      adminSent: notificationResult.adminSent,
-      userSent: notificationResult.userSent,
-      userPhone: phone
-    });
+    try {
+      const emailService = new ResendEmailService();
+      const notificationResult = await emailService.notifyContactForm({ full_name, email, phone, category, message });
+      
+      console.log('Email notifications:', {
+        adminSent: notificationResult.adminSent,
+        userSent: notificationResult.userSent
+      });
+    } catch (emailError) {
+      console.error('Email sending failed, but form saved:', emailError);
+    }
 
     return NextResponse.json({ 
       success: true, 
@@ -40,8 +43,9 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error('Error sending contact form:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     return NextResponse.json(
-      { success: false, message: 'Failed to send message' },
+      { success: false, message: 'Failed to send message', error: errorMessage },
       { status: 500 }
     );
   }

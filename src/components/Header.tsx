@@ -95,7 +95,7 @@ export const Header = () => {
 
   return (
     <header className="fixed top-4 left-0 right-0 z-50 w-full px-4 sm:px-6 lg:px-8">
-      <nav className="max-w-7xl mx-auto bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-xl">
+      <nav className="max-w-7xl mx-auto bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl shadow-xl">
         <div className="flex justify-between items-center h-16 md:h-18 px-6">
           <div className="flex items-center">
             <Link href="/" className="text-2xl md:text-3xl font-bold text-white hover:opacity-80 transition-all duration-200">
@@ -105,8 +105,9 @@ export const Header = () => {
 
           <div className="hidden md:flex items-center space-x-6">
             <div className="relative group">
-              <button className="text-white font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all duration-200">
+              <button className="text-white font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all duration-200 relative">
                 Loans
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#FF6B35] to-[#FF8C42] group-hover:w-full transition-all duration-300"></span>
               </button>
               <div className="absolute left-0 mt-2 w-64 bg-white shadow-xl rounded-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 border border-gray-200">
                 <Link href="/loans/home" className="block px-4 py-2 hover:bg-gray-50 text-gray-700 hover:text-[#581c87] transition-colors text-sm">Home Loan</Link>
@@ -117,17 +118,21 @@ export const Header = () => {
                 <Link href="/loans/education" className="block px-4 py-2 hover:bg-gray-50 text-gray-700 hover:text-[#15803d] transition-colors text-sm">Education Loan</Link>
               </div>
             </div>
-            <Link href="/calculators" className="text-white font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all duration-200">
+            <Link href="/calculators" className="text-white font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all duration-200 relative group">
               Calculators
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#FF6B35] to-[#FF8C42] group-hover:w-full transition-all duration-300"></span>
             </Link>
-            <Link href="/about" className="text-white font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all duration-200">
+            <Link href="/about" className="text-white font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all duration-200 relative group">
               About
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#FF6B35] to-[#FF8C42] group-hover:w-full transition-all duration-300"></span>
             </Link>
-            <Link href="/blog" className="text-white font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all duration-200">
+            <Link href="/blog" className="text-white font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all duration-200 relative group">
               Blog
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#FF6B35] to-[#FF8C42] group-hover:w-full transition-all duration-300"></span>
             </Link>
-            <Link href="/contact" className="text-white font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all duration-200">
+            <Link href="/contact" className="text-white font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all duration-200 relative group">
               Contact
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#FF6B35] to-[#FF8C42] group-hover:w-full transition-all duration-300"></span>
             </Link>
           </div>
 
