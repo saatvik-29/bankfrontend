@@ -1,20 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/Button';
-import { 
-  Car, 
-  CheckCircle,
-  Star,
-  Clock,
-  Shield,
-  FileText,
-  ArrowRight,
-  Zap
-} from 'lucide-react';
-import Image from 'next/image';
-import carLoanImage from '@/assets/carloan.png';
+import { Car, CheckCircle, Star, Clock, Shield, FileText, ArrowRight, Phone } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { AuthModal } from '@/components/AuthModal';
 
@@ -22,323 +11,253 @@ export default function CarLoanPage() {
   const router = useRouter();
   const { isAuthenticated } = useAuth();
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [loanAmount, setLoanAmount] = useState(800000);
+  const [tenure, setTenure] = useState(5);
+  const [interestRate, setInterestRate] = useState(10.5);
+
+  const emi = useMemo(() => {
+    const P = loanAmount, r = interestRate / 100 / 12, n = tenure * 12;
+    if (r === 0) return P / n;
+    return (P * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+  }, [loanAmount, tenure, interestRate]);
+
+  const totalPayable = emi * tenure * 12;
+  const totalInterest = totalPayable - loanAmount;
 
   const handleApplyNow = () => {
-    if (isAuthenticated) {
-      router.push('/loans/car/apply');
-    } else {
-      setIsAuthModalOpen(true);
-    }
+    if (isAuthenticated) router.push('/loans/car/apply');
+    else setIsAuthModalOpen(true);
+  };
+
+  const fmt = (v: number) => new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 }).format(v);
+  const sliderBg = (val: number, min: number, max: number) => {
+    const p = ((val - min) / (max - min)) * 100;
+    return `linear-gradient(to right,#FF6B35 0%,#FF6B35 ${p}%,#e5e7eb ${p}%,#e5e7eb 100%)`;
   };
 
   return (
     <>
-    <div className="min-h-screen bg-gray-50">
-      {/* Hero Section - Brown Theme */}
-      <section className="bg-white pt-20 md:pt-24 pb-16 relative overflow-hidden">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Content - Left Side with Padding */}
-          <div className="px-4 sm:px-6 lg:px-12 xl:px-20 space-y-6">
-            <div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-[#7c2d12] mb-2 leading-tight">
-                CAR LOAN
-              </h1>
-              <p className="text-lg md:text-xl text-gray-600 font-medium uppercase tracking-wide">
-                Drive Your Dream
-              </p>
-            </div>
-            
-            <p className="text-base md:text-lg text-gray-700 leading-relaxed max-w-lg">
-              Drive your dream car with <span className="font-semibold text-[#7c2d12]">easy EMI options</span> starting at 8% p.a. 
-              Get <span className="font-semibold text-[#7c2d12]">up to 90% financing</span> on both new and used cars with quick approval.
-            </p>
-            
-            {/* Key Benefits */}
-            <div className="grid grid-cols-2 gap-3 max-w-lg">
-              <div className="flex items-start space-x-2">
-                <CheckCircle className="w-4 h-4 text-[#7c2d12] mt-0.5 flex-shrink-0" />
-                <span className="text-sm text-gray-700">Instant Approval</span>
+      <div className="min-h-screen bg-white">
+
+        {/* HERO */}
+        <section className="relative flex flex-col bg-gradient-to-br from-orange-50 via-white to-orange-50 overflow-hidden" style={{ minHeight: '100vh' }}>
+          <div className="absolute top-1/3 right-0 w-80 h-80 bg-[#FF6B35]/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute bottom-10 left-0 w-64 h-64 bg-[#FF8C42]/10 rounded-full blur-3xl pointer-events-none" />
+
+          <div className="flex-1 flex items-center max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-28 pb-8" style={{ flex: '1 1 auto' }}>
+            <div className="grid lg:grid-cols-2 gap-10 items-center w-full">
+              <div className="space-y-6">
+                <p className="text-xs uppercase tracking-[0.3em] text-[#FF8C42] font-medium">Auto Financing</p>
+                <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 leading-tight" style={{ letterSpacing: '-0.03em' }}>
+                  Drive Your<br />
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B35] to-[#FF8C42]">Dream Car</span>
+                </h1>
+                <p className="text-base md:text-lg text-gray-600 leading-relaxed max-w-md">
+                  Easy EMI options starting at <span className="font-semibold text-[#FF6B35]">8% p.a.</span> Get up to{' '}
+                  <span className="font-semibold text-[#FF6B35]">90% financing</span> on new and used cars with quick approval.
+                </p>
+                <div className="grid grid-cols-2 gap-2 max-w-md">
+                  {['Up to 90% Financing', 'New & Used Cars', 'Quick Approval', 'Flexible Tenure'].map(f => (
+                    <div key={f} className="flex items-start space-x-2">
+                      <CheckCircle className="w-4 h-4 text-[#FF6B35] mt-0.5 flex-shrink-0" />
+                      <span className="text-sm text-gray-700">{f}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <button onClick={handleApplyNow} className="bg-gradient-to-r from-[#FF6B35] to-[#FF8C42] hover:from-[#FF8C42] hover:to-[#FF6B35] text-white font-semibold px-7 py-3.5 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 flex items-center justify-center text-sm">
+                    Apply Now <ArrowRight className="w-4 h-4 ml-2" />
+                  </button>
+                  <button onClick={() => router.push('/contact')} className="flex items-center justify-center gap-2 border-2 border-[#FF6B35] text-[#FF6B35] hover:bg-[#FF6B35] hover:text-white font-semibold px-7 py-3.5 rounded-full transition-all duration-300 text-sm">
+                    <Phone className="w-4 h-4" /> Talk to Expert
+                  </button>
+                </div>
               </div>
-              <div className="flex items-start space-x-2">
-                <CheckCircle className="w-4 h-4 text-[#7c2d12] mt-0.5 flex-shrink-0" />
-                <span className="text-sm text-gray-700">Up to 90% Financing</span>
+              <div className="hidden lg:flex justify-center items-center">
+                <iframe src="https://lottie.host/embed/2fbc1f18-144d-4c02-a744-7cb02da3e780/KUlc0gHt10.lottie" className="w-full max-w-lg h-[420px]" style={{ border: 'none' }} title="Car Loan Animation" />
               </div>
-              <div className="flex items-start space-x-2">
-                <CheckCircle className="w-4 h-4 text-[#7c2d12] mt-0.5 flex-shrink-0" />
-                <span className="text-sm text-gray-700">New & Used Cars</span>
-              </div>
-              <div className="flex items-start space-x-2">
-                <CheckCircle className="w-4 h-4 text-[#7c2d12] mt-0.5 flex-shrink-0" />
-                <span className="text-sm text-gray-700">Flexible Tenure</span>
-              </div>
-            </div>
-            
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-              <Button 
-                onClick={handleApplyNow} 
-                className="bg-[#7c2d12] text-white hover:bg-[#92400e] font-semibold px-6 py-3 rounded-lg text-sm transition-all duration-200"
-              >
-                Apply Now <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
-              <button 
-                onClick={() => router.push('/emi-calculator')}
-                className="text-[#7c2d12] font-medium hover:text-[#92400e] transition-colors flex items-center text-sm"
-              >
-                Calculate EMI
-                <ArrowRight className="w-4 h-4 ml-1" />
-              </button>
             </div>
           </div>
 
-          {/* Image - Right Side, Edge to Edge */}
-          <div className="hidden lg:block h-full">
-            <Image
-              src={carLoanImage}
-              alt="Car Loan illustration"
-              className="w-full h-full object-cover object-left"
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <div className="bg-white py-8 border-t border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-3 gap-8 max-w-3xl">
-            <div className="text-center">
-              <p className="text-3xl font-bold text-[#7c2d12]">8% - 15%</p>
-              <p className="text-sm text-gray-600 mt-1">Interest Rate</p>
-            </div>
-            <div className="text-center">
-              <p className="text-3xl font-bold text-[#7c2d12]">₹1L - ₹50L</p>
-              <p className="text-sm text-gray-600 mt-1">Loan Amount</p>
-            </div>
-            <div className="text-center">
-              <p className="text-3xl font-bold text-[#7c2d12]">1 - 7 yrs</p>
-              <p className="text-sm text-gray-600 mt-1">Tenure</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* EMI Calculator Section */}
-      <div className="bg-white py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-gradient-to-br from-orange-50 to-white rounded-2xl p-8 border border-orange-200 shadow-lg max-w-2xl mx-auto">
-            <h3 className="text-2xl font-bold text-[#7c2d12] mb-6 text-center">EMI Calculator</h3>
-            <div className="space-y-4">
-              <div className="flex justify-between items-center py-2 border-b border-orange-100">
-                <span className="text-gray-700">Loan Amount:</span>
-                <span className="font-semibold text-gray-900">₹8,00,000</span>
-              </div>
-              <div className="flex justify-between items-center py-2 border-b border-orange-100">
-                <span className="text-gray-700">Tenure:</span>
-                <span className="font-semibold text-gray-900">5 years</span>
-              </div>
-              <div className="flex justify-between items-center py-2 border-b border-orange-100">
-                <span className="text-gray-700">Interest Rate:</span>
-                <span className="font-semibold text-gray-900">10.5% p.a.</span>
-              </div>
-              <div className="flex justify-between items-center pt-4">
-                <span className="text-lg font-semibold text-[#7c2d12]">Monthly EMI:</span>
-                <span className="text-3xl font-bold text-[#7c2d12]">₹17,222</span>
-              </div>
-            </div>
-            <Button variant="outline" className="w-full mt-6 border-[#7c2d12] text-[#7c2d12] hover:bg-[#7c2d12] hover:text-white rounded-lg" onClick={() => router.push('/emi-calculator')}>
-              Calculate Your EMI
-            </Button>
-          </div>
-        </div>
-      </div>
-
-      {/* Features Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Key Features */}
-          <div className="bg-white rounded-xl shadow-lg p-8">
-            <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-              <Star className="w-6 h-6 text-yellow-500 mr-2" />
-              Key Features
-            </h3>
-            <ul className="space-y-3">
-              <li className="flex items-start">
-                <CheckCircle className="w-5 h-5 text-[#7c2d12] mr-3 mt-0.5 flex-shrink-0" />
-                <span className="text-gray-700">New and used car financing</span>
-              </li>
-              <li className="flex items-start">
-                <CheckCircle className="w-5 h-5 text-[#7c2d12] mr-3 mt-0.5 flex-shrink-0" />
-                <span className="text-gray-700">Quick approval process</span>
-              </li>
-              <li className="flex items-start">
-                <CheckCircle className="w-5 h-5 text-[#7c2d12] mr-3 mt-0.5 flex-shrink-0" />
-                <span className="text-gray-700">Flexible repayment options</span>
-              </li>
-              <li className="flex items-start">
-                <CheckCircle className="w-5 h-5 text-[#7c2d12] mr-3 mt-0.5 flex-shrink-0" />
-                <span className="text-gray-700">Competitive interest rates</span>
-              </li>
-              <li className="flex items-start">
-                <CheckCircle className="w-5 h-5 text-[#7c2d12] mr-3 mt-0.5 flex-shrink-0" />
-                <span className="text-gray-700">Minimal documentation</span>
-              </li>
-            </ul>
-          </div>
-
-          {/* Benefits */}
-          <div className="bg-white rounded-xl shadow-lg p-8">
-            <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-              <Shield className="w-6 h-6 text-blue-500 mr-2" />
-              Benefits
-            </h3>
-            <ul className="space-y-3">
-              <li className="flex items-start">
-                <CheckCircle className="w-5 h-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
-                <span className="text-gray-700">Up to 90% financing</span>
-              </li>
-              <li className="flex items-start">
-                <CheckCircle className="w-5 h-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
-                <span className="text-gray-700">No hidden charges</span>
-              </li>
-              <li className="flex items-start">
-                <CheckCircle className="w-5 h-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
-                <span className="text-gray-700">Insurance assistance</span>
-              </li>
-              <li className="flex items-start">
-                <CheckCircle className="w-5 h-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
-                <span className="text-gray-700">Doorstep service</span>
-              </li>
-              <li className="flex items-start">
-                <CheckCircle className="w-5 h-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
-                <span className="text-gray-700">Expert guidance</span>
-              </li>
-            </ul>
-          </div>
-
-          {/* Eligibility */}
-          <div className="bg-white rounded-xl shadow-lg p-8">
-            <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-              <CheckCircle className="w-6 h-6 text-green-500 mr-2" />
-              Eligibility
-            </h3>
-            <ul className="space-y-3">
-              <li className="flex items-start">
-                <CheckCircle className="w-5 h-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
-                <span className="text-gray-700">Age: 21-65 years</span>
-              </li>
-              <li className="flex items-start">
-                <CheckCircle className="w-5 h-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
-                <span className="text-gray-700">Minimum income: ₹20,000/month</span>
-              </li>
-              <li className="flex items-start">
-                <CheckCircle className="w-5 h-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
-                <span className="text-gray-700">CIBIL score: 650+</span>
-              </li>
-              <li className="flex items-start">
-                <CheckCircle className="w-5 h-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
-                <span className="text-gray-700">Stable employment</span>
-              </li>
-              <li className="flex items-start">
-                <CheckCircle className="w-5 h-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
-                <span className="text-gray-700">Valid driving license</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      {/* Documents & Processing */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid lg:grid-cols-2 gap-8">
-          {/* Required Documents */}
-          <div className="bg-white rounded-xl shadow-lg p-8">
-            <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-              <FileText className="w-6 h-6 text-purple-500 mr-2" />
-              Required Documents
-            </h3>
-            <ul className="space-y-3">
-              <li className="flex items-center">
-                <div className="w-2 h-2 bg-purple-500 rounded-full mr-3"></div>
-                <span className="text-gray-700">Identity proof (Aadhaar/PAN)</span>
-              </li>
-              <li className="flex items-center">
-                <div className="w-2 h-2 bg-purple-500 rounded-full mr-3"></div>
-                <span className="text-gray-700">Address proof</span>
-              </li>
-              <li className="flex items-center">
-                <div className="w-2 h-2 bg-purple-500 rounded-full mr-3"></div>
-                <span className="text-gray-700">Income proof (Salary slips)</span>
-              </li>
-              <li className="flex items-center">
-                <div className="w-2 h-2 bg-purple-500 rounded-full mr-3"></div>
-                <span className="text-gray-700">Bank statements (3 months)</span>
-              </li>
-              <li className="flex items-center">
-                <div className="w-2 h-2 bg-purple-500 rounded-full mr-3"></div>
-                <span className="text-gray-700">Car quotation/invoice</span>
-              </li>
-              <li className="flex items-center">
-                <div className="w-2 h-2 bg-purple-500 rounded-full mr-3"></div>
-                <span className="text-gray-700">Driving license</span>
-              </li>
-            </ul>
-          </div>
-
-          {/* Processing Details */}
-          <div className="bg-white rounded-xl shadow-lg p-8">
-            <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-              <Clock className="w-6 h-6 text-orange-500 mr-2" />
-              Processing Details
-            </h3>
-            <div className="space-y-4">
-              <div className="flex justify-between items-center py-2 border-b border-gray-200">
-                <span className="text-gray-600">Processing Fee:</span>
-                <span className="font-semibold">1% - 2% of loan amount</span>
-              </div>
-              <div className="flex justify-between items-center py-2 border-b border-gray-200">
-                <span className="text-gray-600">Processing Time:</span>
-                <span className="font-semibold">24-48 hours</span>
-              </div>
-              <div className="flex justify-between items-center py-2 border-b border-gray-200">
-                <span className="text-gray-600">Disbursement:</span>
-                <span className="font-semibold">Quick disbursement</span>
-              </div>
-              <div className="flex justify-between items-center py-2">
-                <span className="text-gray-600">Approval Rate:</span>
-                <span className="font-semibold">95%+</span>
+          <div className="w-full bg-transparent">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+              <div className="grid grid-cols-3 divide-x divide-orange-200 max-w-3xl mx-auto">
+                {[{ value: '8% – 15%', label: 'Interest Rate' }, { value: '₹1L – ₹50L', label: 'Loan Amount' }, { value: '1 – 7 yrs', label: 'Tenure' }].map(s => (
+                  <div key={s.label} className="text-center px-6">
+                    <p className="text-2xl md:text-3xl font-bold text-[#FF6B35]">{s.value}</p>
+                    <p className="text-xs text-gray-500 mt-0.5">{s.label}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
-        </div>
-      </div>
+        </section>
 
-      {/* CTA Section */}
-      <div className="bg-gradient-to-r from-[#7c2d12] to-[#92400e]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="text-center">
-            <h2 className="text-3xl font-bold text-white mb-4">
-              Ready to Drive Your Dream Car?
-            </h2>
-            <p className="text-xl text-orange-100 mb-8">
-              Get instant approval for your car loan with competitive rates
-            </p>
+        {/* EMI CALCULATOR */}
+        <section className="py-20 bg-gray-50 overflow-hidden">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
+                <div className="bg-[#0F172A] px-6 py-5"><h2 className="text-xl font-bold text-white text-center">How much do you need?</h2></div>
+                <div className="px-6 py-6 space-y-6">
+                  {[
+                    { label: 'I want to borrow:', val: `₹${fmt(loanAmount)}`, min: 100000, max: 5000000, step: 50000, value: loanAmount, set: setLoanAmount, lo: '₹1L', hi: '₹50L' },
+                    { label: 'For a period of:', val: `${tenure} years`, min: 1, max: 7, step: 1, value: tenure, set: setTenure, lo: '1 yr', hi: '7 yrs' },
+                    { label: 'Interest rate:', val: `${interestRate.toFixed(1)}% p.a.`, min: 8, max: 15, step: 0.5, value: interestRate, set: setInterestRate, lo: '8%', hi: '15%' },
+                  ].map(s => (
+                    <div key={s.label}>
+                      <p className="text-xs text-gray-500 mb-0.5">{s.label}</p>
+                      <p className="text-2xl font-bold text-gray-900 mb-2">{s.val}</p>
+                      <input type="range" min={s.min} max={s.max} step={s.step} value={s.value} onChange={e => s.set(Number(e.target.value))} className="w-full h-1.5 rounded-full appearance-none cursor-pointer" style={{ background: sliderBg(s.value, s.min, s.max) }} />
+                      <div className="flex justify-between text-[11px] text-gray-400 mt-1"><span>{s.lo}</span><span>{s.hi}</span></div>
+                    </div>
+                  ))}
+                  <div className="bg-gray-50 rounded-xl p-4 space-y-2 border border-gray-100">
+                    <div className="flex justify-between text-sm text-gray-500"><span>Total Interest:</span><span className="font-medium text-gray-700">₹{fmt(totalInterest)}</span></div>
+                    <div className="flex justify-between items-center border-t border-gray-200 pt-2"><span className="text-sm font-semibold text-gray-800">Monthly EMI:</span><span className="text-2xl font-bold text-[#FF6B35]">₹{fmt(emi)}</span></div>
+                    <div className="flex justify-between text-sm text-gray-500"><span>Total Payable:</span><span className="font-medium text-gray-700">₹{fmt(totalPayable)}</span></div>
+                  </div>
+                  <button onClick={handleApplyNow} className="w-full bg-gradient-to-r from-[#FF6B35] to-[#FF8C42] hover:from-[#FF8C42] hover:to-[#FF6B35] text-white font-bold py-3.5 rounded-full text-base shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] flex items-center justify-center gap-2">
+                    Get my loan now <ArrowRight className="w-4 h-4" />
+                  </button>
+                  <p className="text-center text-[11px] text-gray-400">No hidden fees · Transparent rates · Expert guidance</p>
+                </div>
+              </div>
+
+              <div className="flex flex-col items-center text-center space-y-6">
+                {(() => {
+                  const size = 200, sw = 28, r = (size - sw) / 2, circ = 2 * Math.PI * r;
+                  const iPct = totalPayable > 0 ? totalInterest / totalPayable : 0.3;
+                  const pPct = 1 - iPct;
+                  return (
+                    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="drop-shadow-lg">
+                      <circle cx={size/2} cy={size/2} r={r + sw/2 + 8} fill="none" stroke="#FF6B35" strokeWidth="1.5" opacity="0.15" />
+                      <circle cx={size/2} cy={size/2} r={r + sw/2 + 18} fill="none" stroke="#FF6B35" strokeWidth="1" opacity="0.08" />
+                      <circle cx={size/2} cy={size/2} r={r} fill="none" stroke="#FFE8DF" strokeWidth={sw} />
+                      <circle cx={size/2} cy={size/2} r={r} fill="none" stroke="url(#og_car)" strokeWidth={sw} strokeDasharray={`${iPct*circ} ${(1-iPct)*circ}`} strokeDashoffset={circ*0.25} strokeLinecap="round" style={{ transition: 'stroke-dasharray 0.6s ease' }} />
+                      <circle cx={size/2} cy={size/2} r={r} fill="none" stroke="#FFCBB8" strokeWidth={sw} strokeDasharray={`${pPct*circ} ${(1-pPct)*circ}`} strokeDashoffset={circ*0.25 - iPct*circ} strokeLinecap="round" style={{ transition: 'stroke-dasharray 0.6s ease' }} />
+                      <defs><linearGradient id="og_car" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stopColor="#FF6B35"/><stop offset="100%" stopColor="#FF8C42"/></linearGradient></defs>
+                      <text x={size/2} y={size/2-8} textAnchor="middle" fontSize="11" fill="#6b7280">EMI / mo</text>
+                      <text x={size/2} y={size/2+12} textAnchor="middle" fontSize="15" fontWeight="800" fill="#FF6B35">₹{fmt(emi)}</text>
+                    </svg>
+                  );
+                })()}
+                <div className="flex items-center gap-6 text-xs text-gray-500">
+                  <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full bg-[#FFCBB8] inline-block" />Principal</span>
+                  <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full bg-[#FF6B35] inline-block" />Interest</span>
+                </div>
+                <p className="text-xs uppercase tracking-[0.3em] text-[#FF8C42] font-medium flex items-center gap-2"><span className="w-8 h-0.5 bg-[#FF6B35] inline-block" />CALCULATOR<span className="w-8 h-0.5 bg-[#FF6B35] inline-block" /></p>
+                <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight" style={{ letterSpacing: '-0.03em' }}>
+                  A smarter plan for<br />car loans built <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B35] to-[#FF8C42]">around your life</span>
+                </h2>
+                <p className="text-gray-500 leading-relaxed max-w-sm">No hidden charges. No surprises. Simple, transparent car loans with instant approval and doorstep service.</p>
+              </div>
+            </div>
+          </div>
+          <style jsx>{`input[type='range']::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:#FF6B35;cursor:pointer;box-shadow:0 0 0 3px rgba(255,107,53,0.2)}input[type='range']::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#FF6B35;cursor:pointer;border:none;box-shadow:0 0 0 3px rgba(255,107,53,0.2)}`}</style>
+        </section>
+
+        {/* FEATURES & BENEFITS */}
+        <section className="py-20 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <p className="text-xs uppercase tracking-[0.3em] text-[#FF8C42] font-medium mb-2">WHY CHOOSE US</p>
+              <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900" style={{ letterSpacing: '-0.02em' }}>Key Features & <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B35] to-[#FF8C42]">Benefits</span></h2>
+            </div>
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              <div className="grid sm:grid-cols-2 gap-4">
+                {[
+                  { icon: Car, title: 'New & Used Cars', desc: 'Finance any car — brand new from showroom or a quality pre-owned vehicle.' },
+                  { icon: CheckCircle, title: 'Up to 90% Financing', desc: 'Get maximum funding so you pay minimal down payment.' },
+                  { icon: Clock, title: 'Quick Approval', desc: 'Approvals in as little as a few hours with minimal paperwork.' },
+                  { icon: Star, title: 'Flexible Tenure', desc: 'Choose your repayment period from 1 to 7 years to suit your budget.' },
+                  { icon: Shield, title: 'No Prepayment Penalty', desc: 'Pay off your loan early without any hidden charges.' },
+                  { icon: FileText, title: 'Doorstep Service', desc: 'Our representatives come to you for document collection.' },
+                ].map(item => (
+                  <div key={item.title} className="group bg-gray-50 hover:bg-orange-50 rounded-2xl p-5 border border-gray-100 hover:border-orange-200 hover:shadow-lg transition-all duration-300">
+                    <div className="w-9 h-9 bg-gradient-to-r from-[#FF6B35] to-[#FF8C42] rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                      <item.icon className="w-4 h-4 text-white" />
+                    </div>
+                    <h3 className="font-bold text-gray-900 text-sm mb-1">{item.title}</h3>
+                    <p className="text-xs text-gray-500 leading-relaxed">{item.desc}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="flex items-center justify-center">
+                <iframe src="https://lottie.host/embed/cb809e12-fc8e-468a-9c66-6819a7fc549f/NwYfydX4yi.lottie" className="w-full max-w-md h-[360px]" style={{ border: 'none' }} title="Benefits Animation" />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ELIGIBILITY & DOCUMENTS */}
+        <section className="py-20 bg-gray-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <p className="text-xs uppercase tracking-[0.3em] text-[#FF8C42] font-medium mb-2">REQUIREMENTS</p>
+              <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900" style={{ letterSpacing: '-0.02em' }}>Eligibility & <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B35] to-[#FF8C42]">Documents</span></h2>
+            </div>
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              <div className="flex items-center justify-center order-2 lg:order-1">
+                <iframe src="https://lottie.host/embed/5a7f6edc-87ad-427a-9312-27e0577901b9/nELKiPN9uw.lottie" className="w-full max-w-md h-[360px]" style={{ border: 'none' }} title="Eligibility Animation" />
+              </div>
+              <div className="order-1 lg:order-2 space-y-6">
+                <div className="bg-white rounded-2xl p-6 shadow-md border border-gray-100">
+                  <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2"><CheckCircle className="w-5 h-5 text-[#FF6B35]" />Eligibility Criteria</h3>
+                  <ul className="space-y-3">{['Age: 21–65 years', 'Stable income (salaried or self-employed)', 'Minimum income ₹20,000/month', 'CIBIL score of 700 or above'].map(item => (
+                    <li key={item} className="flex items-start gap-3 text-gray-700 text-sm"><span className="w-5 h-5 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0 mt-0.5"><CheckCircle className="w-3 h-3 text-[#FF6B35]" /></span>{item}</li>
+                  ))}</ul>
+                </div>
+                <div className="bg-white rounded-2xl p-6 shadow-md border border-gray-100">
+                  <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2"><FileText className="w-5 h-5 text-[#FF6B35]" />Required Documents</h3>
+                  <ul className="space-y-3">{['Identity & address proof (Aadhaar / PAN)', 'Income proof (salary slips / ITR)', 'Bank statements (last 3–6 months)', 'Car quotation / proforma invoice', 'Passport-size photographs'].map(item => (
+                    <li key={item} className="flex items-start gap-3 text-gray-700 text-sm"><span className="w-2 h-2 rounded-full bg-[#FF6B35] flex-shrink-0 mt-1.5" />{item}</li>
+                  ))}</ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* PROCESSING DETAILS */}
+        <section className="py-20 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <p className="text-xs uppercase tracking-[0.3em] text-[#FF8C42] font-medium mb-2">PROCESS</p>
+              <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900" style={{ letterSpacing: '-0.02em' }}>Processing <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B35] to-[#FF8C42]">Details</span></h2>
+            </div>
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              <div className="grid sm:grid-cols-2 gap-5">
+                {[{ icon: Clock, title: 'Processing Time', value: '24–48 hrs', desc: 'From application to approval' }, { icon: FileText, title: 'Processing Fee', value: '1–2%', desc: 'Of the sanctioned loan amount' }, { icon: Car, title: 'Financing', value: 'Up to 90%', desc: 'Of the on-road car price' }, { icon: Shield, title: 'Approval Rate', value: '95%+', desc: 'For eligible applicants' }].map(item => (
+                  <div key={item.title} className="bg-gray-50 rounded-2xl p-5 border border-gray-100 hover:border-orange-200 hover:shadow-md transition-all duration-200 group">
+                    <div className="w-9 h-9 bg-gradient-to-r from-[#FF6B35] to-[#FF8C42] rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform"><item.icon className="w-4 h-4 text-white" /></div>
+                    <p className="text-2xl font-extrabold text-gray-900 mb-0.5">{item.value}</p>
+                    <p className="text-sm font-semibold text-gray-700 mb-1">{item.title}</p>
+                    <p className="text-xs text-gray-400">{item.desc}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="flex items-center justify-center">
+                <iframe src="https://lottie.host/embed/cad9e870-2371-4e52-aff6-e63e71bb0e1e/beCpBNWW3A.lottie" className="w-full max-w-md h-[340px]" style={{ border: 'none' }} title="Processing Animation" />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA */}
+        <section className="bg-gradient-to-r from-[#FF6B35] to-[#FF8C42] py-20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4">Ready to Drive Your Dream Car?</h2>
+            <p className="text-orange-100 text-lg mb-8 max-w-2xl mx-auto">Quick approvals, competitive rates, and zero surprises. Let's get you on the road today.</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button onClick={handleApplyNow} size="lg" className="bg-white text-[#7c2d12] hover:bg-orange-50">
-                Apply Now
-              </Button>
-              <Button onClick={() => router.push('/contact')} size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-[#7c2d12]">
-                Contact Us
-              </Button>
+              <Button onClick={handleApplyNow} size="lg" className="bg-white text-[#FF6B35] hover:bg-orange-50 font-bold rounded-full px-10 shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300">Apply Now</Button>
+              <Button onClick={() => router.push('/contact')} size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-[#FF6B35] font-bold rounded-full px-10 transition-all duration-300">Contact Us</Button>
             </div>
           </div>
-        </div>
+        </section>
       </div>
-    </div>
-      <AuthModal 
-        isOpen={isAuthModalOpen} 
-        onClose={() => setIsAuthModalOpen(false)} 
-        title="Apply for Car Loan"
-        subtitle="Sign in with Google to get instant approval and best interest rates for your dream car."
-      />
+
+      <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} title="Apply for Car Loan" subtitle="Sign in with Google to get instant approval and the best rates for your dream car." />
     </>
   );
 }

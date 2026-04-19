@@ -57,7 +57,7 @@ async function seed() {
   console.log('✅  Connected.');
 
   const existing = await Admin.findOne({
-    $or: [{ username: ADMIN_USERNAME.toLowerCase() }, { email: ADMIN_EMAIL.toLowerCase() }],
+    $or: [{ username: ADMIN_USERNAME.toLowerCase() }, { email: ADMIN_EMAIL!.toLowerCase() }],
   });
 
   const hashedPassword = await bcrypt.hash(ADMIN_PASSWORD as string, 12);
@@ -72,7 +72,7 @@ async function seed() {
   } else {
     await Admin.create({
       username: ADMIN_USERNAME.toLowerCase(),
-      email: ADMIN_EMAIL.toLowerCase(),
+      email: ADMIN_EMAIL!.toLowerCase(),
       password: hashedPassword,
       role: 'superadmin',
     });
@@ -81,7 +81,7 @@ async function seed() {
 
   console.log(`✅  Admin seeded successfully!`);
   console.log(`    Username : ${ADMIN_USERNAME}`);
-  console.log(`    Email    : ${ADMIN_EMAIL}`);
+  console.log(`    Email    : ${ADMIN_EMAIL!}`);
   console.log(`    Password : (hidden — set via ADMIN_PASSWORD env var)`);
 
   await mongoose.disconnect();

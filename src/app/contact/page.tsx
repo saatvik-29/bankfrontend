@@ -1,8 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Mail, Phone, MapPin, Clock } from 'lucide-react';
-import { Input } from '@/components/Input';
+import { Mail, Phone, MapPin, Clock, Send, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/Button';
 
 export default function ContactPage() {
@@ -18,236 +17,228 @@ export default function ContactPage() {
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-
     try {
       const response = await fetch('/api/contact', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
-
       const result = await response.json();
-
       if (result.success) {
         setSubmitted(true);
-        setFormData({
-          full_name: '',
-          email: '',
-          phone: '',
-          countryCode: '+91',
-          category: 'general',
-          message: '',
-        });
-        
-        // Keep the success message visible for 5 seconds
-        setTimeout(() => {
-          setSubmitted(false);
-        }, 5000);
+        setFormData({ full_name: '', email: '', phone: '', countryCode: '+91', category: 'general', message: '' });
+        setTimeout(() => setSubmitted(false), 5000);
       } else {
         alert('Failed to send message. Please try again.');
-        console.error('Failed to send message:', result.message);
       }
     } catch (error) {
       alert('Error sending message. Please try again.');
-      console.error('Error sending message:', error);
     } finally {
       setLoading(false);
     }
   };
 
+  const inputClass = "w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#FF6B35] focus:border-transparent outline-none transition-all duration-200 text-gray-800 bg-white text-sm";
+  const labelClass = "block text-sm font-semibold text-gray-700 mb-1.5";
+
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-black mb-4">Contact Us</h1>
-          <p className="text-xl text-black">
-            Have questions? We're here to help
+    <div className="min-h-screen bg-white">
+
+      {/* HERO */}
+      <section className="relative bg-gradient-to-br from-orange-50 via-white to-orange-50 pt-32 pb-20 overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-[#FF6B35]/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-72 h-72 bg-[#FF8C42]/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+          <p className="text-xs uppercase tracking-[0.3em] text-[#FF8C42] font-medium mb-4">Reach Us</p>
+          <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 leading-tight mb-6" style={{ letterSpacing: '-0.03em' }}>
+            Let's{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B35] to-[#FF8C42]">
+              Connect
+            </span>
+          </h1>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            Have questions? Our team of experts is ready to guide you toward the best financial decision.
           </p>
         </div>
+      </section>
 
-        <div className="grid lg:grid-cols-2 gap-12">
-          <div>
-            <div className="bg-white rounded-xl shadow-lg p-8">
-              <h2 className="text-2xl font-bold text-black mb-6">Get in Touch</h2>
-
-              {submitted && (
-                <div className="mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg">
-                  Thank you! We've received your message and will get back to you soon.
+      {/* CONTACT INFO CARDS */}
+      <section className="py-12 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {[
+              { icon: MapPin, title: 'Our Office', lines: ['1st Floor, City Avenue, 107,', 'Wakad, Pune, MH 411057'] },
+              { icon: Phone, title: 'Call Us', lines: ['+91 9145023840', '+91 7758955586'] },
+              { icon: Mail, title: 'Email Us', lines: ['support@bankersden.com', 'info@bankersden.com'] },
+              { icon: Clock, title: 'Business Hours', lines: ['Mon–Fri: 9 AM – 6 PM', 'Sat: 10 AM – 4 PM'] },
+            ].map((card) => (
+              <div key={card.title} className="group bg-gray-50 hover:bg-orange-50 rounded-2xl p-6 border border-gray-100 hover:border-orange-200 hover:shadow-lg transition-all duration-300 text-center">
+                <div className="w-12 h-12 bg-gradient-to-r from-[#FF6B35] to-[#FF8C42] rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
+                  <card.icon className="w-6 h-6 text-white" />
                 </div>
-              )}
-
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <Input
-                  label="Full Name"
-                  name="full_name"
-                  value={formData.full_name}
-                  onChange={handleChange}
-                  required
-                />
-                <Input
-                  label="Email Address"
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                />
-                <div>
-                  <label className="block text-sm font-medium text-black mb-1">Phone Number</label>
-                  <div className="flex gap-2">
-                    <select
-                      name="countryCode"
-                      value={formData.countryCode}
-                      onChange={handleChange}
-                      className="w-28 px-2 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent text-sm bg-white"
-                    >
-                      <option value="+91">🇮🇳 +91</option>
-                      <option value="+1">🇺🇸 +1</option>
-                      <option value="+44">🇬🇧 +44</option>
-                      <option value="+971">🇦🇪 +971</option>
-                      <option value="+65">🇸🇬 +65</option>
-                      <option value="+61">🇦🇺 +61</option>
-                      <option value="+81">🇯🇵 +81</option>
-                      <option value="+49">🇩🇪 +49</option>
-                      <option value="+33">🇫🇷 +33</option>
-                      <option value="+86">🇨🇳 +86</option>
-                    </select>
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      required
-                      pattern="^[0-9]{7,15}$"
-                      title="Please enter a valid phone number"
-                      placeholder="Enter mobile number"
-                      className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-black mb-1">
-                    Category
-                  </label>
-                  <select
-                    name="category"
-                    value={formData.category}
-                    onChange={handleChange}
-                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent"
-                  >
-                    <option value="general">General Inquiry</option>
-                    <option value="loan_inquiry">Loan Inquiry</option>
-                    <option value="complaint">Complaint</option>
-                    <option value="feedback">Feedback</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-black mb-1">
-                    Message
-                  </label>
-                  <textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
-                    rows={6}
-                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent"
-                  />
-                </div>
-                <Button type="submit" className="w-full" disabled={loading}>
-                  {loading ? 'Sending...' : 'Send Message'}
-                </Button>
-              </form>
-            </div>
+                <h3 className="font-bold text-gray-900 text-sm mb-2">{card.title}</h3>
+                {card.lines.map((l) => (<p key={l} className="text-xs text-gray-500 leading-relaxed">{l}</p>))}
+              </div>
+            ))}
           </div>
+        </div>
+      </section>
 
-          <div className="space-y-6">
-            <div className="bg-white rounded-xl shadow-lg p-8">
-              <h2 className="text-2xl font-bold text-black mb-6">Contact Information</h2>
+      {/* FORM + SIDE */}
+      <section className="py-12 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-5 gap-12">
 
-              <div className="space-y-6">
-                <div className="flex items-start">
-                  <div className="w-12 h-12 bg-gray-100 text-black rounded-lg flex items-center justify-center flex-shrink-0">
-                    <MapPin className="w-6 h-6" />
-                  </div>
-                  <div className="ml-4">
-                    <h3 className="font-semibold text-black mb-1">Address</h3>
-                    <p className="text-black">
-                      BD PHYGITAL PVT. LTD - Bankers Den<br />
-                      1st Floor, City Avenue, 107,<br />
-                      Wakad, Pune, Maharashtra 411057, India
-                    </p>
-                  </div>
-                </div>
+            {/* FORM — takes 3 cols */}
+            <div className="lg:col-span-3">
+              <div className="bg-white rounded-3xl shadow-xl p-8 border border-gray-100">
+                <h2 className="text-2xl font-extrabold text-gray-900 mb-2">Send us a Message</h2>
+                <p className="text-gray-500 text-sm mb-8">We'll get back to you within 24 hours.</p>
 
-                <div className="flex items-start">
-                  <div className="w-12 h-12 bg-gray-100 text-black rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Phone className="w-6 h-6" />
+                {submitted && (
+                  <div className="mb-6 flex flex-col items-center gap-3 bg-orange-50 border border-orange-200 rounded-2xl p-6 text-center">
+                    <iframe
+                      src="https://lottie.host/embed/c2ff2230-32d1-48ae-be9b-1938f40ffb5e/8AeiPdp8tT.lottie"
+                      className="w-32 h-32"
+                      style={{ border: 'none' }}
+                      title="Message Sent Animation"
+                    />
+                    <p className="text-[#FF6B35] font-bold text-base">Message sent!</p>
+                    <p className="text-gray-500 text-sm">We've received your message and will get back to you shortly.</p>
                   </div>
-                  <div className="ml-4">
-                    <h3 className="font-semibold text-black mb-1">Phone</h3>
-                    <p className="text-black">
-                      +91 9145023840<br />
-                      +91 7758955586
-                    </p>
-                  </div>
-                </div>
+                )}
 
-                <div className="flex items-start">
-                  <div className="w-12 h-12 bg-gray-100 text-black rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Mail className="w-6 h-6" />
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  <div className="grid sm:grid-cols-2 gap-5">
+                    <div>
+                      <label className={labelClass}>Full Name</label>
+                      <input name="full_name" value={formData.full_name} onChange={handleChange} required placeholder="Your full name" className={inputClass} />
+                    </div>
+                    <div>
+                      <label className={labelClass}>Email Address</label>
+                      <input type="email" name="email" value={formData.email} onChange={handleChange} required placeholder="you@example.com" className={inputClass} />
+                    </div>
                   </div>
-                  <div className="ml-4">
-                    <h3 className="font-semibold text-black mb-1">Email</h3>
-                    <p className="text-black">
-                      support@bankersden.com<br />
-                      info@bankersden.com
-                    </p>
-                  </div>
-                </div>
 
-                <div className="flex items-start">
-                  <div className="w-12 h-12 bg-gray-100 text-black rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Clock className="w-6 h-6" />
+                  <div>
+                    <label className={labelClass}>Phone Number</label>
+                    <div className="flex gap-2">
+                      <select name="countryCode" value={formData.countryCode} onChange={handleChange}
+                        className="w-28 px-2 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#FF6B35] focus:border-transparent outline-none text-sm bg-white">
+                        {['+91 🇮🇳', '+1 🇺🇸', '+44 🇬🇧', '+971 🇦🇪', '+65 🇸🇬', '+61 🇦🇺'].map((c) => {
+                          const val = c.split(' ')[0];
+                          return <option key={val} value={val}>{c}</option>;
+                        })}
+                      </select>
+                      <input type="tel" name="phone" value={formData.phone} onChange={handleChange} required
+                        pattern="^[0-9]{7,15}$" placeholder="Mobile number" className={`${inputClass} flex-1`} />
+                    </div>
                   </div>
-                  <div className="ml-4">
-                    <h3 className="font-semibold text-black mb-1">Business Hours</h3>
-                    <p className="text-black">
-                      Monday - Friday: 9:00 AM - 6:00 PM<br />
-                      Saturday: 10:00 AM - 4:00 PM<br />
-                      Sunday: Closed
-                    </p>
+
+                  <div>
+                    <label className={labelClass}>Category</label>
+                    <select name="category" value={formData.category} onChange={handleChange} className={inputClass}>
+                      <option value="general">General Inquiry</option>
+                      <option value="loan_inquiry">Loan Inquiry</option>
+                      <option value="complaint">Complaint</option>
+                      <option value="feedback">Feedback</option>
+                    </select>
                   </div>
-                </div>
+
+                  <div>
+                    <label className={labelClass}>Message</label>
+                    <textarea name="message" value={formData.message} onChange={handleChange} required rows={5}
+                      placeholder="Tell us how we can help you..."
+                      className={`${inputClass} resize-none`} />
+                  </div>
+
+                  <button type="submit" disabled={loading}
+                    className="w-full bg-gradient-to-r from-[#FF6B35] to-[#FF8C42] hover:from-[#FF8C42] hover:to-[#FF6B35] text-white font-bold py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed">
+                    {loading ? (
+                      <span className="flex items-center gap-2"><span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />Sending…</span>
+                    ) : (
+                      <><Send className="w-4 h-4" /> Send Message</>
+                    )}
+                  </button>
+                </form>
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-black to-gray-800 text-white rounded-xl shadow-lg p-8">
-              <h3 className="text-xl font-bold mb-4">Request a Callback</h3>
-              <p className="mb-6">
-                Not able to call? Leave your number and we'll call you back.
-              </p>
-              <a
-                href="#"
-                className="inline-block bg-white text-black px-6 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
-              >
-                Request Callback
-              </a>
+            {/* SIDE — takes 2 cols */}
+            <div className="lg:col-span-2 space-y-6 flex flex-col justify-start">
+              {/* Callback card */}
+              <div className="bg-gradient-to-br from-[#FF6B35] to-[#FF8C42] rounded-3xl p-8 text-white shadow-xl">
+                <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center mb-5">
+                  <Phone className="w-6 h-6 text-white" />
+                </div>
+                <h3 className="text-xl font-bold mb-2">Request a Callback</h3>
+                <p className="text-orange-100 text-sm mb-6 leading-relaxed">
+                  Not able to call right now? Leave your number and we'll call you back within 30 minutes.
+                </p>
+                <a href="tel:+919145023840"
+                  className="inline-block bg-white text-[#FF6B35] font-bold px-6 py-3 rounded-full hover:bg-orange-50 transition-colors shadow-md text-sm">
+                  Call Now: +91 9145023840
+                </a>
+              </div>
+
+              {/* FAQ quick links */}
+              <div className="bg-white rounded-3xl p-8 shadow-md border border-gray-100">
+                <h3 className="text-lg font-bold text-gray-900 mb-5">Common Questions</h3>
+                <ul className="space-y-3">
+                  {[
+                    'What documents are needed for a home loan?',
+                    'How long does loan approval take?',
+                    'Can I transfer my existing loan?',
+                    'What is the maximum loan tenure?',
+                  ].map((q) => (
+                    <li key={q} className="flex items-start gap-3 text-sm text-gray-600 group cursor-pointer hover:text-[#FF6B35] transition-colors">
+                      <span className="w-5 h-5 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:bg-[#FF6B35] transition-colors">
+                        <CheckCircle className="w-3 h-3 text-[#FF6B35] group-hover:text-white transition-colors" />
+                      </span>
+                      {q}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Hours */}
+              <div className="bg-gray-50 rounded-3xl p-6 border border-gray-100">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 bg-gradient-to-r from-[#FF6B35] to-[#FF8C42] rounded-xl flex items-center justify-center">
+                    <Clock className="w-5 h-5 text-white" />
+                  </div>
+                  <h3 className="font-bold text-gray-900">Business Hours</h3>
+                </div>
+                <div className="space-y-2 text-sm text-gray-600">
+                  <div className="flex justify-between"><span>Monday – Friday</span><span className="font-medium text-gray-800">9:00 AM – 6:00 PM</span></div>
+                  <div className="flex justify-between"><span>Saturday</span><span className="font-medium text-gray-800">10:00 AM – 4:00 PM</span></div>
+                  <div className="flex justify-between"><span>Sunday</span><span className="font-medium text-red-400">Closed</span></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* MAP */}
+      <section className="bg-white pb-0">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="rounded-3xl overflow-hidden shadow-xl border border-gray-100 h-72">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3781.089!2d73.76!3d18.60!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTjCsDM2JzAwLjAiTiA3M8KwNDUnMzYuMCJF!5e0!3m2!1sen!2sin!4v1"
+              width="100%" height="100%" style={{ border: 0 }} allowFullScreen loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade" title="BankersDen Office Location"
+            />
+          </div>
+        </div>
+      </section>
+
     </div>
   );
 }

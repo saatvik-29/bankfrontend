@@ -1,12 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Input } from '@/components/Input';
 import { Button } from '@/components/Button';
 import { CheckCircle, ArrowLeft, Lock } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
-import { useEffect, useState } from 'react';
 import { INDIAN_STATES, lookupPincode, lookupByCity } from '@/lib/location';
 import { Select } from '@/components/Select';
 

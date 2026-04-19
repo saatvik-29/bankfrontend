@@ -13,7 +13,7 @@ export const Header = () => {
   const pathname = usePathname();
 
   // Pages with dark hero backgrounds where transparent navbar works
-  const darkHeroPages = ['/', '/about'];
+  const darkHeroPages = ['/'];
   const hasDarkHero = darkHeroPages.includes(pathname);
 
   useEffect(() => {
@@ -64,15 +64,15 @@ export const Header = () => {
         };
       case '/loans/education':
         return {
-          text: 'text-[#15803d]',
-          hoverBg: 'hover:bg-[#15803d]/10',
-          buttonBg: 'bg-[#15803d] text-white hover:bg-[#15803d]/90'
+          text: 'text-[#FF6B35]',
+          hoverBg: 'hover:bg-[#FF6B35]/10',
+          buttonBg: 'bg-[#FF6B35] text-white hover:bg-[#FF6B35]/90'
         };
       case '/about':
         return {
-          text: 'text-white',
-          hoverBg: 'hover:bg-white/10',
-          buttonBg: 'bg-white text-[#059669] hover:bg-gray-100'
+          text: 'text-black',
+          hoverBg: 'hover:bg-gray-100',
+          buttonBg: 'bg-gradient-to-r from-[#FF6B35] to-[#FF8C42] text-white hover:from-[#FF8C42] hover:to-[#FF6B35]'
         };
       case '/contact':
         return {
@@ -142,7 +142,7 @@ export const Header = () => {
                 <Link href="/loans/car" className="block px-4 py-2 hover:bg-gray-50 text-gray-700 hover:text-[#7c2d12] transition-colors text-sm">Car Loan</Link>
                 <Link href="/loans/personal" className="block px-4 py-2 hover:bg-gray-50 text-gray-700 hover:text-[#15803d] transition-colors text-sm">Personal Loan</Link>
                 <Link href="/loans/business" className="block px-4 py-2 hover:bg-gray-50 text-gray-700 hover:text-[#581c87] transition-colors text-sm">Business Loan</Link>
-                <Link href="/loans/education" className="block px-4 py-2 hover:bg-gray-50 text-gray-700 hover:text-[#15803d] transition-colors text-sm">Education Loan</Link>
+                <Link href="/loans/education" className="block px-4 py-2 hover:bg-gray-50 text-gray-700 hover:text-[#FF6B35] transition-colors text-sm">Education Loan</Link>
               </div>
             </div>
             <Link href="/calculators" className={`${navText} font-medium px-3 py-2 rounded-lg ${navHover} transition-all duration-200 relative group`}>
