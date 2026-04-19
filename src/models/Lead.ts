@@ -24,7 +24,9 @@ const leadSchema = new mongoose.Schema({
   },
   dateOfBirth: {
     type: Date,
-    required: [true, 'Date of birth is required']
+    required: function() {
+      return this.type === 'loan';
+    }
   },
   email: {
     type: String,
@@ -53,11 +55,15 @@ const leadSchema = new mongoose.Schema({
   address: String,
   city: {
     type: String,
-    required: [true, 'City is required']
+    required: function() {
+      return this.type === 'loan';
+    }
   },
   state: {
     type: String,
-    required: [true, 'State is required']
+    required: function() {
+      return this.type === 'loan';
+    }
   },
   pincode: {
     type: String,

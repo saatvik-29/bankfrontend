@@ -47,10 +47,17 @@ export default function ContactPage() {
           category: 'general',
           message: '',
         });
+        
+        // Keep the success message visible for 5 seconds
+        setTimeout(() => {
+          setSubmitted(false);
+        }, 5000);
       } else {
+        alert('Failed to send message. Please try again.');
         console.error('Failed to send message:', result.message);
       }
     } catch (error) {
+      alert('Error sending message. Please try again.');
       console.error('Error sending message:', error);
     } finally {
       setLoading(false);
