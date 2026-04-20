@@ -253,15 +253,19 @@ export default function HomePage() {
       />
 
       <div className="min-h-screen bg-white">
-        {/* Hero Section - Full Width with Background Image */}
+        {/* Hero Section - Full Width with Background Video */}
         <section className="relative min-h-screen flex items-end overflow-hidden">
-          {/* Background Image with Overlay */}
+          {/* Background Video with Overlay */}
           <div className="absolute inset-0 z-0">
-            <img
-              src="/hero-bg.jpg"
-              alt="Financial Services"
-              className="w-full h-full object-cover"
-            />
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full h-full object-cover scale-110"
+            >
+              <source src="/hero-bg.mp4" type="video/mp4" />
+            </video>
             <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/95 via-[#0F172A]/70 to-[#0F172A]/55"></div>
           </div>
 
