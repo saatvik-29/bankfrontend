@@ -269,7 +269,7 @@ export default function HomePage() {
             <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/95 via-[#0F172A]/70 to-[#0F172A]/55"></div>
           </div>
 
-          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-36 md:pb-44 pt-40 pl-6 sm:pl-12 lg:pl-16">
+          <div className="relative z-10 pb-16 md:pb-20 pt-32 pl-20 sm:pl-32 lg:pl-48">
             <div className="max-w-3xl">
               <p className="text-xs md:text-sm uppercase tracking-[0.3em] text-[#FF8C42] mb-6 font-medium">Trusted by 700+ Customers Across India</p>
 
@@ -429,77 +429,42 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Loan Products Section */}
-        <section className="py-24 bg-white relative overflow-hidden">
-          {/* Decorative Elements */}
-          <div className="absolute top-0 left-0 w-96 h-96 bg-[#FF6B35]/5 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#0A1F44]/5 rounded-full blur-3xl"></div>
-
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div
-              id="loan-products"
-              data-animate
-              className={`text-center mb-16 transition-all duration-1000 ${isVisible['loan-products'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                }`}
-            >
-              <h2 className="text-4xl md:text-5xl font-bold text-[#0A1F44] mb-6">
-                Choose Your{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B35] to-[#FF8C42]">
-                  Perfect Loan
-                </span>
-              </h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Compare rates, get instant approvals, and choose from India's widest range of loan products
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {loanProducts.map((product, index) => (
-                <div
-                  key={index}
-                  onClick={() => handleApplyClick(product.link)}
-                  data-animate
-                  id={`product-${index}`}
-                  className={`group relative bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-gray-100 overflow-hidden cursor-pointer ${isVisible[`product-${index}`] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                    }`}
-                  style={{ transitionDelay: `${index * 100}ms` }}
+        {/* About Us Section */}
+        <section className="py-24 bg-gray-50 relative overflow-hidden">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              {/* Video Side */}
+              <div className="relative">
+                <video
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full h-full object-cover"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#0A1F44]/5 to-[#FF6B35]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  {/* Floating sparkle effect */}
-                  <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <Sparkles className="w-5 h-5 text-[#FF6B35] animate-pulse" />
-                  </div>
-                  <div className="relative z-10">
-                    <div className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${product.color} flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg`}>
-                      <product.icon className="w-8 h-8 text-white" />
-                    </div>
+                  <source src="/vecteezy_personal-loan-online-approved-2d-animation_38998780.mp4" type="video/mp4" />
+                </video>
+              </div>
 
-                    <h3 className="text-2xl font-bold text-[#0A1F44] mb-3 group-hover:text-[#FF6B35] transition-colors">
-                      {product.title}
-                    </h3>
-
-                    <p className="text-gray-600 mb-6 leading-relaxed">
-                      {product.description}
-                    </p>
-
-                    <div className="flex justify-between items-center mb-6">
-                      <div>
-                        <div className="text-sm text-gray-500">Starting from</div>
-                        <div className="text-2xl font-bold text-[#FF6B35]">{product.rate}</div>
-                      </div>
-                      <div>
-                        <div className="text-sm text-gray-500">Up to</div>
-                        <div className="text-2xl font-bold text-[#0A1F44]">{product.amount}</div>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center text-[#FF6B35] font-semibold group-hover:text-[#0A1F44] transition-colors">
-                      Apply Now{" "}
-                      <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-2 transition-transform" />
-                    </div>
-                  </div>
+              {/* Content Side */}
+              <div className="space-y-6">
+                <div>
+                  <h2 className="text-4xl md:text-5xl font-bold text-[#0A1F44] mb-6">
+                    About{" "}
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B35] to-[#FF8C42]">
+                      Us
+                    </span>
+                  </h2>
+                  <p className="text-xl text-gray-600 leading-relaxed mb-6">
+                    {/* Content to be filled in later */}
+                    Your trusted partner in financial solutions. We are committed to providing seamless loan services with transparency and efficiency.
+                  </p>
+                  <p className="text-lg text-gray-600 leading-relaxed">
+                    {/* Additional content to be filled in later */}
+                    With years of expertise and a customer-first approach, we help you achieve your financial goals with ease.
+                  </p>
                 </div>
-              ))}
+              </div>
             </div>
           </div>
         </section>
