@@ -39,5 +39,11 @@
       "destination": "/admin/login",
       "permanent": false
     }
+  ],
+  "crons": [
+    {
+      "path": "/api/generate-blog?secret=my-super-secret-cron-key-change-in-prod",
+      "schedule": "0 0 * * 1"
+    }
   ]
 }
