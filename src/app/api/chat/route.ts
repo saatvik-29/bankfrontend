@@ -1,18 +1,48 @@
-import { NextRequest, NextResponse } from 'next/server';
-import ChatbotService from '@/lib/chatbot';
+import { GoogleGenerativeAI } from '@google/generative-ai';
+import { SYSTEM_PROMPT } from '@/lib/chatbotPrompt';
 
-export async function POST(request: NextRequest) {
+export async function POST(req: Request) {
   try {
-    const { message } = await request.json();
-    const chatbotService = new ChatbotService();
-    const response = await chatbotService.getChatResponse(message);
+    if (!process.env.GOOGLE_AI_API_KEY) {
+      return Response.json({ error: 'Google AI API Key not configured' }, { status: 500 });
+    }
+
+    const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY);
+    const { messages } = await req.json();
+
+    const model = genAI.getGenerativeModel({ 
+      model: 'gemini-2.5-flash',
+      systemInstruction: SYSTEM_PROMPT
+    });
+
+    let rawHistory = messages.slice(0, -1);
     
-    return NextResponse.json({ response });
+    // Gemini history MUST start with a 'user' message.
+    const firstUserIndex = rawHistory.findIndex((msg: any) => msg.role === 'user');
+    if (firstUserIndex !== -1) {
+      rawHistory = rawHistory.slice(firstUserIndex);
+    } else {
+      rawHistory = []; // No user messages yet, so history is empty
+    }
+
+    const history = rawHistory.map((msg: any) => ({
+      role: msg.role === 'user' ? 'user' : 'model',
+      parts: [{ text: msg.text }]
+    }));
+
+    const latestMessage = messages[messages.length - 1].text;
+
+    const chat = model.startChat({
+      history: history,
+    });
+
+    const result = await chat.sendMessage([{ text: latestMessage }]);
+    const text = result.response.text();
+
+    return Response.json({ text });
+
   } catch (error) {
-    console.error('Chat error:', error);
-    return NextResponse.json(
-      { message: 'Sorry, I encountered an error. Please try again.' },
-      { status: 500 }
-    );
+    console.error('Chat API Error:', error);
+    return Response.json({ error: 'Failed to generate response' }, { status: 500 });
   }
 }
