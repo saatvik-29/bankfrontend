@@ -127,41 +127,127 @@ export default function AboutUsPage() {
         </div>
       </section>
 
-      {/* SPECIAL BENEFITS */}
+      {/* ── LEADERSHIP ───────────────────────────────────────────── */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-14">
-            <p className="text-xs uppercase tracking-[0.3em] text-[#FF8C42] font-medium mb-2">Exclusive Perks</p>
+            <p className="text-xs uppercase tracking-[0.3em] text-[#FF8C42] font-medium mb-2">Our Leaders</p>
             <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900" style={{ letterSpacing: '-0.02em' }}>
-              Special Benefits for{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B35] to-[#FF8C42]">
-                Direct Customers
-              </span>
+              Meet the{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B35] to-[#FF8C42]">Founders</span>
             </h2>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              { icon: TrendingUp, title: 'Exclusive Rate Concessions', desc: 'Special discounts on interest rates not available elsewhere.' },
-              { icon: CheckCircle, title: 'Waived Processing Charges', desc: 'Bank processing fees waived for all qualified direct applicants.' },
-              { icon: Award, title: 'Priority Processing', desc: 'Your application jumps the queue for faster approval.' },
-              { icon: Users, title: 'Dedicated Relationship Manager', desc: 'A single point of contact from start to disbursal.' },
-              { icon: MapPin, title: 'Doorstep Documentation', desc: 'Our team collects your documents from your home or office.' },
-              { icon: Heart, title: 'Lifetime Support', desc: 'We\'re here for every query, even after your loan is disbursed.' },
-            ].map((item) => (
-              <div key={item.title} className="group bg-gray-50 hover:bg-orange-50 rounded-2xl p-6 border border-gray-100 hover:border-orange-200 hover:shadow-lg transition-all duration-300">
-                <div className="w-10 h-10 bg-gradient-to-r from-[#FF6B35] to-[#FF8C42] rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <item.icon className="w-5 h-5 text-white" />
+          
+          <div className="space-y-12">
+            {/* Founder */}
+            <div className="flex flex-col lg:flex-row items-center gap-10 bg-[#f8f9fc] rounded-3xl p-8 lg:p-12 border border-blue-50 shadow-sm relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-[#FF6B35]/5 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
+              
+              <div className="lg:w-1/3 w-full relative group shrink-0">
+                <div className="absolute -inset-1 bg-gradient-to-r from-blue-100 to-[#e4ebf5] rounded-2xl blur-md opacity-70 group-hover:opacity-100 transition duration-500"></div>
+                <div className="relative aspect-[4/5] rounded-xl overflow-hidden bg-gray-200 border-4 border-white shadow-md max-w-[300px] mx-auto">
+                  {/* UPDATE SRC: Founder Image */}
+                  <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80" alt="Founder" className="w-full h-full object-cover" />
                 </div>
-                <h3 className="font-bold text-gray-900 mb-1">{item.title}</h3>
-                <p className="text-sm text-gray-500 leading-relaxed">{item.desc}</p>
               </div>
-            ))}
+              
+              <div className="lg:w-2/3 w-full flex flex-col justify-center relative z-10 pl-0 lg:pl-6">
+                <svg width="45" height="35" viewBox="0 0 512 512" fill="#3B82F6" className="mb-5 opacity-90">
+                  <path d="M464 256h-80v-64c0-35.3 28.7-64 64-64h8c13.3 0 24-10.7 24-24V56c0-13.3-10.7-24-24-24h-8c-88.4 0-160 71.6-160 160v240c0 26.5 21.5 48 48 48h128c26.5 0 48-21.5 48-48V304c0-26.5-21.5-48-48-48zm-288 0H96v-64c0-35.3 28.7-64 64-64h8c13.3 0 24-10.7 24-24V56c0-13.3-10.7-24-24-24h-8C71.6 32 0 103.6 0 192v240c0 26.5 21.5 48 48 48h128c26.5 0 48-21.5 48-48V304c0-26.5-21.5-48-48-48z" />
+                </svg>
+                <h3 className="text-2xl md:text-3xl font-extrabold text-[#3B82F6] mb-5 leading-tight">We Empower Our Clients by Giving Right Financial Advice</h3>
+                <div className="border-l-[3px] border-red-500 pl-5 py-1 mb-6">
+                  <p className="text-gray-600 text-base leading-relaxed">
+                    "Our value, motto & mission remains to instil the right financial knowledge among our clients and bestow the finest services to individuals seeking credit aid. Leveraging upon new-age technologies, we endeavour to create a financial environment where we can serve a large segment of the population. With the mission to 'help you borrow right,' our core aim remains to impart principled information and bridge the gap between the credit-seeking individuals and authentic lenders."
+                  </p>
+                </div>
+                <div>
+                  <p className="text-lg font-bold text-gray-900">John Doe</p>
+                  <p className="text-xs font-semibold text-gray-500 mt-0.5">Founder of BankersDen</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Co-Founder */}
+            <div className="flex flex-col lg:flex-row-reverse items-center gap-10 bg-[#f8f9fc] rounded-3xl p-8 lg:p-12 border border-blue-50 shadow-sm relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute bottom-0 right-0 w-64 h-64 bg-[#FF6B35]/5 rounded-full blur-3xl pointer-events-none" />
+              
+              <div className="lg:w-1/3 w-full relative group shrink-0">
+                <div className="absolute -inset-1 bg-gradient-to-l from-blue-100 to-[#e4ebf5] rounded-2xl blur-md opacity-70 group-hover:opacity-100 transition duration-500"></div>
+                <div className="relative aspect-[4/5] rounded-xl overflow-hidden bg-gray-200 border-4 border-white shadow-md max-w-[300px] mx-auto">
+                  {/* UPDATE SRC: Co-Founder Image */}
+                  <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80" alt="Co-Founder" className="w-full h-full object-cover" />
+                </div>
+              </div>
+              
+              <div className="lg:w-2/3 w-full flex flex-col justify-center relative z-10 pr-0 lg:pr-6">
+                <svg width="45" height="35" viewBox="0 0 512 512" fill="#3B82F6" className="mb-5 opacity-90">
+                  <path d="M464 256h-80v-64c0-35.3 28.7-64 64-64h8c13.3 0 24-10.7 24-24V56c0-13.3-10.7-24-24-24h-8c-88.4 0-160 71.6-160 160v240c0 26.5 21.5 48 48 48h128c26.5 0 48-21.5 48-48V304c0-26.5-21.5-48-48-48zm-288 0H96v-64c0-35.3 28.7-64 64-64h8c13.3 0 24-10.7 24-24V56c0-13.3-10.7-24-24-24h-8C71.6 32 0 103.6 0 192v240c0 26.5 21.5 48 48 48h128c26.5 0 48-21.5 48-48V304c0-26.5-21.5-48-48-48z" />
+                </svg>
+                <h3 className="text-2xl md:text-3xl font-extrabold text-[#3B82F6] mb-5 leading-tight">Building Trust Through Transparency & Compassion</h3>
+                <div className="border-l-[3px] border-red-500 pl-5 py-1 mb-6">
+                  <p className="text-gray-600 text-base leading-relaxed">
+                    "We strongly believe that a successful financial relationship is rooted in transparency. Our guiding light is to help every individual feel confident about their financial journey, steering clear of opaque processes. By building an elite network of dedicated bankers and advisors, we've successfully helped thousands realize their dreams, providing assurance from initial consultation to final disbursal."
+                  </p>
+                </div>
+                <div>
+                  <p className="text-lg font-bold text-gray-900">Jane Doe</p>
+                  <p className="text-xs font-semibold text-gray-500 mt-0.5">Co-Founder of BankersDen</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── OFFICE CULTURE & CELEBRATIONS ──────────────────────── */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-14">
+            <p className="text-xs uppercase tracking-[0.3em] text-[#FF8C42] font-medium mb-2">Life at BankersDen</p>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900" style={{ letterSpacing: '-0.02em' }}>
+              Office <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B35] to-[#FF8C42]">Culture & Celebrations</span>
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto mt-4 text-lg">
+              We believe in working hard and celebrating harder. Here is a glimpse into our vibrant work environment where every milestone is shared.
+            </p>
+          </div>
+          
+          {/* Photos Grid - Replace src with actual photos */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 auto-rows-[200px]">
+            {/* Image 1 (Large Square) */}
+            <div className="col-span-2 row-span-2 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group">
+              <div className="relative w-full h-full bg-gray-200">
+                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80" alt="Office Celebration" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
+              </div>
+            </div>
+            {/* Image 2 (Small Square) */}
+            <div className="col-span-1 row-span-1 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group">
+              <div className="relative w-full h-full bg-gray-200">
+                <img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&q=80" alt="Office Culture" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+              </div>
+            </div>
+            {/* Image 3 (Small Square) */}
+            <div className="col-span-1 row-span-1 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group">
+              <div className="relative w-full h-full bg-gray-200">
+                <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80" alt="Corporate Event" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+              </div>
+            </div>
+            {/* Image 4 (Wide Rectangle) */}
+            <div className="col-span-2 row-span-1 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group">
+              <div className="relative w-full h-full bg-gray-200">
+                <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=80" alt="Team Work" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* KEY NUMBERS */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <p className="text-xs uppercase tracking-[0.3em] text-[#FF8C42] font-medium mb-2">AT A GLANCE</p>
@@ -190,7 +276,7 @@ export default function AboutUsPage() {
       </section>
 
       {/* CONTACT INFO */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <p className="text-xs uppercase tracking-[0.3em] text-[#FF8C42] font-medium mb-2">REACH US</p>

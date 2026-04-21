@@ -27,8 +27,9 @@ export default function PropertyLoanPage() {
   const [interestRate, setInterestRate] = useState(12.5);
 
   const emi = useMemo(() => {
+    // EMI = P × r × (1 + r)ⁿ / ((1 + r)ⁿ − 1)
     const P = loanAmount;
-    const r = interestRate / 100 / 12;
+    const r = (interestRate / 12) / 100;
     const n = tenure * 12;
     if (r === 0) return P / n;
     return (P * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
@@ -75,7 +76,7 @@ export default function PropertyLoanPage() {
               {/* copy */}
               <div className="space-y-6">
                 <p className="text-xs uppercase tracking-[0.3em] text-[#FF8C42] font-medium">
-                  Property Financing
+                  Property Loan
                 </p>
                 <h1
                   className="text-5xl md:text-6xl font-extrabold text-gray-900 leading-tight"
@@ -506,7 +507,7 @@ export default function PropertyLoanPage() {
         </section>
 
         {/* ── CTA ──────────────────────────────────────────────────── */}
-        <section className="bg-gradient-to-r from-[#FF6B35] to-[#FF8C42] py-20">
+        <section className="bg-[#FF8C42] py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4">
               Ready to Unlock Your Property's Value?
@@ -517,7 +518,7 @@ export default function PropertyLoanPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button onClick={handleApplyNow} size="lg"
-                className="bg-white text-[#FF6B35] hover:bg-orange-50 font-bold rounded-full px-10 shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300">
+                className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-[#FF6B35] font-bold rounded-full px-10 shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300">
                 Apply Now
               </Button>
               <Button onClick={() => router.push('/contact')} size="lg" variant="outline"

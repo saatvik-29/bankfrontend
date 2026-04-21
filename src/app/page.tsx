@@ -21,7 +21,8 @@ import {
   Shield,
   Sparkles,
   TrendingDown,
-  Users
+  Users,
+  ChevronDown
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { AuthModal } from '@/components/AuthModal';
@@ -31,6 +32,12 @@ export default function HomePage() {
   const router = useRouter();
   const { isAuthenticated } = useAuth();
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [dropdownPosition, setDropdownPosition] = useState<'down' | 'up'>('down');
+  const dropdownButtonRef = useRef<HTMLButtonElement>(null);
+  const [isCtaDropdownOpen, setIsCtaDropdownOpen] = useState(false);
+  const [ctaDropdownPosition, setCtaDropdownPosition] = useState<'down' | 'up'>('down');
+  const ctaDropdownButtonRef = useRef<HTMLButtonElement>(null);
   const [pendingRoute, setPendingRoute] = useState<string | null>(null);
   const [isVisible, setIsVisible] = useState<{ [key: string]: boolean }>({});
   const observerRef = useRef<IntersectionObserver | null>(null);
@@ -48,6 +55,31 @@ export default function HomePage() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
 
   // Intersection Observer for scroll animations
+  useEffect(() => {
+    if (isDropdownOpen && dropdownButtonRef.current) {
+      const rect = dropdownButtonRef.current.getBoundingClientRect();
+      const spaceBelow = window.innerHeight - rect.bottom;
+      // Dropdown menu is roughly 320px tall
+      if (spaceBelow < 320 && rect.top > 320) {
+        setDropdownPosition('up');
+      } else {
+        setDropdownPosition('down');
+      }
+    }
+  }, [isDropdownOpen]);
+
+  useEffect(() => {
+    if (isCtaDropdownOpen && ctaDropdownButtonRef.current) {
+      const rect = ctaDropdownButtonRef.current.getBoundingClientRect();
+      const spaceBelow = window.innerHeight - rect.bottom;
+      if (spaceBelow < 320 && rect.top > 320) {
+        setCtaDropdownPosition('up');
+      } else {
+        setCtaDropdownPosition('down');
+      }
+    }
+  }, [isCtaDropdownOpen]);
+
   useEffect(() => {
     observerRef.current = new IntersectionObserver(
       (entries) => {
@@ -253,10 +285,9 @@ export default function HomePage() {
       />
 
       <div className="min-h-screen bg-white">
-        {/* Hero Section - Full Width with Background Video */}
-        <section className="relative min-h-screen flex items-end overflow-hidden">
+        <section className="relative z-40 min-h-screen flex items-end">
           {/* Background Video with Overlay */}
-          <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 z-0 overflow-hidden">
             <video
               autoPlay
               loop
@@ -286,15 +317,42 @@ export default function HomePage() {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <button
-                  onClick={() => handleApplyClick('/loans/personal')}
-                  className="bg-gradient-to-r from-[#FF6B35] to-[#FF8C42] hover:from-[#FF8C42] hover:to-[#FF6B35] text-white font-semibold tracking-wide py-4 px-8 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 hover:scale-105"
-                >
-                  <div className="flex items-center justify-center">
-                    <Zap className="w-5 h-5 mr-2" />
-                    Get Instant Loan
+                <div className="relative z-50">
+                  <button
+                    ref={dropdownButtonRef}
+                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                    onBlur={() => setTimeout(() => setIsDropdownOpen(false), 200)}
+                    className="bg-gradient-to-r from-[#FF6B35] to-[#FF8C42] hover:from-[#FF8C42] hover:to-[#FF6B35] text-white font-semibold tracking-wide py-4 px-8 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 hover:scale-105 w-full sm:w-auto"
+                  >
+                    <div className="flex items-center justify-center">
+                      <Zap className="w-5 h-5 mr-2" />
+                      Get Instant Loan
+                      <ChevronDown className={`w-5 h-5 ml-2 transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                    </div>
+                  </button>
+
+                  <div className={`absolute left-0 z-50 w-full sm:w-60 bg-white rounded-2xl shadow-2xl border border-orange-100 transition-all duration-300 overflow-hidden transform ${
+                    dropdownPosition === 'up' ? 'bottom-full mb-3 origin-bottom-left' : 'top-full mt-3 origin-top-left'
+                  } ${isDropdownOpen ? 'opacity-100 scale-100 visible' : 'opacity-0 scale-95 invisible'}`}>
+                    {[
+                      { name: 'Personal Loan', path: '/loans/personal' },
+                      { name: 'Home Loan', path: '/loans/home' },
+                      { name: 'Business Loan', path: '/loans/business' },
+                      { name: 'Car Loan', path: '/loans/car' },
+                      { name: 'Education Loan', path: '/loans/education' },
+                      { name: 'Property Loan', path: '/loans/property' },
+                    ].map((loan) => (
+                      <button
+                        key={loan.name}
+                        onClick={() => handleApplyClick(loan.path)}
+                        className="w-full text-left px-6 py-3.5 hover:bg-orange-50 text-gray-700 hover:text-[#FF6B35] font-semibold transition-colors duration-200 border-b border-gray-50 last:border-0 relative overflow-hidden group/item"
+                      >
+                        <span className="relative z-10">{loan.name}</span>
+                        <div className="absolute inset-0 bg-gradient-to-r from-orange-50 to-transparent translate-x-[-100%] group-hover/item:translate-x-0 transition-transform duration-300"></div>
+                      </button>
+                    ))}
                   </div>
-                </button>
+                </div>
                 <Link href="/calculators">
                   <button className="bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-semibold tracking-wide py-4 px-8 rounded-full border-2 border-white/30 hover:border-white/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
                     <div className="flex items-center justify-center">
@@ -605,9 +663,9 @@ export default function HomePage() {
         </section>
 
         {/* CTA Section */}
-        <section className="relative py-24 overflow-hidden">
+        <section className="relative z-40 py-24">
           {/* Background Image */}
-          <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 z-0 overflow-hidden">
             <img
               src="/cta-bg.jpg"
               alt="Financial Consultation"
@@ -626,15 +684,42 @@ export default function HomePage() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button
-                onClick={() => handleApplyClick('/loans/personal')}
-                className="bg-gradient-to-r from-[#FF6B35] to-[#FF8C42] hover:from-[#FF8C42] hover:to-[#FF6B35] text-white font-bold py-4 px-8 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
-              >
-                <div className="flex items-center justify-center">
-                  <Zap className="w-5 h-5 mr-2" />
-                  Apply for Loan Now
+              <div className="relative z-50">
+                <button
+                  ref={ctaDropdownButtonRef}
+                  onClick={() => setIsCtaDropdownOpen(!isCtaDropdownOpen)}
+                  onBlur={() => setTimeout(() => setIsCtaDropdownOpen(false), 200)}
+                  className="bg-gradient-to-r from-[#FF6B35] to-[#FF8C42] hover:from-[#FF8C42] hover:to-[#FF6B35] text-white font-bold py-4 px-8 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 w-full sm:w-auto"
+                >
+                  <div className="flex items-center justify-center">
+                    <Zap className="w-5 h-5 mr-2" />
+                    Apply for Loan Now
+                    <ChevronDown className={`w-5 h-5 ml-2 transition-transform duration-300 ${isCtaDropdownOpen ? 'rotate-180' : ''}`} />
+                  </div>
+                </button>
+
+                <div className={`absolute left-1/2 -translate-x-1/2 sm:left-0 sm:translate-x-0 w-full sm:w-60 bg-white rounded-2xl shadow-2xl border border-orange-100 transition-all duration-300 overflow-hidden transform ${
+                  ctaDropdownPosition === 'up' ? 'bottom-full mb-3 origin-bottom' : 'top-full mt-3 origin-top'
+                } ${isCtaDropdownOpen ? 'opacity-100 scale-100 visible' : 'opacity-0 scale-95 invisible'}`}>
+                  {[
+                    { name: 'Personal Loan', path: '/loans/personal' },
+                    { name: 'Home Loan', path: '/loans/home' },
+                    { name: 'Business Loan', path: '/loans/business' },
+                    { name: 'Car Loan', path: '/loans/car' },
+                    { name: 'Education Loan', path: '/loans/education' },
+                    { name: 'Property Loan', path: '/loans/property' },
+                  ].map((loan) => (
+                    <button
+                      key={loan.name}
+                      onClick={() => handleApplyClick(loan.path)}
+                      className="w-full text-left px-6 py-3.5 hover:bg-orange-50 text-gray-700 hover:text-[#FF6B35] font-semibold transition-colors duration-200 border-b border-gray-50 last:border-0 relative overflow-hidden group/item"
+                    >
+                      <span className="relative z-10">{loan.name}</span>
+                      <div className="absolute inset-0 bg-gradient-to-r from-orange-50 to-transparent translate-x-[-100%] group-hover/item:translate-x-0 transition-transform duration-300"></div>
+                    </button>
+                  ))}
                 </div>
-              </button>
+              </div>
               <Link href="/contact">
                 <button className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-[#0A1F44] font-bold py-4 px-8 rounded-xl transition-all duration-300">
                   <div className="flex items-center justify-center">

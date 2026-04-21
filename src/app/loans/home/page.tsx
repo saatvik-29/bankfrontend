@@ -16,7 +16,10 @@ export default function HomeLoanPage() {
   const [interestRate, setInterestRate] = useState(9.5);
 
   const emi = useMemo(() => {
-    const P = loanAmount, r = interestRate / 100 / 12, n = tenure * 12;
+    // EMI = P × r × (1 + r)ⁿ / ((1 + r)ⁿ − 1)
+    const P = loanAmount;
+    const r = (interestRate / 12) / 100;
+    const n = tenure * 12;
     if (r === 0) return P / n;
     return (P * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
   }, [loanAmount, tenure, interestRate]);
@@ -47,7 +50,7 @@ export default function HomeLoanPage() {
           <div className="flex-1 flex items-center max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-28 pb-8" style={{ flex: '1 1 auto' }}>
             <div className="grid lg:grid-cols-2 gap-10 items-center w-full">
               <div className="space-y-6">
-                <p className="text-xs uppercase tracking-[0.3em] text-[#FF8C42] font-medium">Home Financing</p>
+                <p className="text-xs uppercase tracking-[0.3em] text-[#FF8C42] font-medium">Home Loan</p>
                 <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 leading-tight" style={{ letterSpacing: '-0.03em' }}>
                   Make Your<br />
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B35] to-[#FF8C42]">Dream Home Real</span>
@@ -245,12 +248,12 @@ export default function HomeLoanPage() {
         </section>
 
         {/* CTA */}
-        <section className="bg-gradient-to-r from-[#FF6B35] to-[#FF8C42] py-20">
+        <section className="bg-[#FF8C42] py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4">Ready to Apply for a Home Loan?</h2>
             <p className="text-orange-100 text-lg mb-8 max-w-2xl mx-auto">Get started with our simple online application. Expert guidance at every step of the journey.</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button onClick={handleApplyNow} size="lg" className="bg-white text-[#FF6B35] hover:bg-orange-50 font-bold rounded-full px-10 shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300">Apply Now</Button>
+              <Button onClick={handleApplyNow} size="lg" className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-[#FF6B35] font-bold rounded-full px-10 shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300">Apply Now</Button>
               <Button onClick={() => router.push('/contact')} size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-[#FF6B35] font-bold rounded-full px-10 transition-all duration-300">Contact Us</Button>
             </div>
           </div>

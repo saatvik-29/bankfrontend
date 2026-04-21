@@ -92,9 +92,12 @@ function EmiTab() {
   const [rate, setRate] = useState(11.5);
 
   const emi = useMemo(() => {
-    const r = rate / 100 / 12, n = tenure * 12;
-    if (r === 0) return principal / n;
-    return (principal * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+    // EMI = P × r × (1 + r)ⁿ / ((1 + r)ⁿ − 1)
+    const P = principal;
+    const r = (rate / 12) / 100;
+    const n = tenure * 12;
+    if (r === 0) return P / n;
+    return (P * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
   }, [principal, tenure, rate]);
 
   const totalPayable = emi * tenure * 12;
@@ -237,13 +240,14 @@ function PartPaymentTab() {
   const [partPayment, setPartPayment] = useState(500000);
   const [paidMonths, setPaidMonths] = useState(24);
 
-  const r = rate / 100 / 12;
+  const r = (rate / 12) / 100;
   const n = tenure * 12;
 
   const originalEmi = useMemo(() => {
-    if (r === 0) return principal / n;
-    return (principal * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
-  }, [principal, rate, tenure]);
+    const P = principal;
+    if (r === 0) return P / n;
+    return (P * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+  }, [principal, rate, tenure, r, n]);
 
   const outstanding = useMemo(() => {
     return principal * Math.pow(1 + r, paidMonths) - originalEmi * ((Math.pow(1 + r, paidMonths) - 1) / r);
@@ -253,8 +257,9 @@ function PartPaymentTab() {
   const remainingMonths = Math.max(1, n - paidMonths);
 
   const newEmi = useMemo(() => {
-    if (r === 0) return newPrincipal / remainingMonths;
-    return (newPrincipal * r * Math.pow(1 + r, remainingMonths)) / (Math.pow(1 + r, remainingMonths) - 1);
+    const P = newPrincipal;
+    if (r === 0) return P / remainingMonths;
+    return (P * r * Math.pow(1 + r, remainingMonths)) / (Math.pow(1 + r, remainingMonths) - 1);
   }, [newPrincipal, r, remainingMonths]);
 
   const originalTotal = originalEmi * n;
@@ -392,7 +397,7 @@ export default function CalculatorsPage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-gradient-to-r from-[#FF6B35] to-[#FF8C42] py-16">
+      <section className="bg-[#FF8C42] py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4">Ready to Apply?</h2>
           <p className="text-orange-100 text-lg mb-8 max-w-xl mx-auto">
