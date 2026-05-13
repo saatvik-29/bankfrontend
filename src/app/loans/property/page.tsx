@@ -16,6 +16,9 @@ import {
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { AuthModal } from '@/components/AuthModal';
+import { SecondaryNav } from '@/components/SecondaryNav';
+import { FAQ } from '@/components/FAQ';
+import { propertyLoanFAQs } from '@/data/faqs';
 
 export default function PropertyLoanPage() {
   const router = useRouter();
@@ -24,7 +27,7 @@ export default function PropertyLoanPage() {
 
   const [loanAmount, setLoanAmount] = useState(5000000);
   const [tenure, setTenure] = useState(15);
-  const [interestRate, setInterestRate] = useState(12.5);
+  const [interestRate, setInterestRate] = useState(8.75);
 
   const emi = useMemo(() => {
     // EMI = P × r × (1 + r)ⁿ / ((1 + r)ⁿ − 1)
@@ -54,12 +57,22 @@ export default function PropertyLoanPage() {
     return `linear-gradient(to right, #FF6B35 0%, #FF6B35 ${pct}%, #e5e7eb ${pct}%, #e5e7eb 100%)`;
   };
 
+  const navSections = [
+    { id: 'overview', label: 'OVERVIEW' },
+    { id: 'calculator', label: 'EMI CALCULATOR' },
+    { id: 'features', label: 'FEATURES' },
+    { id: 'eligibility', label: 'ELIGIBILITY' },
+    { id: 'fees', label: 'FEES & CHARGES' },
+    { id: 'faqs', label: 'FAQ\'s' }
+  ];
+
   return (
     <>
       <div className="min-h-screen bg-white">
 
         {/* ── HERO ─────────────────────────────────────────────────── */}
         <section
+          id="overview"
           className="relative flex flex-col bg-gradient-to-br from-orange-50 via-white to-orange-50 overflow-hidden"
           style={{ minHeight: '100vh' }}
         >
@@ -89,8 +102,8 @@ export default function PropertyLoanPage() {
                 </h1>
                 <p className="text-base md:text-lg text-gray-600 leading-relaxed max-w-md">
                   Leverage your property with high loan amounts starting at{' '}
-                  <span className="font-semibold text-[#FF6B35]">10.5% p.a.</span> Get up to{' '}
-                  <span className="font-semibold text-[#FF6B35]">₹10 crore</span> with flexible
+                  <span className="font-semibold text-[#FF6B35]">8.75% p.a.</span> Get up to{' '}
+                  <span className="font-semibold text-[#FF6B35]">₹200 crore</span> with flexible
                   repayment options and no end-use restrictions.
                 </p>
 
@@ -114,7 +127,7 @@ export default function PropertyLoanPage() {
                     onClick={() => router.push('/contact')}
                     className="flex items-center justify-center gap-2 border-2 border-[#FF6B35] text-[#FF6B35] hover:bg-[#FF6B35] hover:text-white font-semibold px-7 py-3.5 rounded-full transition-all duration-300 text-sm"
                   >
-                    <Phone className="w-4 h-4" /> Talk to Expert
+                    <Phone className="w-4 h-4" /> Talk to Banker
                   </button>
                 </div>
               </div>
@@ -136,8 +149,8 @@ export default function PropertyLoanPage() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
               <div className="grid grid-cols-3 divide-x divide-orange-200 max-w-3xl mx-auto">
                 {[
-                  { value: '10.5% – 16%', label: 'Interest Rate' },
-                  { value: '₹10L – ₹10Cr', label: 'Loan Amount' },
+                  { value: '8.75% – 16%', label: 'Interest Rate' },
+                  { value: '₹10L – ₹200Cr', label: 'Loan Amount' },
                   { value: '5 – 20 yrs', label: 'Tenure' },
                 ].map((s) => (
                   <div key={s.label} className="text-center px-6">
@@ -150,8 +163,10 @@ export default function PropertyLoanPage() {
           </div>
         </section>
 
+        <SecondaryNav sections={navSections} />
+
         {/* ── EMI CALCULATOR ───────────────────────────────────────── */}
-        <section className="py-20 bg-gray-50 overflow-hidden">
+        <section id="calculator" className="py-20 bg-gray-50 overflow-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
 
@@ -165,20 +180,30 @@ export default function PropertyLoanPage() {
 
                 <div className="px-6 py-6 space-y-6">
                   <div>
-                    <p className="text-xs text-gray-500 mb-0.5">I want to borrow:</p>
-                    <p className="text-2xl font-bold text-gray-900 mb-2">₹{fmt(loanAmount)}</p>
-                    <input type="range" min={1000000} max={100000000} step={500000}
+                    <div className="flex justify-between items-center mb-2">
+                      <p className="text-sm text-gray-600 font-medium">I want to borrow:</p>
+                      <div className="flex items-center bg-white border border-gray-300 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-[#FF6B35] focus-within:border-transparent">
+                        <span className="pl-3 pr-1 text-gray-500 font-medium">₹</span>
+                        <input type="number" min={1000000} max={2000000000} step={500000} value={loanAmount} onChange={(e) => setLoanAmount(Number(e.target.value))} className="w-28 py-1.5 px-2 bg-transparent text-right font-bold text-gray-900 focus:outline-none" />
+                      </div>
+                    </div>
+                    <input type="range" min={1000000} max={2000000000} step={500000}
                       value={loanAmount} onChange={(e) => setLoanAmount(Number(e.target.value))}
                       className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
-                      style={{ background: sliderBg(loanAmount, 1000000, 100000000) }} />
+                      style={{ background: sliderBg(loanAmount, 1000000, 2000000000) }} />
                     <div className="flex justify-between text-[11px] text-gray-400 mt-1">
-                      <span>₹10L</span><span>₹10Cr</span>
+                      <span>₹10L</span><span>₹200Cr</span>
                     </div>
                   </div>
 
                   <div>
-                    <p className="text-xs text-gray-500 mb-0.5">For a period of:</p>
-                    <p className="text-2xl font-bold text-gray-900 mb-2">{tenure} years</p>
+                    <div className="flex justify-between items-center mb-2">
+                      <p className="text-sm text-gray-600 font-medium">For a period of:</p>
+                      <div className="flex items-center bg-white border border-gray-300 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-[#FF6B35] focus-within:border-transparent">
+                        <input type="number" min={1} max={20} step={1} value={tenure} onChange={(e) => setTenure(Number(e.target.value))} className="w-20 py-1.5 px-2 bg-transparent text-right font-bold text-gray-900 focus:outline-none" />
+                        <span className="pr-3 pl-1 text-gray-500 font-medium">yrs</span>
+                      </div>
+                    </div>
                     <input type="range" min={1} max={20} step={1}
                       value={tenure} onChange={(e) => setTenure(Number(e.target.value))}
                       className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
@@ -189,14 +214,19 @@ export default function PropertyLoanPage() {
                   </div>
 
                   <div>
-                    <p className="text-xs text-gray-500 mb-0.5">Interest rate:</p>
-                    <p className="text-2xl font-bold text-gray-900 mb-2">{interestRate.toFixed(1)}% p.a.</p>
-                    <input type="range" min={10.5} max={16} step={0.5}
+                    <div className="flex justify-between items-center mb-2">
+                      <p className="text-sm text-gray-600 font-medium">Interest rate:</p>
+                      <div className="flex items-center bg-white border border-gray-300 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-[#FF6B35] focus-within:border-transparent">
+                        <input type="number" min={8.75} max={16} step={0.5} value={interestRate} onChange={(e) => setInterestRate(Number(e.target.value))} className="w-20 py-1.5 px-2 bg-transparent text-right font-bold text-gray-900 focus:outline-none" />
+                        <span className="pr-3 pl-1 text-gray-500 font-medium">%</span>
+                      </div>
+                    </div>
+                    <input type="range" min={8.75} max={16} step={0.5}
                       value={interestRate} onChange={(e) => setInterestRate(Number(e.target.value))}
                       className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
-                      style={{ background: sliderBg(interestRate, 10.5, 16) }} />
+                      style={{ background: sliderBg(interestRate, 8.75, 16) }} />
                     <div className="flex justify-between text-[11px] text-gray-400 mt-1">
-                      <span>10.5%</span><span>16%</span>
+                      <span>8.75%</span><span>16%</span>
                     </div>
                   </div>
 
@@ -342,7 +372,7 @@ export default function PropertyLoanPage() {
         </section>
 
         {/* ── KEY FEATURES & BENEFITS ──────────────────────────────── */}
-        <section className="py-20 bg-white">
+        <section id="features" className="py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <p className="text-xs uppercase tracking-[0.3em] text-[#FF8C42] font-medium mb-2">WHY CHOOSE US</p>
@@ -357,12 +387,12 @@ export default function PropertyLoanPage() {
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="grid sm:grid-cols-2 gap-4">
                 {[
-                  { icon: Building, title: 'High Loan-to-Value', desc: 'Get up to 70% of your property value as loan amount.' },
+                  { icon: Building, title: 'High Loan-to-Value', desc: 'Get up to 75% of your property value as loan amount.' },
                   { icon: Home, title: 'Continue Using Property', desc: 'Mortgage your property while continuing to live or use it.' },
                   { icon: CheckCircle, title: 'Flexible End-Use', desc: 'Use funds for business, education, medical, or any personal need.' },
                   { icon: Star, title: 'Tax Benefits', desc: 'Claim interest deduction on loans used for business purposes.' },
-                  { icon: Shield, title: 'No Prepayment Penalty', desc: 'Repay ahead of schedule without any extra charges.' },
-                  { icon: FileText, title: 'Quick Processing', desc: 'Loan disbursal within 7–15 working days after documentation.' },
+                  { icon: Shield, title: 'Part Payment', desc: 'Many lenders (especially for individuals) charge NIL penalty on floating rates. Partial prepayment is often free up to 25% of the principal.' },
+                  { icon: Home, title: 'Door Step Service', desc: 'Enjoy hassle-free processing with our premium doorstep document collection and assistance.' },
                 ].map((item) => (
                   <div
                     key={item.title}
@@ -391,7 +421,7 @@ export default function PropertyLoanPage() {
         </section>
 
         {/* ── ELIGIBILITY & DOCUMENTS ──────────────────────────────── */}
-        <section className="py-20 bg-gray-50">
+        <section id="eligibility" className="py-20 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <p className="text-xs uppercase tracking-[0.3em] text-[#FF8C42] font-medium mb-2">REQUIREMENTS</p>
@@ -462,7 +492,7 @@ export default function PropertyLoanPage() {
         </section>
 
         {/* ── PROCESSING DETAILS ───────────────────────────────────── */}
-        <section className="py-20 bg-white">
+        <section id="fees" className="py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <p className="text-xs uppercase tracking-[0.3em] text-[#FF8C42] font-medium mb-2">PROCESS</p>
@@ -479,7 +509,7 @@ export default function PropertyLoanPage() {
                 {[
                   { icon: Clock, title: 'Processing Time', value: '7–15 days', desc: 'From application to approval' },
                   { icon: FileText, title: 'Processing Fee', value: '0.5–1%', desc: 'Of the sanctioned loan amount' },
-                  { icon: Building, title: 'LTV Ratio', value: 'Up to 70%', desc: 'Of your property market value' },
+                  { icon: Building, title: 'LTV Ratio', value: 'Up to 75%', desc: 'Of your property market value' },
                   { icon: Shield, title: 'Approval Rate', value: '90%+', desc: 'For eligible applicants' },
                 ].map((item) => (
                   <div key={item.title} className="bg-gray-50 rounded-2xl p-5 border border-gray-100 hover:border-orange-200 hover:shadow-md transition-all duration-200 group">
@@ -528,6 +558,11 @@ export default function PropertyLoanPage() {
             </div>
           </div>
         </section>
+
+        {/* Property Loan FAQs */}
+        <div id="faqs">
+          <FAQ items={propertyLoanFAQs} title="Loan Against Property FAQs" />
+        </div>
 
       </div>
 

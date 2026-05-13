@@ -40,8 +40,14 @@ export const EligibilityCalculator: React.FC = () => {
       const tenure = parseInt(formData.loanTenure) || 20;
       const rate = parseFloat(formData.interestRate) || 8.5;
 
-      // Calculate available income for EMI (50% of net income)
-      const availableForEMI = (monthlyIncome * 0.5) - existingEMI;
+      let foir = 0.50;
+      if (monthlyIncome <= 100000) foir = 0.65;
+      else if (monthlyIncome <= 200000) foir = 0.70;
+      else if (monthlyIncome <= 500000) foir = 0.75;
+      else foir = 0.80;
+
+      // Calculate available income for EMI
+      const availableForEMI = (monthlyIncome * foir) - existingEMI;
       
       // Calculate maximum loan amount using EMI formula
       const monthlyRate = rate / (12 * 100);

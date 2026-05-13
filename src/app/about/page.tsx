@@ -259,9 +259,9 @@ export default function AboutUsPage() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               { val: '30 yrs', label: 'Max Repayment Tenure', icon: TrendingUp },
-              { val: '90%', label: 'Max Loan-to-Value', icon: Award },
-              { val: '7.35%', label: 'Starting Interest Rate', icon: Shield },
-              { val: 'Lower ROI', label: 'Balance Transfer Available', icon: Users },
+              { val: '94.5%', label: 'Max Loan-to-Value', icon: Award },
+              { val: '7.10%', label: 'Starting Interest Rate', icon: Shield },
+              { val: 'Transparent & Quick', label: 'Services through trusted banking partners', icon: Users },
             ].map((s) => (
               <div key={s.label} className="bg-white rounded-2xl p-6 text-center shadow-md border border-gray-100 hover:border-orange-200 hover:shadow-xl transition-all duration-300 group hover:-translate-y-1">
                 <div className="w-12 h-12 bg-orange-50 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-gradient-to-r group-hover:from-[#FF6B35] group-hover:to-[#FF8C42] transition-all duration-300">

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X, LogOut, User as UserIcon } from 'lucide-react';
@@ -16,16 +16,40 @@ export const Header = () => {
   const darkHeroPages = ['/'];
   const hasDarkHero = darkHeroPages.includes(pathname);
 
+  const [isVisible, setIsVisible] = useState(true);
+  const lastScrollY = useRef(0);
+  const isVisibleRef = useRef(true);
+
   useEffect(() => {
     const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY > 150) {
+        if (currentScrollY > lastScrollY.current && isVisibleRef.current) {
+          setIsVisible(false); // scrolling down
+          isVisibleRef.current = false;
+        } else if (currentScrollY < lastScrollY.current && !isVisibleRef.current) {
+          setIsVisible(true); // scrolling up
+          isVisibleRef.current = true;
+        }
+      } else {
+        setIsVisible(true);
+        isVisibleRef.current = true;
+      }
+      
+      lastScrollY.current = currentScrollY;
+
       if (hasDarkHero) {
-        setIsScrolled(window.scrollY > 100);
+        setIsScrolled(currentScrollY > 100);
       } else {
         setIsScrolled(true); // Always show solid navbar on light pages
       }
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    // Initial check
     handleScroll();
+    
     return () => window.removeEventListener('scroll', handleScroll);
   }, [hasDarkHero]);
 
@@ -121,7 +145,7 @@ export const Header = () => {
   const mobileIconColor = isScrolled ? 'text-gray-900' : 'text-white';
 
   return (
-    <header className="fixed top-4 left-0 right-0 z-50 w-full px-4 sm:px-6 lg:px-8">
+    <header className={`fixed top-4 left-0 right-0 z-50 w-full px-4 sm:px-6 lg:px-8 transition-transform duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-[150%]'}`}>
       <nav className={`max-w-7xl mx-auto rounded-3xl transition-all duration-300 ${navBg}`}>
         <div className="flex justify-between items-center h-16 md:h-18 px-6">
           <div className="flex items-center">

@@ -3,14 +3,19 @@
 import { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/Button';
-import { Home, CheckCircle, Star, Clock, Shield, FileText, ArrowRight, Phone } from 'lucide-react';
+import { Home, CheckCircle, Star, Clock, Shield, FileText, ArrowRight, Phone, BarChart } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { AuthModal } from '@/components/AuthModal';
+import { CompareROIModal } from '@/components/CompareROIModal';
+import { FAQ } from '@/components/FAQ';
+import { SecondaryNav } from '@/components/SecondaryNav';
+import { homeLoanFAQs } from '@/data/faqs';
 
 export default function HomeLoanPage() {
   const router = useRouter();
   const { isAuthenticated } = useAuth();
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isCompareModalOpen, setIsCompareModalOpen] = useState(false);
   const [loanAmount, setLoanAmount] = useState(5000000);
   const [tenure, setTenure] = useState(20);
   const [interestRate, setInterestRate] = useState(9.5);
@@ -38,12 +43,21 @@ export default function HomeLoanPage() {
     return `linear-gradient(to right,#FF6B35 0%,#FF6B35 ${p}%,#e5e7eb ${p}%,#e5e7eb 100%)`;
   };
 
+  const navSections = [
+    { id: 'overview', label: 'OVERVIEW' },
+    { id: 'calculator', label: 'EMI CALCULATOR' },
+    { id: 'features', label: 'FEATURES' },
+    { id: 'eligibility', label: 'ELIGIBILITY' },
+    { id: 'fees', label: 'FEES & CHARGES' },
+    { id: 'faqs', label: 'FAQ\'s' }
+  ];
+
   return (
     <>
       <div className="min-h-screen bg-white">
 
         {/* HERO */}
-        <section className="relative flex flex-col bg-gradient-to-br from-orange-50 via-white to-orange-50 overflow-hidden" style={{ minHeight: '100vh' }}>
+        <section id="overview" className="relative flex flex-col bg-gradient-to-br from-orange-50 via-white to-orange-50 overflow-hidden" style={{ minHeight: '100vh' }}>
           <div className="absolute top-1/3 right-0 w-80 h-80 bg-[#FF6B35]/10 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute bottom-10 left-0 w-64 h-64 bg-[#FF8C42]/10 rounded-full blur-3xl pointer-events-none" />
 
@@ -56,23 +70,27 @@ export default function HomeLoanPage() {
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B35] to-[#FF8C42]">Dream Home Real</span>
                 </h1>
                 <p className="text-base md:text-lg text-gray-600 leading-relaxed max-w-md">
-                  India's lowest interest rates starting at <span className="font-semibold text-[#FF6B35]">8.5% p.a.</span> Get up to{' '}
-                  <span className="font-semibold text-[#FF6B35]">90% financing</span> with instant approval and zero hidden charges.
+                  Aim of Bankers Den - Honesty - Integrity - Transparency and Service.<br/>
+                  India's lowest interest rates starting at <span className="font-semibold text-[#FF6B35]">7.10% p.a.</span> Get up to{' '}
+                  <span className="font-semibold text-[#FF6B35]">94.5% financing</span> with Best in Industry TAT for processing with zero hidden charges.
                 </p>
                 <div className="grid grid-cols-2 gap-2 max-w-md">
-                  {['Instant Approval in 24 hrs', 'Up to 90% Financing', 'Minimal Documentation', 'Tax Benefits up to ₹3.5L'].map(f => (
+                  {['In principle approval within 24 hours', 'Up to 94.5% Financing', 'Minimal Documentation', 'Tax Benefits up to ₹3.5L'].map(f => (
                     <div key={f} className="flex items-start space-x-2">
                       <CheckCircle className="w-4 h-4 text-[#FF6B35] mt-0.5 flex-shrink-0" />
                       <span className="text-sm text-gray-700">{f}</span>
                     </div>
                   ))}
                 </div>
-                <div className="flex flex-col sm:flex-row gap-3">
+                <div className="flex flex-col sm:flex-row flex-wrap gap-3">
                   <button onClick={handleApplyNow} className="bg-gradient-to-r from-[#FF6B35] to-[#FF8C42] hover:from-[#FF8C42] hover:to-[#FF6B35] text-white font-semibold px-7 py-3.5 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 flex items-center justify-center text-sm">
                     Apply Now <ArrowRight className="w-4 h-4 ml-2" />
                   </button>
+                  <button onClick={() => setIsCompareModalOpen(true)} className="flex items-center justify-center gap-2 border-2 border-[#1E293B] text-[#1E293B] hover:bg-[#1E293B] hover:text-white font-semibold px-7 py-3.5 rounded-full transition-all duration-300 text-sm">
+                    <BarChart className="w-4 h-4" /> Compare ROI
+                  </button>
                   <button onClick={() => router.push('/contact')} className="flex items-center justify-center gap-2 border-2 border-[#FF6B35] text-[#FF6B35] hover:bg-[#FF6B35] hover:text-white font-semibold px-7 py-3.5 rounded-full transition-all duration-300 text-sm">
-                    <Phone className="w-4 h-4" /> Talk to Expert
+                    <Phone className="w-4 h-4" /> Talk to Banker
                   </button>
                 </div>
               </div>
@@ -85,7 +103,7 @@ export default function HomeLoanPage() {
           <div className="w-full bg-transparent">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
               <div className="grid grid-cols-3 divide-x divide-orange-200 max-w-3xl mx-auto">
-                {[{ value: '8.5% – 12%', label: 'Interest Rate' }, { value: '₹5L – ₹5Cr', label: 'Loan Amount' }, { value: '5 – 30 yrs', label: 'Tenure' }].map(s => (
+                {[{ value: '7.10% – 10.50%', label: 'Interest Rate' }, { value: '₹30L – ₹10Cr', label: 'Loan Amount' }, { value: '5 – 30 yrs', label: 'Tenure' }].map(s => (
                   <div key={s.label} className="text-center px-6">
                     <p className="text-2xl md:text-3xl font-bold text-[#FF6B35]">{s.value}</p>
                     <p className="text-xs text-gray-500 mt-0.5">{s.label}</p>
@@ -96,21 +114,36 @@ export default function HomeLoanPage() {
           </div>
         </section>
 
+        <SecondaryNav sections={navSections} />
+
         {/* EMI CALCULATOR */}
-        <section className="py-20 bg-gray-50 overflow-hidden">
+        <section id="calculator" className="py-20 bg-gray-50 overflow-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
                 <div className="bg-[#0F172A] px-6 py-5"><h2 className="text-xl font-bold text-white text-center">How much do you need?</h2></div>
                 <div className="px-6 py-6 space-y-6">
                   {[
-                    { label: 'I want to borrow:', val: `₹${fmt(loanAmount)}`, min: 500000, max: 50000000, step: 100000, value: loanAmount, set: setLoanAmount, lo: '₹5L', hi: '₹5Cr' },
+                    { label: 'I want to borrow:', val: `₹${fmt(loanAmount)}`, min: 3000000, max: 100000000, step: 100000, value: loanAmount, set: setLoanAmount, lo: '₹30L', hi: '₹10Cr' },
                     { label: 'For a period of:', val: `${tenure} years`, min: 5, max: 30, step: 1, value: tenure, set: setTenure, lo: '5 yrs', hi: '30 yrs' },
-                    { label: 'Interest rate:', val: `${interestRate.toFixed(1)}% p.a.`, min: 8.5, max: 12, step: 0.5, value: interestRate, set: setInterestRate, lo: '8.5%', hi: '12%' },
+                    { label: 'Interest rate:', val: `${interestRate.toFixed(2)}% p.a.`, min: 7.10, max: 10.50, step: 0.05, value: interestRate, set: setInterestRate, lo: '7.10%', hi: '10.50%' },
                   ].map(s => (
                     <div key={s.label}>
-                      <p className="text-xs text-gray-500 mb-0.5">{s.label}</p>
-                      <p className="text-2xl font-bold text-gray-900 mb-2">{s.val}</p>
+                      <div className="flex justify-between items-center mb-2">
+                        <p className="text-sm text-gray-600 font-medium">{s.label}</p>
+                        <div className="flex items-center bg-white border border-gray-300 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-[#FF6B35] focus-within:border-transparent">
+                          {s.label.includes('borrow') && <span className="pl-3 pr-1 text-gray-500 font-medium">₹</span>}
+                          <input 
+                            type="number" 
+                            min={s.min} max={s.max} step={s.step} 
+                            value={s.value} 
+                            onChange={e => s.set(Number(e.target.value))} 
+                            className="w-28 py-1.5 px-2 bg-transparent text-right font-bold text-gray-900 focus:outline-none" 
+                          />
+                          {s.label.includes('period') && <span className="pr-3 pl-1 text-gray-500 font-medium">yrs</span>}
+                          {s.label.includes('rate') && <span className="pr-3 pl-1 text-gray-500 font-medium">%</span>}
+                        </div>
+                      </div>
                       <input type="range" min={s.min} max={s.max} step={s.step} value={s.value} onChange={e => s.set(Number(e.target.value))} className="w-full h-1.5 rounded-full appearance-none cursor-pointer" style={{ background: sliderBg(s.value, s.min, s.max) }} />
                       <div className="flex justify-between text-[11px] text-gray-400 mt-1"><span>{s.lo}</span><span>{s.hi}</span></div>
                     </div>
@@ -161,7 +194,7 @@ export default function HomeLoanPage() {
         </section>
 
         {/* FEATURES & BENEFITS */}
-        <section className="py-20 bg-white">
+        <section id="features" className="py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <p className="text-xs uppercase tracking-[0.3em] text-[#FF8C42] font-medium mb-2">WHY CHOOSE US</p>
@@ -170,9 +203,9 @@ export default function HomeLoanPage() {
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="grid sm:grid-cols-2 gap-4">
                 {[
-                  { icon: Home, title: 'Competitive Rates', desc: 'Starting from 8.5% p.a. — among the lowest in the market.' },
+                  { icon: Home, title: 'Competitive Rates', desc: 'Starting from 7.10% p.a. — among the lowest in the market.' },
                   { icon: Star, title: 'Tax Benefits', desc: 'Deductions under Section 24 (interest) and 80C (principal) up to ₹3.5L.' },
-                  { icon: CheckCircle, title: 'Up to 90% LTV', desc: 'Finance up to 90% of the property value.' },
+                  { icon: CheckCircle, title: 'Up to 94.5% LTV', desc: 'Finance up to 94.5% of the property value.' },
                   { icon: Clock, title: 'Long Tenure', desc: 'Flexible repayment periods up to 30 years.' },
                   { icon: Shield, title: 'Balance Transfer', desc: 'Transfer your existing home loan and save more.' },
                   { icon: FileText, title: 'Top-Up Available', desc: 'Get additional funds on your existing home loan.' },
@@ -194,7 +227,7 @@ export default function HomeLoanPage() {
         </section>
 
         {/* ELIGIBILITY & DOCUMENTS */}
-        <section className="py-20 bg-gray-50">
+        <section id="eligibility" className="py-20 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <p className="text-xs uppercase tracking-[0.3em] text-[#FF8C42] font-medium mb-2">REQUIREMENTS</p>
@@ -207,13 +240,13 @@ export default function HomeLoanPage() {
               <div className="order-1 lg:order-2 space-y-6">
                 <div className="bg-white rounded-2xl p-6 shadow-md border border-gray-100">
                   <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2"><CheckCircle className="w-5 h-5 text-[#FF6B35]" />Eligibility Criteria</h3>
-                  <ul className="space-y-3">{['Age: 21–65 years', 'Minimum income ₹25,000/month', 'CIBIL score of 650 or above', 'Stable employment or business history', 'Valid property documents'].map(item => (
+                  <ul className="space-y-3">{['Min Entry Age of applicant 18-65 years', 'Min income criteria should be Rs 50000/ month', 'Cibil score should be 680 or above', 'Stable employment and business History of min 2 years', 'Valid prop documents', 'No default in Loan as per Cibil'].map(item => (
                     <li key={item} className="flex items-start gap-3 text-gray-700 text-sm"><span className="w-5 h-5 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0 mt-0.5"><CheckCircle className="w-3 h-3 text-[#FF6B35]" /></span>{item}</li>
                   ))}</ul>
                 </div>
                 <div className="bg-white rounded-2xl p-6 shadow-md border border-gray-100">
                   <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2"><FileText className="w-5 h-5 text-[#FF6B35]" />Required Documents</h3>
-                  <ul className="space-y-3">{['Identity & address proof (Aadhaar / PAN)', 'Income proof (salary slips / ITR)', 'Bank statements (last 6 months)', 'Property documents & title deed', 'Employment / business certificate'].map(item => (
+                  <ul className="space-y-3">{['Identity & address proof ( Adhar & Pan )', 'Income Proof ( salary slips / Form 16 / ITR / financial documents for businessmen)', 'Bank statement ( last 6 months )', 'Property documents & title deed', 'Employment / business certificate'].map(item => (
                     <li key={item} className="flex items-start gap-3 text-gray-700 text-sm"><span className="w-2 h-2 rounded-full bg-[#FF6B35] flex-shrink-0 mt-1.5" />{item}</li>
                   ))}</ul>
                 </div>
@@ -223,7 +256,7 @@ export default function HomeLoanPage() {
         </section>
 
         {/* PROCESSING DETAILS */}
-        <section className="py-20 bg-white">
+        <section id="fees" className="py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <p className="text-xs uppercase tracking-[0.3em] text-[#FF8C42] font-medium mb-2">PROCESS</p>
@@ -231,7 +264,7 @@ export default function HomeLoanPage() {
             </div>
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="grid sm:grid-cols-2 gap-5">
-                {[{ icon: Clock, title: 'Processing Time', value: '24–48 hrs', desc: 'From application to in-principle approval' }, { icon: FileText, title: 'Processing Fee', value: '0.5–1%', desc: 'Of the sanctioned loan amount' }, { icon: Home, title: 'Max LTV', value: '90%', desc: 'Of the property value' }, { icon: Shield, title: 'Approval Rate', value: '95%+', desc: 'For eligible applicants' }].map(item => (
+                {[{ icon: Clock, title: 'Processing Time', value: 'Max 24 hrs', desc: 'For In principal approval' }, { icon: FileText, title: 'Processing Fee', value: '0 - 0.25%', desc: 'Of sanctioned loan + GST' }, { icon: Home, title: 'Max LTV', value: '94.5%', desc: 'For under construction, 90% for existing' }, { icon: Shield, title: 'Approval Rate', value: '99%+', desc: 'For eligible customers with No default' }].map(item => (
                   <div key={item.title} className="bg-gray-50 rounded-2xl p-5 border border-gray-100 hover:border-orange-200 hover:shadow-md transition-all duration-200 group">
                     <div className="w-9 h-9 bg-gradient-to-r from-[#FF6B35] to-[#FF8C42] rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform"><item.icon className="w-4 h-4 text-white" /></div>
                     <p className="text-2xl font-extrabold text-gray-900 mb-0.5">{item.value}</p>
@@ -258,9 +291,15 @@ export default function HomeLoanPage() {
             </div>
           </div>
         </section>
+
+        {/* Home Loan FAQs */}
+        <div id="faqs">
+          <FAQ items={homeLoanFAQs} title="Home Loan FAQs" />
+        </div>
       </div>
 
       <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} title="Apply for Home Loan" subtitle="Sign in with Google to check your eligibility and start your home loan application." />
+      <CompareROIModal isOpen={isCompareModalOpen} onClose={() => setIsCompareModalOpen(false)} />
     </>
   );
 }

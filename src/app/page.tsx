@@ -26,6 +26,9 @@ import {
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { AuthModal } from '@/components/AuthModal';
+import { FAQ } from '@/components/FAQ';
+import { BankLogosMarquee } from '@/components/BankLogosMarquee';
+import { generalFAQs } from '@/data/faqs';
 import { useRouter } from 'next/navigation';
 
 export default function HomePage() {
@@ -724,13 +727,20 @@ export default function HomePage() {
                 <button className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-[#0A1F44] font-bold py-4 px-8 rounded-xl transition-all duration-300">
                   <div className="flex items-center justify-center">
                     <Phone className="w-5 h-5 mr-2" />
-                    Talk to Expert
+                    Talk to Banker
                   </div>
                 </button>
               </Link>
             </div>
           </div>
         </section>
+
+        {/* Bank Logos Marquee */}
+        <BankLogosMarquee />
+
+        {/* General FAQs */}
+        <FAQ items={generalFAQs} />
+
       </div>
       <AuthModal
         isOpen={isAuthModalOpen}

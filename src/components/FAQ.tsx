@@ -11,7 +11,13 @@ interface FAQItem {
   category: string;
 }
 
-export const FAQ: React.FC = () => {
+export interface FAQProps {
+  items?: FAQItem[];
+  title?: string;
+  subtitle?: string;
+}
+
+export const FAQ: React.FC<FAQProps> = ({ items, title, subtitle }) => {
   const [openItems, setOpenItems] = useState<string[]>([]);
 
   const toggleItem = (id: string) => {
@@ -85,12 +91,14 @@ export const FAQ: React.FC = () => {
     }
   ];
 
-  const categories = ['All', ...Array.from(new Set(faqData.map(item => item.category)))];
+  const actualData = items || faqData;
+
+  const categories = ['All', ...Array.from(new Set(actualData.map(item => item.category || 'General')))];
   const [selectedCategory, setSelectedCategory] = useState('All');
 
   const filteredFAQs = selectedCategory === 'All' 
-    ? faqData 
-    : faqData.filter(item => item.category === selectedCategory);
+    ? actualData 
+    : actualData.filter(item => (item.category || 'General') === selectedCategory);
 
   return (
     <section className="py-12 md:py-16 bg-gray-50">
@@ -101,10 +109,10 @@ export const FAQ: React.FC = () => {
             <HelpCircle className="w-6 h-6 md:w-8 md:h-8" />
           </div>
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 md:mb-4">
-            Frequently Asked Questions
+            {title || 'Frequently Asked Questions'}
           </h2>
           <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
-            Get answers to common questions about loans, eligibility, and our services
+            {subtitle || 'Get answers to common questions about loans, eligibility, and our services'}
           </p>
         </div>
 
@@ -139,7 +147,7 @@ export const FAQ: React.FC = () => {
                 <div className="flex-1">
                   <div className="flex items-center mb-1">
                     <span className="inline-block bg-gray-100 text-gray-800 text-xs font-semibold px-2 py-1 rounded-full mr-2 md:mr-3">
-                      {item.category}
+                      {item.category || 'General'}
                     </span>
                   </div>
                   <h3 className="text-base md:text-lg font-semibold text-gray-900 pr-2 md:pr-4">

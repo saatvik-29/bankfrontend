@@ -75,8 +75,8 @@ export default function ContactPage() {
             {[
               { icon: MapPin, title: 'Our Office', lines: ['1st Floor, City Avenue, 107,', 'Wakad, Pune, MH 411057'] },
               { icon: Phone, title: 'Call Us', lines: ['+91 9145023840', '+91 7758955586'] },
-              { icon: Mail, title: 'Email Us', lines: ['support@bankersden.com', 'info@bankersden.com'] },
-              { icon: Clock, title: 'Business Hours', lines: ['Mon–Fri: 9 AM – 6 PM', 'Sat: 10 AM – 4 PM'] },
+              { icon: Mail, title: 'Email Us', lines: ['bharat@bankersdens.com', 'mayuri@bankersdens.com'] },
+              { icon: Clock, title: 'Business Hours', lines: ['All Days', '10:00 AM – 6:30 PM'] },
             ].map((card) => (
               <div key={card.title} className="group bg-gray-50 hover:bg-orange-50 rounded-2xl p-6 border border-gray-100 hover:border-orange-200 hover:shadow-lg transition-all duration-300 text-center">
                 <div className="w-12 h-12 bg-gradient-to-r from-[#FF6B35] to-[#FF8C42] rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
@@ -216,9 +216,7 @@ export default function ContactPage() {
                   <h3 className="font-bold text-gray-900">Business Hours</h3>
                 </div>
                 <div className="space-y-2 text-sm text-gray-600">
-                  <div className="flex justify-between"><span>Monday – Friday</span><span className="font-medium text-gray-800">9:00 AM – 6:00 PM</span></div>
-                  <div className="flex justify-between"><span>Saturday</span><span className="font-medium text-gray-800">10:00 AM – 4:00 PM</span></div>
-                  <div className="flex justify-between"><span>Sunday</span><span className="font-medium text-red-400">Closed</span></div>
+                  <div className="flex justify-between"><span>All Days</span><span className="font-medium text-gray-800">10:00 AM – 6:30 PM</span></div>
                 </div>
               </div>
             </div>

@@ -3,11 +3,11 @@ import { SYSTEM_PROMPT } from '@/lib/chatbotPrompt';
 
 export async function POST(req: Request) {
   try {
-    if (!process.env.GOOGLE_AI_API_KEY) {
-      return Response.json({ error: 'Google AI API Key not configured' }, { status: 500 });
+    if (!process.env.GEMINI_API_KEY) {
+      return Response.json({ error: 'Gemini API Key not configured' }, { status: 500 });
     }
 
-    const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY);
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
     const { messages } = await req.json();
 
     const model = genAI.getGenerativeModel({ 

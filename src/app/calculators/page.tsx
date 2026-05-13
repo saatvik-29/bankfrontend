@@ -18,11 +18,28 @@ function Slider({ label, val, display, min, max, step, set, lo, hi }: {
   min: number; max: number; step: number;
   set: (n: number) => void; lo: string; hi: string;
 }) {
+  const isRupee = display.includes('₹');
+  const isYears = display.includes('yrs');
+  const isMonths = display.includes('months');
+  const isPercent = display.includes('%');
+  
   return (
     <div>
-      <div className="flex justify-between items-baseline mb-2">
-        <p className="text-xs text-gray-500 font-medium">{label}</p>
-        <p className="text-lg font-bold text-gray-900">{display}</p>
+      <div className="flex justify-between items-center mb-2">
+        <p className="text-sm text-gray-600 font-medium">{label}</p>
+        <div className="flex items-center bg-white border border-gray-300 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-[#FF6B35] focus-within:border-transparent">
+          {isRupee && <span className="pl-3 pr-1 text-gray-500 font-medium">₹</span>}
+          <input 
+            type="number" 
+            min={min} max={max} step={step} 
+            value={val} 
+            onChange={e => set(Number(e.target.value))} 
+            className="w-24 py-1 px-2 bg-transparent text-right font-bold text-gray-900 focus:outline-none text-sm" 
+          />
+          {isYears && <span className="pr-3 pl-1 text-gray-500 font-medium">yrs</span>}
+          {isMonths && <span className="pr-3 pl-1 text-gray-500 font-medium">mo</span>}
+          {isPercent && <span className="pr-3 pl-1 text-gray-500 font-medium">%</span>}
+        </div>
       </div>
       <input type="range" min={min} max={max} step={step} value={val}
         onChange={e => set(Number(e.target.value))}
@@ -405,7 +422,7 @@ export default function CalculatorsPage() {
           </p>
           <Link href="/contact"
             className="inline-flex items-center gap-2 bg-white text-[#FF6B35] hover:bg-orange-50 font-bold px-10 py-4 rounded-full shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 text-sm">
-            Talk to an Expert <ArrowRight className="w-4 h-4" />
+            Talk to a Banker <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
       </section>

@@ -15,6 +15,9 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { AuthModal } from "@/components/AuthModal";
+import { SecondaryNav } from "@/components/SecondaryNav";
+import { FAQ } from "@/components/FAQ";
+import { educationLoanFAQs } from "@/data/faqs";
 
 export default function EducationLoanPage() {
   const router = useRouter();
@@ -23,7 +26,7 @@ export default function EducationLoanPage() {
 
   const [loanAmount, setLoanAmount] = useState(1500000);
   const [tenure, setTenure] = useState(10);
-  const [interestRate, setInterestRate] = useState(11.5);
+  const [interestRate, setInterestRate] = useState(8.5);
 
   const emi = useMemo(() => {
     // EMI = P × r × (1 + r)ⁿ / ((1 + r)ⁿ − 1)
@@ -53,12 +56,21 @@ export default function EducationLoanPage() {
     return `linear-gradient(to right, #FF6B35 0%, #FF6B35 ${pct}%, #e5e7eb ${pct}%, #e5e7eb 100%)`;
   };
 
+  const navSections = [
+    { id: 'overview', label: 'OVERVIEW' },
+    { id: 'calculator', label: 'EMI CALCULATOR' },
+    { id: 'features', label: 'FEATURES' },
+    { id: 'eligibility', label: 'ELIGIBILITY' },
+    { id: 'fees', label: 'FEES & CHARGES' },
+    { id: 'faqs', label: 'FAQ\'s' }
+  ];
+
   return (
     <>
       <div className="min-h-screen bg-white">
 
         {/* ── HERO ─────────────────────────────────────────────────── */}
-        <section className="relative flex flex-col bg-gradient-to-br from-orange-50 via-white to-orange-50 overflow-hidden" style={{ minHeight: '100vh' }}>
+        <section id="overview" className="relative flex flex-col bg-gradient-to-br from-orange-50 via-white to-orange-50 overflow-hidden" style={{ minHeight: '100vh' }}>
           {/* blobs */}
           <div className="absolute top-1/3 right-0 w-80 h-80 bg-[#FF6B35]/10 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute bottom-10 left-0 w-64 h-64 bg-[#FF8C42]/10 rounded-full blur-3xl pointer-events-none" />
@@ -83,13 +95,13 @@ export default function EducationLoanPage() {
                 </h1>
                 <p className="text-base md:text-lg text-gray-600 leading-relaxed max-w-md">
                   Comprehensive education loans starting at{" "}
-                  <span className="font-semibold text-[#FF6B35]">9% p.a.</span> Get up to{" "}
+                  <span className="font-semibold text-[#FF6B35]">8.5% p.a.</span> Get up to{" "}
                   <span className="font-semibold text-[#FF6B35]">₹1.5 crore</span> for studies
                   in India and abroad with flexible repayment.
                 </p>
 
                 <div className="grid grid-cols-2 gap-2 max-w-md">
-                  {["India & Abroad", "Moratorium Period", "100% Financing", "Tax Benefits under 80E"].map((f) => (
+                  {["India & Abroad", "Moratorium Period", "Up to 100% Financing", "Tax Benefits under 80E"].map((f) => (
                     <div key={f} className="flex items-start space-x-2">
                       <CheckCircle className="w-4 h-4 text-[#FF6B35] mt-0.5 flex-shrink-0" />
                       <span className="text-sm text-gray-700">{f}</span>
@@ -108,7 +120,7 @@ export default function EducationLoanPage() {
                     onClick={() => router.push("/contact")}
                     className="flex items-center justify-center gap-2 border-2 border-[#FF6B35] text-[#FF6B35] hover:bg-[#FF6B35] hover:text-white font-semibold px-7 py-3.5 rounded-full transition-all duration-300 text-sm"
                   >
-                    <Phone className="w-4 h-4" /> Talk to Expert
+                    <Phone className="w-4 h-4" /> Talk to Banker
                   </button>
                 </div>
               </div>
@@ -130,7 +142,7 @@ export default function EducationLoanPage() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
               <div className="grid grid-cols-3 divide-x divide-orange-200 max-w-3xl mx-auto">
                 {[
-                  { value: "9% – 15%", label: "Interest Rate" },
+                  { value: "8.5% – 15%", label: "Interest Rate" },
                   { value: "₹1L – ₹1.5Cr", label: "Loan Amount" },
                   { value: "5 – 15 yrs", label: "Tenure" },
                 ].map((s) => (
@@ -144,8 +156,10 @@ export default function EducationLoanPage() {
           </div>
         </section>
 
+        <SecondaryNav sections={navSections} />
+
         {/* ── EMI CALCULATOR ───────────────────────────────────────── */}
-        <section className="py-20 bg-gray-50 overflow-hidden">
+        <section id="calculator" className="py-20 bg-gray-50 overflow-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
 
@@ -160,8 +174,13 @@ export default function EducationLoanPage() {
                 <div className="px-6 py-6 space-y-6">
                   {/* Loan Amount */}
                   <div>
-                    <p className="text-xs text-gray-500 mb-0.5">I want to borrow:</p>
-                    <p className="text-2xl font-bold text-gray-900 mb-2">₹{fmt(loanAmount)}</p>
+                    <div className="flex justify-between items-center mb-2">
+                      <p className="text-sm text-gray-600 font-medium">I want to borrow:</p>
+                      <div className="flex items-center bg-white border border-gray-300 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-[#FF6B35] focus-within:border-transparent">
+                        <span className="pl-3 pr-1 text-gray-500 font-medium">₹</span>
+                        <input type="number" min={100000} max={15000000} step={50000} value={loanAmount} onChange={(e) => setLoanAmount(Number(e.target.value))} className="w-28 py-1.5 px-2 bg-transparent text-right font-bold text-gray-900 focus:outline-none" />
+                      </div>
+                    </div>
                     <input type="range" min={100000} max={15000000} step={50000}
                       value={loanAmount} onChange={(e) => setLoanAmount(Number(e.target.value))}
                       className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
@@ -173,8 +192,13 @@ export default function EducationLoanPage() {
 
                   {/* Tenure */}
                   <div>
-                    <p className="text-xs text-gray-500 mb-0.5">For a period of:</p>
-                    <p className="text-2xl font-bold text-gray-900 mb-2">{tenure} years</p>
+                    <div className="flex justify-between items-center mb-2">
+                      <p className="text-sm text-gray-600 font-medium">For a period of:</p>
+                      <div className="flex items-center bg-white border border-gray-300 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-[#FF6B35] focus-within:border-transparent">
+                        <input type="number" min={1} max={15} step={1} value={tenure} onChange={(e) => setTenure(Number(e.target.value))} className="w-20 py-1.5 px-2 bg-transparent text-right font-bold text-gray-900 focus:outline-none" />
+                        <span className="pr-3 pl-1 text-gray-500 font-medium">yrs</span>
+                      </div>
+                    </div>
                     <input type="range" min={1} max={15} step={1}
                       value={tenure} onChange={(e) => setTenure(Number(e.target.value))}
                       className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
@@ -186,14 +210,19 @@ export default function EducationLoanPage() {
 
                   {/* Interest Rate */}
                   <div>
-                    <p className="text-xs text-gray-500 mb-0.5">Interest rate:</p>
-                    <p className="text-2xl font-bold text-gray-900 mb-2">{interestRate.toFixed(1)}% p.a.</p>
-                    <input type="range" min={9} max={15} step={0.5}
+                    <div className="flex justify-between items-center mb-2">
+                      <p className="text-sm text-gray-600 font-medium">Interest rate:</p>
+                      <div className="flex items-center bg-white border border-gray-300 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-[#FF6B35] focus-within:border-transparent">
+                        <input type="number" min={8.5} max={15} step={0.5} value={interestRate} onChange={(e) => setInterestRate(Number(e.target.value))} className="w-20 py-1.5 px-2 bg-transparent text-right font-bold text-gray-900 focus:outline-none" />
+                        <span className="pr-3 pl-1 text-gray-500 font-medium">%</span>
+                      </div>
+                    </div>
+                    <input type="range" min={8.5} max={15} step={0.5}
                       value={interestRate} onChange={(e) => setInterestRate(Number(e.target.value))}
                       className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
-                      style={{ background: sliderBg(interestRate, 9, 15) }} />
+                      style={{ background: sliderBg(interestRate, 8.5, 15) }} />
                     <div className="flex justify-between text-[11px] text-gray-400 mt-1">
-                      <span>9%</span><span>15%</span>
+                      <span>8.5%</span><span>15%</span>
                     </div>
                   </div>
 
@@ -295,7 +324,7 @@ export default function EducationLoanPage() {
         </section>
 
         {/* ── KEY FEATURES & BENEFITS ──────────────────────────────── */}
-        <section className="py-20 bg-white">
+        <section id="features" className="py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <p className="text-xs uppercase tracking-[0.3em] text-[#FF8C42] font-medium mb-2">WHY CHOOSE US</p>
@@ -313,7 +342,7 @@ export default function EducationLoanPage() {
                 {[
                   { icon: GraduationCap, title: "India & Abroad", desc: "Fund studies at top universities worldwide or leading Indian institutions." },
                   { icon: Clock, title: "Moratorium Period", desc: "Repay only after course completion plus 6 months — no pressure during studies." },
-                  { icon: CheckCircle, title: "100% Financing", desc: "Full coverage of tuition, living expenses, books and more." },
+                  { icon: CheckCircle, title: "Up to 100% Financing", desc: "Full coverage of tuition, living expenses, books and more." },
                   { icon: Star, title: "Tax Benefits", desc: "Claim full interest deduction under Section 80E with no upper limit." },
                   { icon: Shield, title: "No Prepayment Penalty", desc: "Close your loan early without any extra charges." },
                   { icon: FileText, title: "Quick Processing", desc: "Disbursal directly to your institution within 7–10 working days." },
@@ -345,7 +374,7 @@ export default function EducationLoanPage() {
         </section>
 
         {/* ── ELIGIBILITY & DOCUMENTS ──────────────────────────────── */}
-        <section className="py-20 bg-gray-50">
+        <section id="eligibility" className="py-20 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <p className="text-xs uppercase tracking-[0.3em] text-[#FF8C42] font-medium mb-2">REQUIREMENTS</p>
@@ -416,7 +445,7 @@ export default function EducationLoanPage() {
         </section>
 
         {/* ── PROCESSING DETAILS ───────────────────────────────────── */}
-        <section className="py-20 bg-white">
+        <section id="fees" className="py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <p className="text-xs uppercase tracking-[0.3em] text-[#FF8C42] font-medium mb-2">PROCESS</p>
@@ -483,6 +512,11 @@ export default function EducationLoanPage() {
             </div>
           </div>
         </section>
+
+        {/* Education Loan FAQs */}
+        <div id="faqs">
+          <FAQ items={educationLoanFAQs} title="Education Loan FAQs" />
+        </div>
 
       </div>
 

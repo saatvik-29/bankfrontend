@@ -6,6 +6,9 @@ import { Button } from '@/components/Button';
 import { Car, CheckCircle, Star, Clock, Shield, FileText, ArrowRight, Phone } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { AuthModal } from '@/components/AuthModal';
+import { SecondaryNav } from '@/components/SecondaryNav';
+import { FAQ } from '@/components/FAQ';
+import { carLoanFAQs } from '@/data/faqs';
 
 export default function CarLoanPage() {
   const router = useRouter();
@@ -38,12 +41,21 @@ export default function CarLoanPage() {
     return `linear-gradient(to right,#FF6B35 0%,#FF6B35 ${p}%,#e5e7eb ${p}%,#e5e7eb 100%)`;
   };
 
+  const navSections = [
+    { id: 'overview', label: 'OVERVIEW' },
+    { id: 'calculator', label: 'EMI CALCULATOR' },
+    { id: 'features', label: 'FEATURES' },
+    { id: 'eligibility', label: 'ELIGIBILITY' },
+    { id: 'fees', label: 'FEES & CHARGES' },
+    { id: 'faqs', label: 'FAQ\'s' }
+  ];
+
   return (
     <>
       <div className="min-h-screen bg-white">
 
         {/* HERO */}
-        <section className="relative flex flex-col bg-gradient-to-br from-orange-50 via-white to-orange-50 overflow-hidden" style={{ minHeight: '100vh' }}>
+        <section id="overview" className="relative flex flex-col bg-gradient-to-br from-orange-50 via-white to-orange-50 overflow-hidden" style={{ minHeight: '100vh' }}>
           <div className="absolute top-1/3 right-0 w-80 h-80 bg-[#FF6B35]/10 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute bottom-10 left-0 w-64 h-64 bg-[#FF8C42]/10 rounded-full blur-3xl pointer-events-none" />
 
@@ -72,7 +84,7 @@ export default function CarLoanPage() {
                     Apply Now <ArrowRight className="w-4 h-4 ml-2" />
                   </button>
                   <button onClick={() => router.push('/contact')} className="flex items-center justify-center gap-2 border-2 border-[#FF6B35] text-[#FF6B35] hover:bg-[#FF6B35] hover:text-white font-semibold px-7 py-3.5 rounded-full transition-all duration-300 text-sm">
-                    <Phone className="w-4 h-4" /> Talk to Expert
+                    <Phone className="w-4 h-4" /> Talk to Banker
                   </button>
                 </div>
               </div>
@@ -85,7 +97,7 @@ export default function CarLoanPage() {
           <div className="w-full bg-transparent">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
               <div className="grid grid-cols-3 divide-x divide-orange-200 max-w-3xl mx-auto">
-                {[{ value: '8% – 15%', label: 'Interest Rate' }, { value: '₹1L – ₹50L', label: 'Loan Amount' }, { value: '1 – 7 yrs', label: 'Tenure' }].map(s => (
+                {[{ value: '8% – 15%', label: 'Interest Rate' }, { value: '₹1L – ₹1Cr', label: 'Loan Amount' }, { value: '1 – 7 yrs', label: 'Tenure' }].map(s => (
                   <div key={s.label} className="text-center px-6">
                     <p className="text-2xl md:text-3xl font-bold text-[#FF6B35]">{s.value}</p>
                     <p className="text-xs text-gray-500 mt-0.5">{s.label}</p>
@@ -96,21 +108,36 @@ export default function CarLoanPage() {
           </div>
         </section>
 
+        <SecondaryNav sections={navSections} />
+
         {/* EMI CALCULATOR */}
-        <section className="py-20 bg-gray-50 overflow-hidden">
+        <section id="calculator" className="py-20 bg-gray-50 overflow-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
                 <div className="bg-[#0F172A] px-6 py-5"><h2 className="text-xl font-bold text-white text-center">How much do you need?</h2></div>
                 <div className="px-6 py-6 space-y-6">
                   {[
-                    { label: 'I want to borrow:', val: `₹${fmt(loanAmount)}`, min: 100000, max: 5000000, step: 50000, value: loanAmount, set: setLoanAmount, lo: '₹1L', hi: '₹50L' },
+                    { label: 'I want to borrow:', val: `₹${fmt(loanAmount)}`, min: 100000, max: 10000000, step: 50000, value: loanAmount, set: setLoanAmount, lo: '₹1L', hi: '₹1Cr' },
                     { label: 'For a period of:', val: `${tenure} years`, min: 1, max: 7, step: 1, value: tenure, set: setTenure, lo: '1 yr', hi: '7 yrs' },
                     { label: 'Interest rate:', val: `${interestRate.toFixed(1)}% p.a.`, min: 8, max: 15, step: 0.5, value: interestRate, set: setInterestRate, lo: '8%', hi: '15%' },
                   ].map(s => (
                     <div key={s.label}>
-                      <p className="text-xs text-gray-500 mb-0.5">{s.label}</p>
-                      <p className="text-2xl font-bold text-gray-900 mb-2">{s.val}</p>
+                      <div className="flex justify-between items-center mb-2">
+                        <p className="text-sm text-gray-600 font-medium">{s.label}</p>
+                        <div className="flex items-center bg-white border border-gray-300 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-[#FF6B35] focus-within:border-transparent">
+                          {s.label.includes('borrow') && <span className="pl-3 pr-1 text-gray-500 font-medium">₹</span>}
+                          <input 
+                            type="number" 
+                            min={s.min} max={s.max} step={s.step} 
+                            value={s.value} 
+                            onChange={e => s.set(Number(e.target.value))} 
+                            className="w-28 py-1.5 px-2 bg-transparent text-right font-bold text-gray-900 focus:outline-none" 
+                          />
+                          {s.label.includes('period') && <span className="pr-3 pl-1 text-gray-500 font-medium">yrs</span>}
+                          {s.label.includes('rate') && <span className="pr-3 pl-1 text-gray-500 font-medium">%</span>}
+                        </div>
+                      </div>
                       <input type="range" min={s.min} max={s.max} step={s.step} value={s.value} onChange={e => s.set(Number(e.target.value))} className="w-full h-1.5 rounded-full appearance-none cursor-pointer" style={{ background: sliderBg(s.value, s.min, s.max) }} />
                       <div className="flex justify-between text-[11px] text-gray-400 mt-1"><span>{s.lo}</span><span>{s.hi}</span></div>
                     </div>
@@ -161,7 +188,7 @@ export default function CarLoanPage() {
         </section>
 
         {/* FEATURES & BENEFITS */}
-        <section className="py-20 bg-white">
+        <section id="features" className="py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <p className="text-xs uppercase tracking-[0.3em] text-[#FF8C42] font-medium mb-2">WHY CHOOSE US</p>
@@ -194,7 +221,7 @@ export default function CarLoanPage() {
         </section>
 
         {/* ELIGIBILITY & DOCUMENTS */}
-        <section className="py-20 bg-gray-50">
+        <section id="eligibility" className="py-20 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <p className="text-xs uppercase tracking-[0.3em] text-[#FF8C42] font-medium mb-2">REQUIREMENTS</p>
@@ -223,7 +250,7 @@ export default function CarLoanPage() {
         </section>
 
         {/* PROCESSING DETAILS */}
-        <section className="py-20 bg-white">
+        <section id="fees" className="py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <p className="text-xs uppercase tracking-[0.3em] text-[#FF8C42] font-medium mb-2">PROCESS</p>
@@ -258,6 +285,12 @@ export default function CarLoanPage() {
             </div>
           </div>
         </section>
+
+        {/* Car Loan FAQs */}
+        <div id="faqs">
+          <FAQ items={carLoanFAQs} title="Car Loan FAQs" />
+        </div>
+
       </div>
 
       <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} title="Apply for Car Loan" subtitle="Sign in with Google to get instant approval and the best rates for your dream car." />

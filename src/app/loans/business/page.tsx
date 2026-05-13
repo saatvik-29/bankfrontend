@@ -6,6 +6,9 @@ import { Button } from '@/components/Button';
 import { Briefcase, CheckCircle, Star, Clock, Shield, FileText, ArrowRight, Phone, TrendingUp } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { AuthModal } from '@/components/AuthModal';
+import { SecondaryNav } from '@/components/SecondaryNav';
+import { FAQ } from '@/components/FAQ';
+import { businessLoanFAQs } from '@/data/faqs';
 
 export default function BusinessLoanPage() {
   const router = useRouter();
@@ -13,7 +16,7 @@ export default function BusinessLoanPage() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [loanAmount, setLoanAmount] = useState(2000000);
   const [tenure, setTenure] = useState(5);
-  const [interestRate, setInterestRate] = useState(15);
+  const [interestRate, setInterestRate] = useState(10.5);
 
   const emi = useMemo(() => {
     // EMI = P × r × (1 + r)ⁿ / ((1 + r)ⁿ − 1)
@@ -38,12 +41,21 @@ export default function BusinessLoanPage() {
     return `linear-gradient(to right,#FF6B35 0%,#FF6B35 ${p}%,#e5e7eb ${p}%,#e5e7eb 100%)`;
   };
 
+  const navSections = [
+    { id: 'overview', label: 'OVERVIEW' },
+    { id: 'calculator', label: 'EMI CALCULATOR' },
+    { id: 'features', label: 'FEATURES' },
+    { id: 'eligibility', label: 'ELIGIBILITY' },
+    { id: 'fees', label: 'FEES & CHARGES' },
+    { id: 'faqs', label: 'FAQ\'s' }
+  ];
+
   return (
     <>
       <div className="min-h-screen bg-white">
 
         {/* HERO */}
-        <section className="relative flex flex-col bg-gradient-to-br from-orange-50 via-white to-orange-50 overflow-hidden" style={{ minHeight: '100vh' }}>
+        <section id="overview" className="relative flex flex-col bg-gradient-to-br from-orange-50 via-white to-orange-50 overflow-hidden" style={{ minHeight: '100vh' }}>
           <div className="absolute top-1/3 right-0 w-80 h-80 bg-[#FF6B35]/10 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute bottom-10 left-0 w-64 h-64 bg-[#FF8C42]/10 rounded-full blur-3xl pointer-events-none" />
 
@@ -56,7 +68,7 @@ export default function BusinessLoanPage() {
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B35] to-[#FF8C42]">Business Today</span>
                 </h1>
                 <p className="text-base md:text-lg text-gray-600 leading-relaxed max-w-md">
-                  Flexible funding solutions starting at <span className="font-semibold text-[#FF6B35]">12% p.a.</span> Get up to{' '}
+                  Flexible funding solutions starting at <span className="font-semibold text-[#FF6B35]">10.5% p.a.</span> Get up to{' '}
                   <span className="font-semibold text-[#FF6B35]">₹2 crore</span> to grow your business with minimal documentation.
                 </p>
                 <div className="grid grid-cols-2 gap-2 max-w-md">
@@ -72,7 +84,7 @@ export default function BusinessLoanPage() {
                     Apply Now <ArrowRight className="w-4 h-4 ml-2" />
                   </button>
                   <button onClick={() => router.push('/contact')} className="flex items-center justify-center gap-2 border-2 border-[#FF6B35] text-[#FF6B35] hover:bg-[#FF6B35] hover:text-white font-semibold px-7 py-3.5 rounded-full transition-all duration-300 text-sm">
-                    <Phone className="w-4 h-4" /> Talk to Expert
+                    <Phone className="w-4 h-4" /> Talk to Banker
                   </button>
                 </div>
               </div>
@@ -85,7 +97,7 @@ export default function BusinessLoanPage() {
           <div className="w-full bg-transparent">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
               <div className="grid grid-cols-3 divide-x divide-orange-200 max-w-3xl mx-auto">
-                {[{ value: '12% – 24%', label: 'Interest Rate' }, { value: '₹1L – ₹2Cr', label: 'Loan Amount' }, { value: '1 – 7 yrs', label: 'Tenure' }].map(s => (
+                {[{ value: '10.5% – 24%', label: 'Interest Rate' }, { value: '₹1L – ₹2Cr', label: 'Loan Amount' }, { value: '1 – 7 yrs', label: 'Tenure' }].map(s => (
                   <div key={s.label} className="text-center px-6">
                     <p className="text-2xl md:text-3xl font-bold text-[#FF6B35]">{s.value}</p>
                     <p className="text-xs text-gray-500 mt-0.5">{s.label}</p>
@@ -96,8 +108,10 @@ export default function BusinessLoanPage() {
           </div>
         </section>
 
+        <SecondaryNav sections={navSections} />
+
         {/* EMI CALCULATOR */}
-        <section className="py-20 bg-gray-50 overflow-hidden">
+        <section id="calculator" className="py-20 bg-gray-50 overflow-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
@@ -106,11 +120,24 @@ export default function BusinessLoanPage() {
                   {[
                     { label: 'I want to borrow:', val: `₹${fmt(loanAmount)}`, min: 100000, max: 20000000, step: 100000, value: loanAmount, set: setLoanAmount, lo: '₹1L', hi: '₹2Cr' },
                     { label: 'For a period of:', val: `${tenure} years`, min: 1, max: 7, step: 1, value: tenure, set: setTenure, lo: '1 yr', hi: '7 yrs' },
-                    { label: 'Interest rate:', val: `${interestRate.toFixed(1)}% p.a.`, min: 12, max: 24, step: 0.5, value: interestRate, set: setInterestRate, lo: '12%', hi: '24%' },
+                    { label: 'Interest rate:', val: `${interestRate.toFixed(1)}% p.a.`, min: 10.5, max: 24, step: 0.5, value: interestRate, set: setInterestRate, lo: '10.5%', hi: '24%' },
                   ].map(s => (
                     <div key={s.label}>
-                      <p className="text-xs text-gray-500 mb-0.5">{s.label}</p>
-                      <p className="text-2xl font-bold text-gray-900 mb-2">{s.val}</p>
+                      <div className="flex justify-between items-center mb-2">
+                        <p className="text-sm text-gray-600 font-medium">{s.label}</p>
+                        <div className="flex items-center bg-white border border-gray-300 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-[#FF6B35] focus-within:border-transparent">
+                          {s.label.includes('borrow') && <span className="pl-3 pr-1 text-gray-500 font-medium">₹</span>}
+                          <input 
+                            type="number" 
+                            min={s.min} max={s.max} step={s.step} 
+                            value={s.value} 
+                            onChange={e => s.set(Number(e.target.value))} 
+                            className="w-28 py-1.5 px-2 bg-transparent text-right font-bold text-gray-900 focus:outline-none" 
+                          />
+                          {s.label.includes('period') && <span className="pr-3 pl-1 text-gray-500 font-medium">yrs</span>}
+                          {s.label.includes('rate') && <span className="pr-3 pl-1 text-gray-500 font-medium">%</span>}
+                        </div>
+                      </div>
                       <input type="range" min={s.min} max={s.max} step={s.step} value={s.value} onChange={e => s.set(Number(e.target.value))} className="w-full h-1.5 rounded-full appearance-none cursor-pointer" style={{ background: sliderBg(s.value, s.min, s.max) }} />
                       <div className="flex justify-between text-[11px] text-gray-400 mt-1"><span>{s.lo}</span><span>{s.hi}</span></div>
                     </div>
@@ -161,7 +188,7 @@ export default function BusinessLoanPage() {
         </section>
 
         {/* FEATURES & BENEFITS */}
-        <section className="py-20 bg-white">
+        <section id="features" className="py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <p className="text-xs uppercase tracking-[0.3em] text-[#FF8C42] font-medium mb-2">WHY CHOOSE US</p>
@@ -170,12 +197,14 @@ export default function BusinessLoanPage() {
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="grid sm:grid-cols-2 gap-4">
                 {[
-                  { icon: TrendingUp, title: 'High Loan Amounts', desc: 'Get up to ₹2 crore to fund your business expansion plans.' },
+                  { icon: TrendingUp, title: 'Complete Digital Processing', desc: 'Funds in your account within hours of approval.' },
                   { icon: Briefcase, title: 'Flexible End-Use', desc: 'Capital for inventory, equipment, hiring, or any business need.' },
                   { icon: CheckCircle, title: 'Collateral-Free Options', desc: 'Unsecured loans available for eligible businesses.' },
                   { icon: Star, title: 'Tax Benefits', desc: 'Interest on business loans is fully tax deductible.' },
-                  { icon: Shield, title: 'Overdraft Facility', desc: 'Flexible credit line so you only pay interest on what you use.' },
+                  { icon: Shield, title: 'No Prepayment Penalty', desc: 'Pay off your loan early without any hidden charges.' },
                   { icon: FileText, title: 'Sector-Specific Plans', desc: 'Customised loan products for retail, manufacturing & services.' },
+                  { icon: Phone, title: 'Door Step Service', desc: 'Our representatives come to you for document collection.' },
+                  { icon: TrendingUp, title: 'High Loan Amounts', desc: 'Get up to ₹2 crore to fund your business expansion plans.' },
                 ].map(item => (
                   <div key={item.title} className="group bg-gray-50 hover:bg-orange-50 rounded-2xl p-5 border border-gray-100 hover:border-orange-200 hover:shadow-lg transition-all duration-300">
                     <div className="w-9 h-9 bg-gradient-to-r from-[#FF6B35] to-[#FF8C42] rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
@@ -194,7 +223,7 @@ export default function BusinessLoanPage() {
         </section>
 
         {/* ELIGIBILITY & DOCUMENTS */}
-        <section className="py-20 bg-gray-50">
+        <section id="eligibility" className="py-20 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <p className="text-xs uppercase tracking-[0.3em] text-[#FF8C42] font-medium mb-2">REQUIREMENTS</p>
@@ -223,7 +252,7 @@ export default function BusinessLoanPage() {
         </section>
 
         {/* PROCESSING DETAILS */}
-        <section className="py-20 bg-white">
+        <section id="fees" className="py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <p className="text-xs uppercase tracking-[0.3em] text-[#FF8C42] font-medium mb-2">PROCESS</p>
@@ -231,7 +260,7 @@ export default function BusinessLoanPage() {
             </div>
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="grid sm:grid-cols-2 gap-5">
-                {[{ icon: Clock, title: 'Processing Time', value: '3–7 days', desc: 'From application to approval' }, { icon: FileText, title: 'Processing Fee', value: '1–2%', desc: 'Of the sanctioned loan amount' }, { icon: TrendingUp, title: 'Max Loan', value: '₹2 Crore', desc: 'Collateral-free for eligible businesses' }, { icon: Shield, title: 'Approval Rate', value: '85%+', desc: 'For eligible applicants' }].map(item => (
+                {[{ icon: Clock, title: 'Processing Time', value: '3–7 days', desc: 'From application to approval' }, { icon: FileText, title: 'Processing Fee', value: '1–2%', desc: 'Of the sanctioned loan amount' }, { icon: TrendingUp, title: 'Disbursal', value: 'Same Day', desc: 'Funds in your account instantly after sanction' }, { icon: Shield, title: 'Approval Rate', value: '85%+', desc: 'For eligible applicants' }].map(item => (
                   <div key={item.title} className="bg-gray-50 rounded-2xl p-5 border border-gray-100 hover:border-orange-200 hover:shadow-md transition-all duration-200 group">
                     <div className="w-9 h-9 bg-gradient-to-r from-[#FF6B35] to-[#FF8C42] rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform"><item.icon className="w-4 h-4 text-white" /></div>
                     <p className="text-2xl font-extrabold text-gray-900 mb-0.5">{item.value}</p>
@@ -258,6 +287,11 @@ export default function BusinessLoanPage() {
             </div>
           </div>
         </section>
+
+        {/* Business Loan FAQs */}
+        <div id="faqs">
+          <FAQ items={businessLoanFAQs} title="Business Loan FAQs" />
+        </div>
       </div>
 
       <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} title="Apply for Business Loan" subtitle="Sign in with Google to check eligibility and get the best business loan for your needs." />
