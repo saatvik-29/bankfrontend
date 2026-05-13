@@ -59,7 +59,7 @@ export const Footer = () => {
               </li>
               <li className="flex items-center">
                 <Mail className="w-4 h-4 md:w-5 md:h-5 mr-2 flex-shrink-0" />
-                <span>bharat@bankersdens.com<br/>mayuri@bankersdens.com</span>
+                <span>bharat@bankersdens.com<br />mayuri@bankersdens.com</span>
               </li>
             </ul>
           </div>

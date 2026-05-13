@@ -36,7 +36,7 @@ export const Header = () => {
         setIsVisible(true);
         isVisibleRef.current = true;
       }
-      
+
       lastScrollY.current = currentScrollY;
 
       if (hasDarkHero) {
@@ -46,10 +46,10 @@ export const Header = () => {
       }
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
-    
+
     // Initial check
     handleScroll();
-    
+
     return () => window.removeEventListener('scroll', handleScroll);
   }, [hasDarkHero]);
 
@@ -190,20 +190,20 @@ export const Header = () => {
           <div className="hidden md:flex items-center space-x-4">
             {isAuthenticated ? (
               <div className="relative">
-                <button 
+                <button
                   onClick={() => setShowProfileMenu(!showProfileMenu)}
                   className={`flex items-center space-x-2 ${isScrolled ? 'bg-gray-100 border-gray-200' : 'bg-white/20 border-white/30'} backdrop-blur-md border rounded-full pl-1 pr-3 py-1 ${isScrolled ? 'hover:bg-gray-200' : 'hover:bg-white/30'} transition-all`}
                 >
                   <img src={user?.picture} alt={user?.name} className="w-8 h-8 rounded-full border border-white/50" />
                   <span className={`text-sm font-medium ${navText}`}>{user?.name.split(' ')[0]}</span>
                 </button>
-                
+
                 {showProfileMenu && (
                   <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl py-2 border border-gray-100 animate-in fade-in slide-in-from-top-2 duration-200">
                     <div className="px-4 py-2 border-b border-gray-50 mb-1">
                       <p className="text-xs text-gray-500 truncate">{user?.email}</p>
                     </div>
-                    <Link 
+                    <Link
                       href="/dashboard"
                       className="w-full flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
                       onClick={() => setShowProfileMenu(false)}
@@ -211,7 +211,7 @@ export const Header = () => {
                       <UserIcon className="w-4 h-4 mr-2" />
                       My Dashboard
                     </Link>
-                    <button 
+                    <button
                       onClick={() => {
                         logout();
                         setShowProfileMenu(false);
@@ -226,7 +226,7 @@ export const Header = () => {
               </div>
             ) : (
               <div className="scale-90 origin-right">
-                <GoogleLogin 
+                <GoogleLogin
                   onSuccess={(credentialResponse) => {
                     if (credentialResponse.credential) {
                       login(credentialResponse.credential);
@@ -239,7 +239,7 @@ export const Header = () => {
                 />
               </div>
             )}
-            
+
             {!isAuthenticated && (
               <Link
                 href="/contact"
@@ -252,7 +252,7 @@ export const Header = () => {
 
           <div className="flex items-center space-x-4 md:hidden">
             {isAuthenticated && (
-               <img src={user?.picture} alt={user?.name} className="w-8 h-8 rounded-full border border-white/50" />
+              <img src={user?.picture} alt={user?.name} className="w-8 h-8 rounded-full border border-white/50" />
             )}
             <button
               className={mobileIconColor}
@@ -275,7 +275,7 @@ export const Header = () => {
                   </div>
                 </div>
               )}
-              
+
               <Link href="/loans/home" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Home Loan</Link>
               <Link href="/loans/property" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Loan Against Property</Link>
               <Link href="/loans/car" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Car Loan</Link>
@@ -283,10 +283,10 @@ export const Header = () => {
               <Link href="/loans/business" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Business Loan</Link>
               <Link href="/loans/education" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Education Loan</Link>
               <Link href="/about" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>About Us</Link>
-              
+
               {!isAuthenticated ? (
                 <div className="px-4 py-2">
-                  <GoogleLogin 
+                  <GoogleLogin
                     onSuccess={(credentialResponse) => {
                       if (credentialResponse.credential) {
                         login(credentialResponse.credential);
@@ -297,15 +297,15 @@ export const Header = () => {
                 </div>
               ) : (
                 <div className="flex flex-col border-t border-gray-100 mt-2 pt-2">
-                  <Link 
-                    href="/dashboard" 
+                  <Link
+                    href="/dashboard"
                     className="flex items-center font-medium py-2 px-4 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     <UserIcon className="w-4 h-4 mr-2" />
                     My Dashboard
                   </Link>
-                  <button 
+                  <button
                     onClick={logout}
                     className="flex items-center font-medium py-2 px-4 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                   >

@@ -334,9 +334,8 @@ export default function HomePage() {
                     </div>
                   </button>
 
-                  <div className={`absolute left-0 z-50 w-full sm:w-60 bg-white rounded-2xl shadow-2xl border border-orange-100 transition-all duration-300 overflow-hidden transform ${
-                    dropdownPosition === 'up' ? 'bottom-full mb-3 origin-bottom-left' : 'top-full mt-3 origin-top-left'
-                  } ${isDropdownOpen ? 'opacity-100 scale-100 visible' : 'opacity-0 scale-95 invisible'}`}>
+                  <div className={`absolute left-0 z-50 w-full sm:w-60 bg-white rounded-2xl shadow-2xl border border-orange-100 transition-all duration-300 overflow-hidden transform ${dropdownPosition === 'up' ? 'bottom-full mb-3 origin-bottom-left' : 'top-full mt-3 origin-top-left'
+                    } ${isDropdownOpen ? 'opacity-100 scale-100 visible' : 'opacity-0 scale-95 invisible'}`}>
                     {[
                       { name: 'Personal Loan', path: '/loans/personal' },
                       { name: 'Home Loan', path: '/loans/home' },
@@ -701,9 +700,8 @@ export default function HomePage() {
                   </div>
                 </button>
 
-                <div className={`absolute left-1/2 -translate-x-1/2 sm:left-0 sm:translate-x-0 w-full sm:w-60 bg-white rounded-2xl shadow-2xl border border-orange-100 transition-all duration-300 overflow-hidden transform ${
-                  ctaDropdownPosition === 'up' ? 'bottom-full mb-3 origin-bottom' : 'top-full mt-3 origin-top'
-                } ${isCtaDropdownOpen ? 'opacity-100 scale-100 visible' : 'opacity-0 scale-95 invisible'}`}>
+                <div className={`absolute left-1/2 -translate-x-1/2 sm:left-0 sm:translate-x-0 w-full sm:w-60 bg-white rounded-2xl shadow-2xl border border-orange-100 transition-all duration-300 overflow-hidden transform ${ctaDropdownPosition === 'up' ? 'bottom-full mb-3 origin-bottom' : 'top-full mt-3 origin-top'
+                  } ${isCtaDropdownOpen ? 'opacity-100 scale-100 visible' : 'opacity-0 scale-95 invisible'}`}>
                   {[
                     { name: 'Personal Loan', path: '/loans/personal' },
                     { name: 'Home Loan', path: '/loans/home' },

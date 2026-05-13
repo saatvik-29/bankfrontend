@@ -32,7 +32,7 @@ export const EligibilityCalculator: React.FC = () => {
 
   const calculateEligibility = () => {
     setIsCalculating(true);
-    
+
     // Simulate calculation delay
     setTimeout(() => {
       const monthlyIncome = parseFloat(formData.monthlyIncome) || 0;
@@ -48,7 +48,7 @@ export const EligibilityCalculator: React.FC = () => {
 
       // Calculate available income for EMI
       const availableForEMI = (monthlyIncome * foir) - existingEMI;
-      
+
       // Calculate maximum loan amount using EMI formula
       const monthlyRate = rate / (12 * 100);
       const numberOfPayments = tenure * 12;
@@ -82,7 +82,7 @@ export const EligibilityCalculator: React.FC = () => {
         eligibilityScore,
         recommendations
       });
-      
+
       setIsCalculating(false);
     }, 1000);
   };

@@ -21,8 +21,8 @@ export const FAQ: React.FC<FAQProps> = ({ items, title, subtitle }) => {
   const [openItems, setOpenItems] = useState<string[]>([]);
 
   const toggleItem = (id: string) => {
-    setOpenItems(prev => 
-      prev.includes(id) 
+    setOpenItems(prev =>
+      prev.includes(id)
         ? prev.filter(item => item !== id)
         : [...prev, id]
     );
@@ -96,8 +96,8 @@ export const FAQ: React.FC<FAQProps> = ({ items, title, subtitle }) => {
   const categories = ['All', ...Array.from(new Set(actualData.map(item => item.category || 'General')))];
   const [selectedCategory, setSelectedCategory] = useState('All');
 
-  const filteredFAQs = selectedCategory === 'All' 
-    ? actualData 
+  const filteredFAQs = selectedCategory === 'All'
+    ? actualData
     : actualData.filter(item => (item.category || 'General') === selectedCategory);
 
   return (
@@ -122,11 +122,10 @@ export const FAQ: React.FC<FAQProps> = ({ items, title, subtitle }) => {
             <button
               key={category}
               onClick={() => setSelectedCategory(category)}
-              className={`px-3 md:px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
-                selectedCategory === category
-                  ? 'bg-gray-800 text-white'
-                  : 'bg-white text-gray-600 hover:bg-gray-100 hover:text-gray-800 border border-gray-200'
-              }`}
+              className={`px-3 md:px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${selectedCategory === category
+                ? 'bg-gray-800 text-white'
+                : 'bg-white text-gray-600 hover:bg-gray-100 hover:text-gray-800 border border-gray-200'
+                }`}
             >
               {category}
             </button>
@@ -162,7 +161,7 @@ export const FAQ: React.FC<FAQProps> = ({ items, title, subtitle }) => {
                   )}
                 </div>
               </button>
-              
+
               {openItems.includes(item.id) && (
                 <div className="px-4 md:px-6 pb-3 md:pb-4 animate-fade-in">
                   <div className="border-t border-gray-100 pt-3 md:pt-4">
