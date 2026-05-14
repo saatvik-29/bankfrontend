@@ -18,6 +18,7 @@ export default function BusinessLoanApplicationPage() {
 
   const [formData, setFormData] = useState({
     full_name: '',
+    dateOfBirth: '',
     email: '',
     phone: '',
     loanAmount: '',
@@ -172,13 +173,21 @@ export default function BusinessLoanApplicationPage() {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid md:grid-cols-2 gap-6">
-              <Input
-                label="Full Name"
+            <div className="grid md:grid-cols-3 gap-6">
+              <Input label="Full Name"
                 name="full_name"
                 value={formData.full_name}
                 onChange={handleChange}
                 required
+              />
+              <Input
+                label="Date of Birth"
+                type="date"
+                name="dateOfBirth"
+                value={formData.dateOfBirth}
+                onChange={handleChange}
+                required
+                max={new Date(new Date().setFullYear(new Date().getFullYear() - 18)).toISOString().split('T')[0]}
               />
               <Input
                 label="Email Address"
