@@ -3,6 +3,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { X, Send, Loader2 } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 type Message = {
   id: string;
@@ -133,7 +135,11 @@ export default function Chatbot() {
                       : 'bg-white text-gray-800 shadow-sm border border-gray-100 rounded-bl-sm'
                     }`}
                 >
-                  <p className="whitespace-pre-wrap">{msg.text}</p>
+                  <div className="prose prose-sm max-w-none prose-p:leading-relaxed prose-pre:bg-gray-800 prose-pre:text-gray-100 prose-a:text-blue-600">
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                      {msg.text}
+                    </ReactMarkdown>
+                  </div>
                 </div>
               </div>
             ))}
