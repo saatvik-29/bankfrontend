@@ -303,11 +303,11 @@ export default function HomePage() {
             <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/95 via-[#0F172A]/70 to-[#0F172A]/55"></div>
           </div>
 
-          <div className="relative z-10 pb-16 md:pb-20 pt-32 pl-20 sm:pl-32 lg:pl-48">
+          <div className="relative z-10 pb-10 md:pb-20 pt-28 px-4 sm:px-8 lg:pl-48 lg:pr-8">
             <div className="max-w-3xl">
               <p className="text-xs md:text-sm uppercase tracking-[0.3em] text-[#FF8C42] mb-6 font-medium">Trusted by 700+ Customers Across India</p>
 
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-[1.05] text-white" style={{ letterSpacing: '-0.03em' }}>
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-[1.05] text-white" style={{ letterSpacing: '-0.03em' }}>
                 Your Dreams,
                 <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B35] to-[#FF8C42]">
@@ -387,7 +387,7 @@ export default function HomePage() {
                 >
                   {heroCards.map((card, index) => (
                     <div key={index} className="w-full flex-shrink-0">
-                      <div className={`bg-gradient-to-br ${card.bgGradient} p-12 md:p-16 min-h-[500px] md:min-h-[600px] flex items-center relative overflow-hidden`}>
+                      <div className={`bg-gradient-to-br ${card.bgGradient} p-6 sm:p-10 md:p-16 min-h-[380px] sm:min-h-[500px] md:min-h-[600px] flex items-center relative overflow-hidden`}>
                         {/* Elegant Background Elements */}
                         <div className="absolute inset-0 opacity-10">
                           <div className="absolute top-0 right-0 w-96 h-96 bg-[#FF6B35] rounded-full blur-3xl"></div>
@@ -494,13 +494,13 @@ export default function HomePage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               {/* Video Side */}
-              <div className="relative">
+              <div className="relative w-full max-w-lg mx-auto lg:max-w-none">
                 <video
                   autoPlay
                   loop
                   muted
                   playsInline
-                  className="w-full h-full object-cover"
+                  className="w-full h-auto object-cover rounded-2xl"
                 >
                   <source src="/vecteezy_personal-loan-online-approved-2d-animation_38998780.mp4" type="video/mp4" />
                 </video>
@@ -616,7 +616,7 @@ export default function HomePage() {
                 >
                   {testimonials.map((testimonial, index) => (
                     <div key={index} className="w-full flex-shrink-0">
-                      <div className="bg-white rounded-3xl p-8 md:p-12 border border-gray-200 shadow-xl">
+                      <div className="bg-white rounded-3xl p-5 sm:p-8 md:p-12 border border-gray-200 shadow-xl">
                         <div className="text-center">
                           <div className="flex justify-center mb-6">
                             {[...Array(testimonial.rating)].map((_, i) => (
@@ -624,7 +624,7 @@ export default function HomePage() {
                             ))}
                           </div>
 
-                          <blockquote className="text-xl md:text-2xl text-[#0A1F44] mb-8 leading-relaxed italic">
+                          <blockquote className="text-base sm:text-xl md:text-2xl text-[#0A1F44] mb-8 leading-relaxed italic">
                             "{testimonial.content}"
                           </blockquote>
 

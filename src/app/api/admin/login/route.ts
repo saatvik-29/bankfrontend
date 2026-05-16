@@ -4,6 +4,8 @@ import Admin from '@/models/Admin';
 import AdminSession from '@/models/AdminSession';
 import { generateToken, AdminPayload } from '@/lib/auth';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();

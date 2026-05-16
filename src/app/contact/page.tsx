@@ -56,7 +56,7 @@ export default function ContactPage() {
         <div className="absolute bottom-0 left-0 w-72 h-72 bg-[#FF8C42]/10 rounded-full blur-3xl pointer-events-none" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
           <p className="text-xs uppercase tracking-[0.3em] text-[#FF8C42] font-medium mb-4">Reach Us</p>
-          <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 leading-tight mb-6" style={{ letterSpacing: '-0.03em' }}>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 leading-tight mb-6" style={{ letterSpacing: '-0.03em' }}>
             Let's{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B35] to-[#FF8C42]">
               Connect
@@ -172,30 +172,19 @@ export default function ContactPage() {
 
             {/* SIDE — takes 2 cols */}
             <div className="lg:col-span-2 space-y-6 flex flex-col justify-start">
-              {/* Callback card */}
-              <div className="bg-gradient-to-br from-[#FF6B35] to-[#FF8C42] rounded-3xl p-8 text-white shadow-xl">
-                <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center mb-5">
-                  <Phone className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-xl font-bold mb-2">Request a Callback</h3>
-                <p className="text-orange-100 text-sm mb-6 leading-relaxed">
-                  Not able to call right now? Leave your number and we'll call you back within 30 minutes.
-                </p>
-                <a href="tel:+919145023840"
-                  className="inline-block bg-white text-[#FF6B35] font-bold px-6 py-3 rounded-full hover:bg-orange-50 transition-colors shadow-md text-sm">
-                  Call Now: +91 9145023840
-                </a>
-              </div>
-
               {/* FAQ quick links */}
-              <div className="bg-white rounded-3xl p-8 shadow-md border border-gray-100">
+              <div className="bg-white rounded-3xl p-8 shadow-md border border-gray-100 flex-1">
                 <h3 className="text-lg font-bold text-gray-900 mb-5">Common Questions</h3>
-                <ul className="space-y-3">
+                <ul className="space-y-4">
                   {[
                     'What documents are needed for a home loan?',
                     'How long does loan approval take?',
                     'Can I transfer my existing loan?',
                     'What is the maximum loan tenure?',
+                    'Are there any hidden charges?',
+                    'What is the eligibility criteria?',
+                    'Can I get a loan for an under-construction property?',
+                    'Do you provide business loans?',
                   ].map((q) => (
                     <li key={q} className="flex items-start gap-3 text-sm text-gray-600 group cursor-pointer hover:text-[#FF6B35] transition-colors">
                       <span className="w-5 h-5 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:bg-[#FF6B35] transition-colors">

@@ -3,6 +3,8 @@ import connectDB from '@/lib/database';
 import Lead from '@/models/Lead';
 import ResendEmailService from '@/lib/email';
 
+export const dynamic = 'force-dynamic';
+
 // Update lead status and send email notification
 export async function POST(request: NextRequest) {
   try {

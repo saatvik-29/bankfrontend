@@ -1,6 +1,8 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { SYSTEM_PROMPT } from '@/lib/chatbotPrompt';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(req: Request) {
   try {
     if (!process.env.GEMINI_API_KEY) {

@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+export const dynamic = 'force-dynamic';
+
 // Facebook Meta WhatsApp Webhook endpoint
 // This handles incoming messages and delivery receipts
 

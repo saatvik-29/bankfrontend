@@ -3,6 +3,8 @@ import connectDB from '@/lib/database';
 import Query from '@/models/Query';
 import { authenticateAdmin } from '@/lib/auth';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
     const admin = await authenticateAdmin(request);

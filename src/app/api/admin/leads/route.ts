@@ -3,6 +3,8 @@ import connectDB from '@/lib/database';
 import Lead from '@/models/Lead';
 import { authenticateAdmin } from '@/lib/auth';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   const admin = await authenticateAdmin(request);
   if (admin instanceof Response) return admin;

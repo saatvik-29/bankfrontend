@@ -3,6 +3,8 @@ import connectDB from '@/lib/database';
 import Admin from '@/models/Admin';
 import bcrypt from 'bcryptjs';
 
+export const dynamic = 'force-dynamic';
+
 /**
  * GET /api/admin/seed
  * -------------------

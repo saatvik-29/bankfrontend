@@ -149,8 +149,13 @@ export const Header = () => {
       <nav className={`max-w-7xl mx-auto rounded-3xl transition-all duration-300 ${navBg}`}>
         <div className="flex justify-between items-center h-16 md:h-18 px-6">
           <div className="flex items-center">
-            <Link href="/" className={`text-2xl md:text-3xl font-bold ${logoColor} hover:opacity-80 transition-all duration-200`}>
-              BankersDen
+            <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-all duration-200">
+              <img
+                src="/logobg.png"
+                alt="BankersDen Logo"
+                className="h-9 w-auto object-contain"
+              />
+              <span className={`text-xl md:text-2xl font-bold ${logoColor} hidden sm:inline`}>BankersDen</span>
             </Link>
           </div>
 
@@ -276,13 +281,13 @@ export const Header = () => {
                 </div>
               )}
 
-              <Link href="/loans/home" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Home Loan</Link>
-              <Link href="/loans/property" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Loan Against Property</Link>
-              <Link href="/loans/car" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Car Loan</Link>
-              <Link href="/loans/personal" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Personal Loan</Link>
-              <Link href="/loans/business" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Business Loan</Link>
-              <Link href="/loans/education" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Education Loan</Link>
-              <Link href="/about" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>About Us</Link>
+              <Link href="/loans/home" onClick={() => setIsMenuOpen(false)} className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Home Loan</Link>
+              <Link href="/loans/property" onClick={() => setIsMenuOpen(false)} className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Loan Against Property</Link>
+              <Link href="/loans/car" onClick={() => setIsMenuOpen(false)} className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Car Loan</Link>
+              <Link href="/loans/personal" onClick={() => setIsMenuOpen(false)} className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Personal Loan</Link>
+              <Link href="/loans/business" onClick={() => setIsMenuOpen(false)} className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Business Loan</Link>
+              <Link href="/loans/education" onClick={() => setIsMenuOpen(false)} className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Education Loan</Link>
+              <Link href="/about" onClick={() => setIsMenuOpen(false)} className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>About Us</Link>
 
               {!isAuthenticated ? (
                 <div className="px-4 py-2">
@@ -314,12 +319,12 @@ export const Header = () => {
                   </button>
                 </div>
               )}
-              <Link href="/bd-partner" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>BD Partner</Link>
-              <Link href="/insurance" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Insurance</Link>
-              <Link href="/calculators" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Calculators</Link>
-              <Link href="/cibil-score" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>CIBIL Score</Link>
-              <Link href="/blog" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Blog</Link>
-              <Link href="/contact" className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Contact</Link>
+              <Link href="/bd-partner" onClick={() => setIsMenuOpen(false)} className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>BD Partner</Link>
+              <Link href="/insurance" onClick={() => setIsMenuOpen(false)} className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Insurance</Link>
+              <Link href="/calculators" onClick={() => setIsMenuOpen(false)} className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Calculators</Link>
+              <Link href="/cibil-score" onClick={() => setIsMenuOpen(false)} className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>CIBIL Score</Link>
+              <Link href="/blog" onClick={() => setIsMenuOpen(false)} className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Blog</Link>
+              <Link href="/contact" onClick={() => setIsMenuOpen(false)} className={`${colors.text} font-medium py-2 px-4 ${colors.hoverBg} rounded-lg transition-colors`}>Contact</Link>
               {!isAuthenticated && (
                 <Link href="/contact" className={`${colors.buttonBg} px-4 py-2 rounded-lg font-medium text-center mt-2 transition-colors`}>Get Started</Link>
               )}

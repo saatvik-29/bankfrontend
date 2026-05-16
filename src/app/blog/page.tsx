@@ -3,15 +3,22 @@ import connectDB from '@/lib/database';
 import Blog from '@/models/Blog';
 import { Calendar, Clock, Tag } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: 'Financial Blog | Market Trends & Insights',
   description: 'Stay updated with the latest in personal finance, stock market trends, and economic insights.',
 };
 
 async function getBlogs() {
-  await connectDB();
-  const blogs = await Blog.find({}).sort({ createdAt: -1 }).lean();
-  return JSON.parse(JSON.stringify(blogs));
+  try {
+    await connectDB();
+    const blogs = await Blog.find({}).sort({ createdAt: -1 }).lean();
+    return JSON.parse(JSON.stringify(blogs));
+  } catch (error) {
+    console.error('Error fetching blogs:', error);
+    return [];
+  }
 }
 
 export default async function BlogsPage() {

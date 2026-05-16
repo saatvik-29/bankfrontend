@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import ResendEmailService from '@/lib/email';
 
+export const dynamic = 'force-dynamic';
+
 // Test endpoint for Resend Email API
 // Use this to test your email integration
 

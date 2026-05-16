@@ -4,6 +4,8 @@ import User from '@/models/User';
 import UserSession from '@/models/UserSession';
 import { OAuth2Client } from 'google-auth-library';
 
+export const dynamic = 'force-dynamic';
+
 const client = new OAuth2Client(process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID);
 
 export async function POST(request: NextRequest) {

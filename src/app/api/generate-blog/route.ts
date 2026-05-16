@@ -3,6 +3,8 @@ import connectDB from '@/lib/database';
 import Blog from '@/models/Blog';
 import { generateBlogData } from '@/lib/gemini-blog';
 
+export const dynamic = 'force-dynamic';
+
 const TOPICS = [
   "Stock Market Trends",
   "Personal Finance Tips",

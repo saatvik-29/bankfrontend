@@ -13,7 +13,7 @@ export default function AboutUsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-3xl mx-auto">
             <p className="text-xs uppercase tracking-[0.3em] text-[#FF8C42] font-medium mb-4">Who We Are</p>
-            <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 leading-tight mb-6" style={{ letterSpacing: '-0.03em' }}>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 leading-tight mb-6" style={{ letterSpacing: '-0.03em' }}>
               About{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B35] to-[#FF8C42]">
                 BankersDen
@@ -147,8 +147,7 @@ export default function AboutUsPage() {
               <div className="lg:w-1/3 w-full relative group shrink-0">
                 <div className="absolute -inset-1 bg-gradient-to-r from-blue-100 to-[#e4ebf5] rounded-2xl blur-md opacity-70 group-hover:opacity-100 transition duration-500"></div>
                 <div className="relative aspect-[4/5] rounded-xl overflow-hidden bg-gray-200 border-4 border-white shadow-md max-w-[300px] mx-auto">
-                  {/* UPDATE SRC: Founder Image */}
-                  <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80" alt="Founder" className="w-full h-full object-cover" />
+                  <img src="/Bharat Adatiya.jpeg" alt="Bharat Adatiya - Founder" className="w-full h-full object-cover" />
                 </div>
               </div>
               
@@ -163,8 +162,8 @@ export default function AboutUsPage() {
                   </p>
                 </div>
                 <div>
-                  <p className="text-lg font-bold text-gray-900">John Doe</p>
-                  <p className="text-xs font-semibold text-gray-500 mt-0.5">Founder of BankersDen</p>
+                  <p className="text-lg font-bold text-gray-900">Bharat Adatiya</p>
+                  <p className="text-xs font-semibold text-gray-500 mt-0.5">CEO & Founder of BankersDen</p>
                 </div>
               </div>
             </div>
@@ -177,8 +176,7 @@ export default function AboutUsPage() {
               <div className="lg:w-1/3 w-full relative group shrink-0">
                 <div className="absolute -inset-1 bg-gradient-to-l from-blue-100 to-[#e4ebf5] rounded-2xl blur-md opacity-70 group-hover:opacity-100 transition duration-500"></div>
                 <div className="relative aspect-[4/5] rounded-xl overflow-hidden bg-gray-200 border-4 border-white shadow-md max-w-[300px] mx-auto">
-                  {/* UPDATE SRC: Co-Founder Image */}
-                  <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80" alt="Co-Founder" className="w-full h-full object-cover" />
+                  <img src="/Ashwini Adatiya.jpeg" alt="Ashwini Adatiya - Co-Founder" className="w-full h-full object-cover" />
                 </div>
               </div>
               
@@ -193,7 +191,7 @@ export default function AboutUsPage() {
                   </p>
                 </div>
                 <div>
-                  <p className="text-lg font-bold text-gray-900">Jane Doe</p>
+                  <p className="text-lg font-bold text-gray-900">Ashwini Adatiya</p>
                   <p className="text-xs font-semibold text-gray-500 mt-0.5">Co-Founder of BankersDen</p>
                 </div>
               </div>
@@ -216,30 +214,42 @@ export default function AboutUsPage() {
           </div>
           
           {/* Photos Grid - Replace src with actual photos */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 auto-rows-[200px]">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 auto-rows-[160px] sm:auto-rows-[200px]">
             {/* Image 1 (Large Square) */}
             <div className="col-span-2 row-span-2 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group">
               <div className="relative w-full h-full bg-gray-200">
-                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80" alt="Office Celebration" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                <img src="/image1.jpeg" alt="Office Celebration" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
               </div>
             </div>
             {/* Image 2 (Small Square) */}
             <div className="col-span-1 row-span-1 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group">
               <div className="relative w-full h-full bg-gray-200">
-                <img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&q=80" alt="Office Culture" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                <img src="/image2.jpeg" alt="Office Culture" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
               </div>
             </div>
             {/* Image 3 (Small Square) */}
             <div className="col-span-1 row-span-1 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group">
               <div className="relative w-full h-full bg-gray-200">
-                <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80" alt="Corporate Event" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                <img src="/image3.jpeg" alt="Corporate Event" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
               </div>
             </div>
             {/* Image 4 (Wide Rectangle) */}
             <div className="col-span-2 row-span-1 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group">
               <div className="relative w-full h-full bg-gray-200">
-                <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=80" alt="Team Work" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                <img src="/image4.jpeg" alt="Team Work" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+              </div>
+            </div>
+            {/* Image 5 (Wide Rectangle) */}
+            <div className="col-span-2 row-span-1 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group">
+              <div className="relative w-full h-full bg-gray-200">
+                <img src="/image5.jpeg" alt="Office Activity" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+              </div>
+            </div>
+            {/* Image 6 (Wide Rectangle) */}
+            <div className="col-span-2 row-span-1 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group">
+              <div className="relative w-full h-full bg-gray-200">
+                <img src="/image6.jpeg" alt="Team Celebration" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
               </div>
             </div>
           </div>

@@ -71,16 +71,16 @@ export function SecondaryNav({ sections }: SecondaryNavProps) {
   };
 
   return (
-    <div className={`sticky ${isHeaderVisible ? 'top-[88px]' : 'top-0'} z-40 w-full bg-white border-b border-gray-200 shadow-sm hidden md:block transition-all duration-300`}>
+    <div className={`sticky ${isHeaderVisible ? 'top-[88px]' : 'top-0'} z-40 w-full bg-white border-b border-gray-200 shadow-sm transition-all duration-300`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center overflow-x-auto hide-scrollbar">
           {sections.map((section, index) => (
             <div key={section.id} className={`py-4 ${index !== 0 ? 'border-l-2 border-gray-200' : ''}`}>
               <button
                 onClick={() => scrollToSection(section.id)}
-                className={`whitespace-nowrap px-6 text-sm font-bold tracking-wide uppercase transition-colors duration-200 ${
+                className={`whitespace-nowrap px-4 sm:px-6 text-xs sm:text-sm font-bold tracking-wide uppercase transition-colors duration-200 ${
                   activeSection === section.id
-                    ? 'text-[#E11D48]' // Red color matching screenshot
+                    ? 'text-[#E11D48]'
                     : 'text-gray-400 hover:text-gray-800'
                 } ${index === 0 ? 'pl-0' : ''}`}
               >

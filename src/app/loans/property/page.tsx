@@ -92,7 +92,7 @@ export default function PropertyLoanPage() {
                   Property Loan
                 </p>
                 <h1
-                  className="text-5xl md:text-6xl font-extrabold text-gray-900 leading-tight"
+                  className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 leading-tight"
                   style={{ letterSpacing: '-0.03em' }}
                 >
                   Unlock Your<br />
@@ -147,14 +147,14 @@ export default function PropertyLoanPage() {
           {/* stats bar */}
           <div className="w-full bg-transparent">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-              <div className="grid grid-cols-3 divide-x divide-orange-200 max-w-3xl mx-auto">
+              <div className="grid grid-cols-1 sm:grid-cols-3 sm:divide-x divide-orange-200 max-w-3xl mx-auto gap-4 sm:gap-0">
                 {[
                   { value: '8.75% – 16%', label: 'Interest Rate' },
                   { value: '₹10L – ₹200Cr', label: 'Loan Amount' },
                   { value: '5 – 20 yrs', label: 'Tenure' },
                 ].map((s) => (
-                  <div key={s.label} className="text-center px-6">
-                    <p className="text-2xl md:text-3xl font-bold text-[#FF6B35]">{s.value}</p>
+                  <div key={s.label} className="text-center sm:px-6 py-2 sm:py-0">
+                    <p className="text-xl sm:text-2xl md:text-3xl font-bold text-[#FF6B35]">{s.value}</p>
                     <p className="text-xs text-gray-500 mt-0.5">{s.label}</p>
                   </div>
                 ))}
